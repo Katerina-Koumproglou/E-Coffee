@@ -22,6 +22,16 @@
           <input type="text" id="c_email" v-model="user.e_email" />
           <span v-if="errors.c_email" class="error-message">{{ errors.c_email }}</span>
        </div>
+        <div class="form-item">
+          <label for="address">Password:</label>
+          <input type="text" id="password" v-model="user.password" />
+          <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
+        </div>
+                <div class="form-item">
+          <label for="address">Confirm Password:</label>
+          <input type="text" id="c_password" v-model="user.c_password" />
+          <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
+        </div>
       <div class="form-item">
         <label for="address">Address:</label>
         <input type="text" id="address" v-model="user.address" />
@@ -46,6 +56,8 @@ export default {
         surname: '',
         email: '',
         c_email:'',
+        password:'',
+           c_password:'',
         address: ''
       },
       errors: {
@@ -53,6 +65,8 @@ export default {
         surname: '',
         email: '',
          c_email:'',
+        password:'',
+         c_password:'',
         address: ''
       }
     };
