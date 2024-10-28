@@ -19,17 +19,17 @@
       </div>
         <div class="form-item">
           <label for="address">Confirm Email:</label>
-          <input type="text" id="c_email" v-model="user.e_email" />
+          <input type="email" id="c_email" v-model="user.e_email" />
           <span v-if="errors.c_email" class="error-message">{{ errors.c_email }}</span>
        </div>
         <div class="form-item">
           <label for="address">Password:</label>
-          <input type="text" id="password" v-model="user.password" />
+          <input type="password" id="password" v-model="user.password" />
           <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
         </div>
                 <div class="form-item">
           <label for="address">Confirm Password:</label>
-          <input type="text" id="c_password" v-model="user.c_password" />
+          <input type="password" id="c_password" v-model="user.c_password" />
           <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
         </div>
       <div class="form-item">
