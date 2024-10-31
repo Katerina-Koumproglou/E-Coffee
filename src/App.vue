@@ -19,7 +19,8 @@
     body, #app {
         font-family: 'EB Garamond', serif;
         text-align: center;
-        background-color: #5d2d05;
+        background-color: rgba(255,255,255,0.3);
+        backdrop-filter: blur(10px);
         color: #faebd7; /* Χρώμα για τα κείμενα */
         margin: 0;
         height: 100vh;
