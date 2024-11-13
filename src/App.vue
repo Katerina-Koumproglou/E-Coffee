@@ -1,13 +1,15 @@
 <template>
     <div>
-      <HomePage />
+      <Header />
+      <MyCard />
     </div>
   </template>
   
   <script setup>
 
-  import HomePage from './HomePage.vue';
-  
+ // import HomePage from './HomePage.vue';
+import MyCard from './MyCard.vue';
+import Header from './components/Header.vue';
   
     //import { RouterLink, RouterView} from vue-router
   </script>
