@@ -3,11 +3,13 @@
     <AppHeader />
     <ImageSlider />
     <ProductsDisplay />
+    <AppFooter />
   </div>
 </template>
 
 <script setup>
-import AppHeader from './components/Header.vue';
+import AppFooter from './components/AppFooter.vue';
+import AppHeader from './components/AppHeader.vue';
 import ImageSlider from './components/ImageSlider.vue';
 import ProductsDisplay from './components/ProductsDisplay.vue';
 
