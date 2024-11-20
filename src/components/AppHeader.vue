@@ -52,7 +52,7 @@
 </template>
 
 <script>
-export default{
+export default {
     name: "AppHeader"
 };
 </script>
@@ -62,9 +62,9 @@ nav {
     border-bottom: 2px solid #FAEBD7;
 }
 
-nav .nav-inner {
-    height: 100px;
+.nav-inner {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
     background-color: #FAEBD7;
