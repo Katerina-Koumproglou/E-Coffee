@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="home">
+    <h1>HomePage</h1>
     <AppHeader />
     <ImageSlider />
     <ProductsDisplay />
@@ -7,14 +8,18 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: "HomePage"
+};
+</script>
+
 <script setup>
-import AppFooter from './components/AppFooter.vue';
-import AppHeader from './components/AppHeader.vue';
-import ImageSlider from './components/ImageSlider.vue';
-import ProductsDisplay from './components/ProductsDisplay.vue';
+import AppFooter from '@/components/AppFooter.vue';
+import AppHeader from '@/components/AppHeader.vue';
+import ImageSlider from '@/components/ImageSlider.vue';
+import ProductsDisplay from '@/components/ProductsDisplay.vue';
 
-
-//import { RouterLink, RouterView} from vue-router
 </script>
 
 <style>
