@@ -4,7 +4,7 @@ import HomePage from '@/views/HomePage.vue';
 
 import MyCard from '@/views/MyCard.vue'
 
-import SignUp from '@/components/SignUp.vue'
+import SignUp from '@/views/SignUp.vue'
 
 
 const routes = [

@@ -1,9 +1,7 @@
 <template>
   <div class="home">
-    <AppHeader />
     <ImageSlider />
     <ProductsDisplay />
-    <AppFooter />
   </div>
 </template>
 
@@ -14,11 +12,8 @@ export default {
 </script>
 
 <script setup>
-import AppFooter from '@/components/AppFooter.vue';
-import AppHeader from '@/components/AppHeader.vue';
 import ImageSlider from '@/components/ImageSlider.vue';
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
-
 </script>
 
 <style>
@@ -37,5 +32,3 @@ import ProductsDisplay from '@/components/ProductsDisplay.vue';
   margin-bottom: 30px;
 }
 </style>
-
-<style scoped></style>
