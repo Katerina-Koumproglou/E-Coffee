@@ -1,9 +1,5 @@
 <template>
   <div id="nav">
-    <h1>APP</h1>
-    <router-link to="/">HomePage</router-link>
-    <router-link to="/mycard">MyCard</router-link>
-    <router-link to="/signup">SignUp</router-link>
   </div>
   <div class="container">
     <router-view></router-view>
