@@ -52,10 +52,10 @@ export default {
 
 <style scoped>
     .user-profile {
-        max-width: 600px;
+        max-width: 700px;
         margin: auto;
         font-family: 'EB Garamond', serif;
-        padding: 20px;
+        padding: 45px;
         border: 1px solid #ccc;
         border-radius: 8px;
         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -66,7 +66,7 @@ export default {
     .form-grid {
         display: grid;
         grid-template-columns: 1fr 1fr; /* Δύο στήλες */
-        gap: 20px; /* Απόσταση μεταξύ των πεδίων */
+        gap: 30px; /* Απόσταση μεταξύ των πεδίων */
     }
 
     .form-item {
