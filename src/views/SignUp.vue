@@ -1,50 +1,54 @@
 <template>
-  <div class="user-profile">
-    <h1>Sign Up</h1>
-    <form @submit.prevent="saveProfile" class="form-grid">
-      <div class="form-item">
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="user.name" />
-        <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
-      </div>
-      <div class="form-item">
-        <label for="surname">Surname:</label>
-        <input type="text" id="surname" v-model="user.surname" />
-        <span v-if="errors.surname" class="error-message">{{ errors.surname }}</span>
-      </div>
-      <div class="form-item">
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="user.email" />
-        <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
-      </div>
-        <div class="form-item">
-          <label for="address">Confirm Email:</label>
-          <input type="email" id="c_email" v-model="user.e_email" />
-          <span v-if="errors.c_email" class="error-message">{{ errors.c_email }}</span>
-       </div>
-        <div class="form-item">
-          <label for="address">Password:</label>
-          <input type="password" id="password" v-model="user.password" />
-          <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
-        </div>
-                <div class="form-item">
-          <label for="address">Confirm Password:</label>
-          <input type="password" id="c_password" v-model="user.c_password" />
-          <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
-        </div>
-      <div class="form-item">
-        <label for="address">Address:</label>
-        <input type="text" id="address" v-model="user.address" />
-        <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
-      </div>
-        <div class="form-item">
-  <label for="phone">Phone:</label>
- <input type="text" id="phone"  v-model="user.phone" placeholder="(+30) 69X-XXX-XXXX"/>
-  <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
-</div>
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+    <div class="user-profile">
+        <h1>Sign Up</h1>
+        <form @submit.prevent="saveProfile" class="form-grid">
+            <div class="form-item">
+                <label for="name">Name:</label>
+                <input type="text" id="name" v-model="user.name" />
+                <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
+            </div>
+            <div class="form-item">
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" v-model="user.surname" />
+                <span v-if="errors.surname" class="error-message">{{ errors.surname }}</span>
+            </div>
+            <div class="form-item">
+                <label for="email">Email:</label>
+                <input type="email" id="email" v-model="user.email" />
+                <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
+            </div>
+            <div class="form-item">
+                <label for="address">Confirm Email:</label>
+                <input type="email" id="c_email" v-model="user.e_email" />
+                <span v-if="errors.c_email" class="error-message">{{ errors.c_email }}</span>
+            </div>
+            <div class="form-item">
+                <label for="address">Password:</label>
+                <input type="password" id="password" v-model="user.password" />
+                <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
+            </div>
+            <div class="form-item">
+                <label for="address">Confirm Password:</label>
+                <input type="password" id="c_password" v-model="user.c_password" />
+                <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
+            </div>
+            <div class="form-item">
+                <label for="address">Address:</label>
+                <input type="text" id="address" v-model="user.address" />
+                <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
+            </div>
+            <div class="form-item">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" v-model="user.phone" placeholder="(+30) 69X-XXX-XXXX" />
+                <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+        <p class="login-link">
+            Already have an account?
+            <router-link to="/Login">Login</router-link>
+        </p>
+    </div>
 </template>
 
 <script>
