@@ -4,13 +4,14 @@ import { getDatabase } from "firebase/database";
 
 // Your Firebase configuration object
 const firebaseConfig = {
-    apiKey: "AIzaSyDncxx5UBjunUoJfpmeabiCGjML0MBK2j0",
-    authDomain: "e-coffee-b640c.firebaseapp.com",
-    databaseURL: "https://e-coffee-b640c-default-rtdb.europe-west1.firebasedatabase.app/",
-    projectId: "e-coffee-b640c",
-    storageBucket: "e-coffee-b640c.firebasestorage.app",
-    messagingSenderId: "30734819850",
-    appId: "1:30734819850:web:a9df1070a5d0a7324375f3"
+  apiKey: "AIzaSyDDa4uwCloPx0gUu_lN7ftny3PmTrDTIFg",
+  authDomain: "e-coffee-1ef6c.firebaseapp.com",
+  databaseURL:
+    "https://e-coffee-1ef6c-default-rtdb.europe-west1.firebasedatabase.app/",
+  projectId: "e-coffee-1ef6c",
+  storageBucket: "e-coffee-1ef6c.firebasestorage.app",
+  messagingSenderId: "23178920731",
+  appId: "1:23178920731:web:9cc295a68323ca710b09be",
 };
 
 // Initialize Firebase
