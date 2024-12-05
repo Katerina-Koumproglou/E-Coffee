@@ -2,6 +2,7 @@
   <div id="app">
     <AppHeader />
     <main class="main-container">
+      <DataBase />
       <router-view />
     </main>
     <AppFooter />
@@ -11,10 +12,12 @@
 <script>
 import AppHeader from "@/components/AppHeader.vue";
 import AppFooter from "@/components/AppFooter.vue";
+import DataBase from "@/components/DataBase.vue";
 
 export default {
   name: "App",
   components: {
+    DataBase,
     AppHeader,
     AppFooter,
   },
