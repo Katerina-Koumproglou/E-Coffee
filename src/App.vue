@@ -10,16 +10,48 @@
 </template>
 
 <script>
-import AppHeader from "@/components/AppHeader.vue";
-import AppFooter from "@/components/AppFooter.vue";
-import DataBase from "@/components/DataBase.vue";
+import AppHeader from '@/components/AppHeader.vue';
+import AppFooter from '@/components/AppFooter.vue';
+// import DataBase from '@/components/DataBase.vue';
+import { ref, onMounted, provide } from 'vue';
+import { collection, onSnapshot } from 'firebase/firestore';
+import { db } from '@/firebase';
+
 
 export default {
   name: "App",
   components: {
-    DataBase,
     AppHeader,
     AppFooter,
+  },
+
+  setup() {
+    const variety = ref({
+
+    });
+
+    onMounted(() => {
+      onSnapshot(collection(db, "variety"), (querySnapshot) => {
+        const fbVariety = [];
+        querySnapshot.forEach((doc) => {
+          const item = {
+            id: doc.id,
+            name: doc.data().name,
+            brand: doc.data().brand,
+            category: doc.data().category,
+            price: doc.data().price,
+            image: doc.data().image
+          }
+          fbVariety.push(item);
+        });
+        variety.value = fbVariety;
+      });
+    });
+    provide('variety', variety);
+
+    return {
+      variety,
+    };
   },
 };
 </script>

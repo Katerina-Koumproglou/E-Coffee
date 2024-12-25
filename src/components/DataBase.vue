@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
     <div>
       <h1>Realtime Database Example</h1>
       <input v-model="newMessage" placeholder="Enter a message" />
@@ -50,4 +50,4 @@
   <style scoped>
   /* Add styles here if necessary */
   </style>
-  
+   -->

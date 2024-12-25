@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <ImageSlider />
-    <ProductsDisplay />
+    <ProductsDisplay :variety="variety" />
   </div>
 </template>
 
@@ -14,21 +14,7 @@ export default {
 <script setup>
 import ImageSlider from '@/components/ImageSlider.vue';
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
-</script>
+import { inject } from 'vue';
 
-<style>
-.btn {
-  margin-top: 25px;
-  padding: 15px 30px;
-  font-size: 16px;
-  background: #FAEBD7;
-  border: none;
-  border-radius: 25px;
-  transition: .3s;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 30px;
-}
-</style>
+const variety = inject('variety');
+</script>
