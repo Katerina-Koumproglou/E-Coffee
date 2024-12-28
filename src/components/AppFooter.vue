@@ -17,11 +17,11 @@
             <section class="footer-section links">
                 <h2 class="footer-title">Κατηγορίες</h2>
                 <ul>
-                    <li><a href="/variety">Ποικιλίες</a></li>
-                    <li><a href="/capsules">Κάψουλες</a></li>
-                    <li><a href="/accessories">Αξεσουάρ</a></li>
-                    <li><a href="/machines">Μηχανές</a></li>
-                    <li><a href="/beverages">Ροφήματα</a></li>
+                    <li><router-link to="/varieties">Ποικιλίες</router-link></li>
+                    <li><router-link to="/capsules">Κάψουλες</router-link></li>
+                    <li><router-link to="/accessories">Αξεσουάρ</router-link></li>
+                    <li><router-link to="/machines">Μηχανές</router-link></li>
+                    <li><router-link to="/beverages">Ροφήματα</router-link></li>
                 </ul>
             </section>
 

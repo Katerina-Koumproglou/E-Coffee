@@ -9,11 +9,11 @@
             </div>
             <!--Links-->
             <div class="links">
-                <a href="#"> Ποικιλίες </a>
-                <a href="#"> Κάψουλες </a>
-                <a href="#"> Αξεσουάρ </a>
-                <a href="#"> Μηχανές </a>
-                <a href="#"> Ροφήματα </a>
+                <router-link to="/varieties"> Ποικιλίες </router-link>
+                <router-link to="/capsules"> Κάψουλες </router-link>
+                <router-link to="/accessories"> Αξεσουάρ </router-link>
+                <router-link to="/machines"> Μηχανές </router-link>
+                <router-link to="/beverages"> Ροφήματα </router-link>
             </div>
 
             <!--Search bar-->

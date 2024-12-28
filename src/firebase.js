@@ -1,6 +1,5 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-// import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
 
 // Your Firebase configuration object
@@ -18,11 +17,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// // Get a reference to the database
-// const database = getDatabase(app);
-
 // Initialize Cloud Firestore and get a reference to the service
 const db = getFirestore(app);
 
-// export { database };
 export { db };
