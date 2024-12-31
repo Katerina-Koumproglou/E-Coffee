@@ -2,7 +2,6 @@
   <div id="app">
     <AppHeader />
     <main class="main-container">
-      <DataBase />
       <router-view />
     </main>
     <AppFooter />
