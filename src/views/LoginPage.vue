@@ -1,72 +1,65 @@
 <template>
-    <div class="user-profile">
+    <div class="login">
         <h1>Login</h1>
-        <form @submit.prevent="saveProfile" class="form-grid">
+        <form @submit.prevent="login" class="form-grid">
             <div class="form-item">
                 <label for="email">Email:</label>
-                <input type="email" id="email" v-model="user.email" />
-                <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
+                <input type="email" id="email" v-model="email" required />
             </div>
             <div class="form-item">
                 <label for="password">Password:</label>
-                <input type="password" id="password" v-model="user.password" />
-                <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
+                <input type="password" id="password" v-model="password" required />
             </div>
             <button type="submit">Login</button>
+            <div v-if="error" class="error-message">{{ error }}</div>
         </form>
     </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      user: {
-        email: '',
-        password:''
-      },
-      errors: {
-        email: '',
-        password:'',
-      }
+    import { auth } from "@/firebase";
+    import { signInWithEmailAndPassword } from "firebase/auth";
+
+    export default {
+        data() {
+            return {
+                email: "",
+                password: "",
+                error: null
+            };
+        },
+        methods: {
+            async login() {
+                try {
+                    const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
+                    this.$router.push(`/profile/${userCredential.user.uid}`);
+                } catch (error) {
+                    this.error = error.message;
+                }
+            }
+        }
     };
-  },
-  methods: {
-    saveProfile() {
-      // Καθαρισμός μηνυμάτων λάθους πριν τον νέο έλεγχο
-      this.errors.email = '';
-
-      // Έλεγχος αν τα πεδία είναι κενά
-      if (!this.user.email) {
-        this.errors.email = 'Required';
-      }
-
-      // Εάν δεν υπάρχουν λάθη, εμφάνιση μηνύματος επιτυχίας
-      if (!this.errors.email) {
-        alert('Welcome!');
-      }
-    }
-  }
-};
 </script>
 
 <style scoped>
-    .user-profile {
-        max-width: 700px;
+    .login {
+        max-width: 400px;
         margin: auto;
-        font-family: 'EB Garamond', serif;
-        padding: 45px;
-        border: 1px solid #ccc;
+        padding: 20px;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        background-color: #5d2d05;
-        color: #faebd7;
+        background-color: #5D2D05;
+        color: #FAEBD7;
+    }
+
+    h1 {
+        text-align: center;
+        color: #FAEBD7;
     }
 
     .form-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr; /* Δύο στήλες */
-        gap: 30px; /* Απόσταση μεταξύ των πεδίων */
+        grid-template-columns: 1fr;
+        gap: 15px;
     }
 
     .form-item {
@@ -74,34 +67,24 @@ export default {
         flex-direction: column;
     }
 
-    label {
-        color: #faebd7;
-        margin-bottom: 5px;
-    }
-
-    input {
-        padding: 8px;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        box-sizing: border-box;
-        text-align: center;
-        color: #5d2d05;
-    }
-
     button {
-        grid-column: span 2; /* Κάλυψη και των δύο στηλών */
-        background-color: #faebd7;
-        color: #5d2d05;
-        border: none;
+        background-color: #FAEBD7;
+        color: #5D2D05;
         padding: 10px;
+        border: none;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: 10px;
+        width: 100%;
+        font-size: 16px;
     }
+
+        button:hover {
+            background-color: #D5B28B;
+        }
 
     .error-message {
         color: red;
-        font-size: 0.9em;
+        margin-top: 10px;
+        font-size: 0.9rem;
     }
 </style>

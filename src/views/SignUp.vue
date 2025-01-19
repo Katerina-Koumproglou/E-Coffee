@@ -1,7 +1,7 @@
-<template>
-    <div class="user-profile">
+ο»Ώ<template>
+    <div class="signup">
         <h1>Sign Up</h1>
-        <form @submit.prevent="saveProfile" class="form-grid">
+        <form @submit.prevent="signUp" class="form-grid">
             <div class="form-item">
                 <label for="name">Name:</label>
                 <input type="text" id="name" v-model="user.name" />
@@ -19,22 +19,15 @@
             </div>
             <div class="form-item">
                 <label for="password">Password:</label>
-                <input :type="showPassword ? 'text' : 'password'"
-                       id="password"
-                       v-model="user.password" />
+                <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" />
                 <button type="button" @click="togglePasswordVisibility">
                     {{ showPassword ? 'Hide' : 'Show' }} Password
                 </button>
                 <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
             </div>
             <div class="form-item">
-                <label for="c_password">Confirm Password:</label>
-                <input :type="showPassword ? 'text' : 'password'"
-                       id="c_password"
-                       v-model="user.c_password" />
-                <button type="button" @click="togglePasswordVisibility">
-                    {{ showPassword ? 'Hide' : 'Show' }} Password
-                </button>
+                <label for="confirmPassword">Confirm Password:</label>
+                <input :type="showPassword ? 'text' : 'password'" id="confirmPassword" v-model="user.c_password" />
                 <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
             </div>
             <div class="form-item">
@@ -42,12 +35,13 @@
                 <input type="text" id="address" v-model="user.address" />
                 <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
             </div>
-            <div class="form-item phone-center">
+            <div class="form-item">
                 <label for="phone">Phone:</label>
                 <input type="text" id="phone" v-model="user.phone" placeholder="(+30) 69X-XXX-XXXX" />
                 <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">Sign Up</button>
+            <div v-if="error" class="error-message">{{ error }}</div>
         </form>
         <p class="login-link">
             Already have an account?
@@ -58,125 +52,121 @@
 
 <script>
     import { addDoc, collection } from "firebase/firestore";
-    import { db } from "../firebase";
+    import { createUserWithEmailAndPassword } from "firebase/auth";
+    import { auth, db } from "@/firebase";
 
     export default {
         data() {
             return {
                 user: {
-                    name: '',
-                    surname: '',
-                    email: '',
-                    password: '',
-                    c_password: '',
-                    address: '',
-                    phone: ''
+                    name: "",
+                    surname: "",
+                    email: "",
+                    password: "",
+                    c_password: "",
+                    address: "",
+                    phone: "",
                 },
                 errors: {
-                    name: '',
-                    surname: '',
-                    email: '',
-                    password: '',
-                    c_password: '',
-                    address: '',
-                    phone: ''
+                    name: "",
+                    surname: "",
+                    email: "",
+                    password: "",
+                    c_password: "",
+                    address: "",
+                    phone: "",
                 },
-                showPassword: false,  // Ελέγχουμε αν θα εμφανίζεται ο κωδικός
+                showPassword: false,
+                error: null,
             };
         },
         methods: {
             togglePasswordVisibility() {
                 this.showPassword = !this.showPassword;
             },
-            async saveProfile() {
-                // Reset error messages
+            async signUp() {
                 this.errors = {
-                    name: '',
-                    surname: '',
-                    email: '',
-                    password: '',
-                    c_password: '',
-                    address: '',
-                    phone: ''
+                    name: "",
+                    surname: "",
+                    email: "",
+                    password: "",
+                    c_password: "",
+                    address: "",
+                    phone: "",
                 };
-
-                // Validation checks
                 let hasError = false;
+
+                // Validation
                 if (!this.user.name) {
-                    this.errors.name = 'Name is required';
+                    this.errors.name = "Name is required";
                     hasError = true;
                 }
                 if (!this.user.surname) {
-                    this.errors.surname = 'Surname is required';
+                    this.errors.surname = "Surname is required";
                     hasError = true;
                 }
                 if (!this.user.email) {
-                    this.errors.email = 'Email is required';
+                    this.errors.email = "Email is required";
                     hasError = true;
                 }
                 if (!this.user.password) {
-                    this.errors.password = 'Password is required';
+                    this.errors.password = "Password is required";
                     hasError = true;
                 } else if (this.user.password !== this.user.c_password) {
-                    this.errors.c_password = 'Passwords do not match';
+                    this.errors.c_password = "Passwords do not match";
                     hasError = true;
                 }
                 if (!this.user.address) {
-                    this.errors.address = 'Address is required';
+                    this.errors.address = "Address is required";
                     hasError = true;
                 }
                 if (!this.user.phone) {
-                    this.errors.phone = 'Phone is required';
+                    this.errors.phone = "Phone is required";
                     hasError = true;
                 }
 
-                // If validation fails, stop execution
                 if (hasError) return;
 
                 try {
-                    // Add user data to Firestore
-                    const docRef = await addDoc(collection(db, "user"), this.user);
-                    console.log("Document written with ID: ", docRef.id);
+                    // Create Firebase user
+                    await createUserWithEmailAndPassword(auth, this.user.email, this.user.password);
 
-                    // Clear the form fields
-                    this.user = {
-                        name: '',
-                        surname: '',
-                        email: '',
-                        password: '',
-                        c_password: '',
-                        address: '',
-                        phone: ''
-                    };
+                    // Add user details to Firestore
+                    await addDoc(collection(db, "users"), {
+                        name: this.user.name,
+                        surname: this.user.surname,
+                        email: this.user.email,
+                        address: this.user.address,
+                        phone: this.user.phone,
+                    });
 
-                    alert("Profile successfully saved!");
-                } catch (e) {
-                    console.error("Error adding document: ", e);
-                    alert("Failed to save profile. Please try again.");
+                    // Redirect to login
+                    this.$router.push("/login");
+                } catch (error) {
+                    this.error = error.message;
                 }
-            }
-        }
+            },
+        },
     };
 </script>
 
 <style scoped>
-    /* Same styling as before */
-    .user-profile {
-        max-width: 600px;
+    .signup {
+        max-width: 400px;
         margin: auto;
-        font-family: 'EB Garamond', serif;
         padding: 20px;
-        border: 1px solid #ccc;
         border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         background-color: #5d2d05;
         color: #faebd7;
     }
 
+    h1 {
+        text-align: center;
+    }
+
     .form-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
+        gap: 15px;
     }
 
     .form-item {
@@ -184,46 +174,26 @@
         flex-direction: column;
     }
 
-    label {
-        color: #faebd7;
-        margin-bottom: 5px;
-    }
-
-    input {
-        padding: 8px;
-        font-size: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        text-align: center;
-        color: #5d2d05;
-    }
-
     button {
-        grid-column: span 2;
         background-color: #faebd7;
         color: #5d2d05;
-        border: none;
         padding: 10px;
+        border: none;
         border-radius: 5px;
         cursor: pointer;
-        margin-top: 10px;
     }
+
+        button:hover {
+            background-color: #d5b28b;
+        }
 
     .error-message {
         color: red;
-        font-size: 0.9em;
+        font-size: 0.9rem;
     }
 
-    /* Κέντρο του πεδίου τηλεφώνου */
-    .phone-center {
-        grid-column: span 2;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+    .login-link {
+        text-align: center;
+        margin-top: 15px;
     }
-
-        .phone-center input {
-            width: 100%;
-            max-width: 300px; /* Για να μην είναι υπερβολικά μεγάλο */
-        }
 </style>
