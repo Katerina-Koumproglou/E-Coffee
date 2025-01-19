@@ -2,58 +2,79 @@
     <div class="signup">
         <h1>Sign Up</h1>
         <form @submit.prevent="signUp" class="form-grid">
+            <!-- Name Field -->
             <div class="form-item">
                 <label for="name">Name:</label>
                 <input type="text" id="name" v-model="user.name" />
                 <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
             </div>
+
+            <!-- Surname Field -->
             <div class="form-item">
                 <label for="surname">Surname:</label>
                 <input type="text" id="surname" v-model="user.surname" />
                 <span v-if="errors.surname" class="error-message">{{ errors.surname }}</span>
             </div>
+
+            <!-- Email Field -->
             <div class="form-item">
                 <label for="email">Email:</label>
                 <input type="email" id="email" v-model="user.email" />
                 <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
             </div>
+
+            <!-- Password Field with Show/Hide functionality -->
             <div class="form-item">
                 <label for="password">Password:</label>
                 <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" />
-                <button type="button" @click="togglePasswordVisibility">
-                    {{ showPassword ? 'Hide' : 'Show' }} Password
+                <button type="button" class="show-hide-button" @click="togglePasswordVisibility">
+                    {{ showPassword ? "Hide" : "Show" }}
                 </button>
                 <span v-if="errors.password" class="error-message">{{ errors.password }}</span>
             </div>
+
+            <!-- Confirm Password Field -->
             <div class="form-item">
                 <label for="confirmPassword">Confirm Password:</label>
-                <input :type="showPassword ? 'text' : 'password'" id="confirmPassword" v-model="user.c_password" />
-                <span v-if="errors.c_password" class="error-message">{{ errors.c_password }}</span>
+                <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="user.confirmPassword" />
+                <button type="button" class="show-hide-button" @click="toggleConfirmPasswordVisibility">
+                    {{ showConfirmPassword ? "Hide" : "Show" }}
+                </button>
+                <span v-if="errors.confirmPassword" class="error-message">{{ errors.confirmPassword }}</span>
             </div>
+
+            <!-- Address Field -->
             <div class="form-item">
                 <label for="address">Address:</label>
                 <input type="text" id="address" v-model="user.address" />
                 <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
             </div>
+
+            <!-- Phone Field -->
             <div class="form-item">
                 <label for="phone">Phone:</label>
-                <input type="text" id="phone" v-model="user.phone" placeholder="(+30) 69X-XXX-XXXX" />
+                <input type="text" id="phone" v-model="user.phone" />
                 <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
             </div>
+
+            <!-- Submit Button -->
             <button type="submit">Sign Up</button>
+
+            <!-- Error Message -->
             <div v-if="error" class="error-message">{{ error }}</div>
         </form>
+
+        <!-- Login Link -->
         <p class="login-link">
-            Already have an account?
-            <router-link to="/Login">Login</router-link>
+            Already have an account? <router-link to="/login">Login</router-link>
         </p>
     </div>
 </template>
 
 <script>
-    import { addDoc, collection } from "firebase/firestore";
     import { createUserWithEmailAndPassword } from "firebase/auth";
-    import { auth, db } from "@/firebase";
+    import { addDoc, collection } from "firebase/firestore";
+    import { auth, db } from "@/firebase";  // Import Firebase auth and firestore
 
     export default {
         data() {
@@ -63,76 +84,56 @@
                     surname: "",
                     email: "",
                     password: "",
-                    c_password: "",
+                    confirmPassword: "",
                     address: "",
                     phone: "",
                 },
-                errors: {
-                    name: "",
-                    surname: "",
-                    email: "",
-                    password: "",
-                    c_password: "",
-                    address: "",
-                    phone: "",
-                },
+                errors: {},
                 showPassword: false,
+                showConfirmPassword: false,
                 error: null,
             };
         },
         methods: {
+            // Toggle visibility of the password field
             togglePasswordVisibility() {
                 this.showPassword = !this.showPassword;
             },
+
+            // Toggle visibility of the confirm password field
+            toggleConfirmPasswordVisibility() {
+                this.showConfirmPassword = !this.showConfirmPassword;
+            },
+
+            // Handle form submission
             async signUp() {
-                this.errors = {
-                    name: "",
-                    surname: "",
-                    email: "",
-                    password: "",
-                    c_password: "",
-                    address: "",
-                    phone: "",
-                };
-                let hasError = false;
+                this.errors = {};
 
-                // Validation
-                if (!this.user.name) {
-                    this.errors.name = "Name is required";
-                    hasError = true;
+                // Validation logic
+                if (!this.user.name) this.errors.name = "Name is required";
+                if (!this.user.surname) this.errors.surname = "Surname is required";
+                if (!this.user.email) this.errors.email = "Email is required";
+                if (!this.user.password) this.errors.password = "Password is required";
+                if (this.user.password !== this.user.confirmPassword) {
+                    this.errors.confirmPassword = "Passwords do not match";
                 }
-                if (!this.user.surname) {
-                    this.errors.surname = "Surname is required";
-                    hasError = true;
-                }
-                if (!this.user.email) {
-                    this.errors.email = "Email is required";
-                    hasError = true;
-                }
-                if (!this.user.password) {
-                    this.errors.password = "Password is required";
-                    hasError = true;
-                } else if (this.user.password !== this.user.c_password) {
-                    this.errors.c_password = "Passwords do not match";
-                    hasError = true;
-                }
-                if (!this.user.address) {
-                    this.errors.address = "Address is required";
-                    hasError = true;
-                }
-                if (!this.user.phone) {
-                    this.errors.phone = "Phone is required";
-                    hasError = true;
-                }
+                if (!this.user.address) this.errors.address = "Address is required";
+                if (!this.user.phone) this.errors.phone = "Phone is required";
 
-                if (hasError) return;
+                if (Object.keys(this.errors).length) return;
 
                 try {
-                    // Create Firebase user
-                    await createUserWithEmailAndPassword(auth, this.user.email, this.user.password);
+                    // Create user in Firebase Authentication
+                    const userCredential = await createUserWithEmailAndPassword(
+                        auth,
+                        this.user.email,
+                        this.user.password
+                    );
+                    const userId = userCredential.user.uid;
 
-                    // Add user details to Firestore
+                    // Store user data in Firestore
                     await addDoc(collection(db, "users"), {
+                        id: userId,
                         name: this.user.name,
                         surname: this.user.surname,
                         email: this.user.email,
@@ -140,8 +141,9 @@
                         phone: this.user.phone,
                     });
 
-                    // Redirect to login
-                    this.$router.push("/login");
+                    // Redirect to the home page after successful sign-up
+                    this.$router.push("/");  // Navigate to the home page
+
                 } catch (error) {
                     this.error = error.message;
                 }
@@ -149,24 +151,32 @@
         },
     };
 </script>
-
 <style scoped>
     .signup {
-        max-width: 400px;
+        max-width: 600px;
         margin: auto;
         padding: 20px;
         border-radius: 8px;
-        background-color: #5d2d05;
-        color: #faebd7;
+        background-color: #5D2D05;
+        color: #FAEBD7;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 
     h1 {
         text-align: center;
+        color: #FAEBD7;
+        margin-bottom: 20px;
     }
 
     .form-grid {
         display: grid;
+        grid-template-columns: 1fr 1fr;
         gap: 15px;
+        width: 100%;
+        margin-bottom: 20px;
     }
 
     .form-item {
@@ -174,26 +184,69 @@
         flex-direction: column;
     }
 
+    label {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    input {
+        padding: 8px;
+        border: 1px solid #D5B28B;
+        border-radius: 5px;
+        background-color: #FAEBD7;
+        color: #5D2D05;
+        font-size: 1rem;
+    }
+
+        input:focus {
+            border-color: #D5B28B;
+            outline: none;
+        }
+
     button {
-        background-color: #faebd7;
-        color: #5d2d05;
-        padding: 10px;
+        background-color: #FAEBD7;
+        color: #5D2D05;
+        padding: 6px 12px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
+        font-size: 14px;
+        width: auto;
+        margin-top: 10px;
     }
 
         button:hover {
-            background-color: #d5b28b;
+            background-color: #D5B28B;
         }
+
+    .show-hide-button {
+        background: none;
+        border: none;
+        color: #5D2D05;
+        font-size: 14px;
+        padding: 0;
+        cursor: pointer;
+        text-decoration: underline;
+    }
 
     .error-message {
         color: red;
+        margin-top: 5px;
         font-size: 0.9rem;
     }
 
     .login-link {
         text-align: center;
         margin-top: 15px;
+    }
+
+    @media (max-width: 768px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        button {
+            width: 100%;
+        }
     }
 </style>
