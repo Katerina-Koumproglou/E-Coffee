@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 import HomePage from "@/views/HomePage.vue";
 
-import MyCard from "@/views/MyCard.vue";
+import MyCart from "@/views/MyCart.vue";
 
 import SignUp from "@/views/SignUp.vue";
 
@@ -18,9 +18,10 @@ import Machines from "@/views/MachinesPage.vue";
 
 import Beverages from "@/views/BeveragesPage.vue";
 
+
 const routes = [
   { path: "/", name: "Home", component: HomePage },
-  { path: "/mycard", name: "MyCard", component: MyCard },
+  { path: "/mycart", name: "MyCart", component: MyCart },
   { path: "/signup", name: "SignUp", component: SignUp },
   { path: "/login", name: "Login", component: Login },
   { path: "/varieties", name: "Varieties", component: Varieties },
