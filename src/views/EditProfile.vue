@@ -1,4 +1,4 @@
-<template>
+ο»Ώ<template>
     <div class="edit-profile">
         <h1>Edit Profile</h1>
         <form @submit.prevent="updateUserInfo">
@@ -28,7 +28,7 @@
 
 <script>
     import { auth, db } from "@/firebase";
-    import { doc, getDoc, updateDoc } from "firebase/firestore";  // Προστέθηκε το getDoc
+    import { doc, getDoc, updateDoc } from "firebase/firestore";  // οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½ getDoc
 
     export default {
         data() {
@@ -58,7 +58,7 @@
             async loadUserData() {
                 try {
                     const userRef = doc(db, "users", this.userId);
-                    const userDoc = await getDoc(userRef);  // Χρησιμοποιείται το getDoc για να φορτώσουμε τα δεδομένα
+                    const userDoc = await getDoc(userRef);  // οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½ getDoc οΏ½οΏ½οΏ½ οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½
                     if (userDoc.exists()) {
                         const data = userDoc.data();
                         this.name = data.name || "";
@@ -83,7 +83,7 @@
                         address: this.address,
                     });
                     alert("Your information has been updated!");
-                    this.$router.push({ name: "UserProfile" });  // Επιστροφή στη σελίδα προφίλ
+                    this.$router.push({ name: "UserProfile" });  // οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½
                 } catch (error) {
                     console.error("Error updating user data: ", error);
                 }
@@ -91,7 +91,7 @@
 
             // Method to go back to the previous page
             goBack() {
-                this.$router.go(-1);  // Πλοήγηση στην προηγούμενη σελίδα
+                this.$router.go(-1);  // οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½
             }
         },
     };

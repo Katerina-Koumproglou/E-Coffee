@@ -72,9 +72,9 @@
 </template>
 
 <script>
+import { doc, setDoc } from "firebase/firestore";
+    import { auth, db } from "@/firebase"; // Προσαρμόστε τη διαδρομή ανάλογα με το πρότζεκτ σας
     import { createUserWithEmailAndPassword } from "firebase/auth";
-    import { addDoc, collection } from "firebase/firestore";
-    import { auth, db } from "@/firebase";  // Import Firebase auth and firestore
 
     export default {
         data() {
@@ -89,23 +89,10 @@
                     phone: "",
                 },
                 errors: {},
-                showPassword: false,
-                showConfirmPassword: false,
-                error: null,
+                error: "",
             };
         },
         methods: {
-            // Toggle visibility of the password field
-            togglePasswordVisibility() {
-                this.showPassword = !this.showPassword;
-            },
-
-            // Toggle visibility of the confirm password field
-            toggleConfirmPasswordVisibility() {
-                this.showConfirmPassword = !this.showConfirmPassword;
-            },
-
-            // Handle form submission
             async signUp() {
                 this.errors = {};
 
@@ -123,7 +110,7 @@
                 if (Object.keys(this.errors).length) return;
 
                 try {
-                    // Create user in Firebase Authentication
+                    // Δημιουργία χρήστη στο Firebase Authentication
                     const userCredential = await createUserWithEmailAndPassword(
                         auth,
                         this.user.email,
@@ -131,9 +118,8 @@
                     );
                     const userId = userCredential.user.uid;
 
-                    // Store user data in Firestore
-                    await addDoc(collection(db, "users"), {
-                        id: userId,
+                    // Αποθήκευση δεδομένων χρήστη στο Firestore με το UID ως ID εγγράφου
+                    await setDoc(doc(db, "users", userId), {
                         name: this.user.name,
                         surname: this.user.surname,
                         email: this.user.email,
@@ -141,8 +127,8 @@
                         phone: this.user.phone,
                     });
 
-                    // Redirect to the home page after successful sign-up
-                    this.$router.push("/");  // Navigate to the home page
+                    // Ανακατεύθυνση μετά την επιτυχημένη εγγραφή
+                    this.$router.push("/");
 
                 } catch (error) {
                     this.error = error.message;
@@ -151,6 +137,7 @@
         },
     };
 </script>
+
 <style scoped>
     .signup {
         max-width: 600px;

@@ -1,20 +1,22 @@
-<template>
+ο»Ώ<template>
     <div class="user-profile">
         <h1>User Profile</h1>
-        <div v-if="userData" class="profile-details">
+        <div v-if="userData && !errorMessage" class="profile-details">
             <p><strong>Name:</strong> {{ userData.name }}</p>
             <p><strong>Surname:</strong> {{ userData.surname }}</p>
             <p><strong>Email:</strong> {{ userData.email }}</p>
             <p><strong>Phone:</strong> {{ userData.phone }}</p>
             <p><strong>Address:</strong> {{ userData.address }}</p>
         </div>
-        <div v-else>
+        <div v-else-if="loading">
             <p>Loading user data...</p>
         </div>
-
-        <div class="buttons">
+        <div v-else-if="errorMessage">
+            <p class="error">{{ errorMessage }}</p>
+        </div>
+        <div class="buttons" v-if="!loading">
             <button @click="logout">Logout</button>
-            <button @click="goToEditProfile">Edit Profile</button>
+            <button @click="goToEditProfile" :disabled="!userData">Edit Profile</button>
         </div>
     </div>
 </template>
@@ -26,8 +28,10 @@
     export default {
         data() {
             return {
-                userData: null, // Τα δεδομένα του χρήστη αποθηκεύονται εδώ
+                userData: null,
                 userId: null,
+                loading: true,
+                errorMessage: "",
             };
         },
         async mounted() {
@@ -36,7 +40,8 @@
                 this.userId = user.uid;
                 await this.loadUserData();
             } else {
-                this.$router.push('/login'); // Αν δεν είναι συνδεδεμένος ο χρήστης, ανακατευθύνουμε στη σελίδα σύνδεσης
+                this.errorMessage = "User is not logged in. Redirecting to login page.";
+                setTimeout(() => this.$router.push("/login"), 3000);
             }
         },
         methods: {
@@ -45,23 +50,27 @@
                     const userRef = doc(db, "users", this.userId);
                     const userDoc = await getDoc(userRef);
                     if (userDoc.exists()) {
-                        this.userData = userDoc.data(); // Αποθήκευση των δεδομένων του χρήστη
+                        this.userData = userDoc.data();
                     } else {
-                        console.error("No such document!");
+                        this.errorMessage = `No user data found for UID: ${this.userId}`;
                     }
                 } catch (error) {
-                    console.error("Error fetching user data: ", error);
+                    this.errorMessage = "Failed to fetch user data.";
+                    console.error("Error fetching user data:", error);
+                } finally {
+                    this.loading = false;
                 }
             },
             logout() {
-                auth.signOut().then(() => {
-                    this.$router.push('/'); // Ανακατεύθυνση στην αρχική σελίδα μετά το logout
-                }).catch((error) => {
-                    console.error("Error during logout: ", error);
-                });
+                auth.signOut()
+                    .then(() => this.$router.push("/"))
+                    .catch((error) => {
+                        console.error("Error during logout:", error);
+                        this.errorMessage = "Failed to log out. Please try again.";
+                    });
             },
             goToEditProfile() {
-                this.$router.push({ name: 'EditProfile' }); // Ανακατεύθυνση στη σελίδα επεξεργασίας
+                this.$router.push({ name: "EditProfile" });
             },
         },
     };
@@ -87,6 +96,12 @@
         margin: 10px 0;
     }
 
+    .error {
+        color: #ff6b6b;
+        font-weight: bold;
+        text-align: center;
+    }
+
     .buttons {
         display: flex;
         justify-content: space-between;
@@ -103,6 +118,11 @@
         width: 45%;
         font-size: 16px;
     }
+
+        button:disabled {
+            background-color: #b2a59d;
+            cursor: not-allowed;
+        }
 
         button:hover {
             background-color: #D5B28B;
