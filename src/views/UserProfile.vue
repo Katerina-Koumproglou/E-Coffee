@@ -1,7 +1,7 @@
 ﻿<template>
     <div class="user-profile">
-        <h1>User Profile</h1>
         <div v-if="userData && !errorMessage" class="profile-details">
+            <h1>User Profile</h1>
             <p><strong>Name:</strong> {{ userData.name }}</p>
             <p><strong>Surname:</strong> {{ userData.surname }}</p>
             <p><strong>Email:</strong> {{ userData.email }}</p>

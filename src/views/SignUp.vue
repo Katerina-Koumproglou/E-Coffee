@@ -23,7 +23,6 @@
                 <span v-if="errors.email" class="error-message">{{ errors.email }}</span>
             </div>
 
-            <!-- Password Field with Show/Hide functionality -->
             <div class="form-item">
                 <label for="password">Password:</label>
                 <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" />
@@ -52,9 +51,13 @@
 
             <!-- Phone Field -->
             <div class="form-item">
-                <label for="phone">Phone:</label>
-                <input type="text" id="phone" v-model="user.phone" />
-                <span v-if="errors.phone" class="error-message">{{ errors.phone }}</span>
+                <label for="phone">Phone</label>
+                <input type="text"
+                       v-model="user.phone"
+                       id="phone"
+                       maxlength="10"
+                       pattern="^[0-9]{10}$"
+                       required />
             </div>
 
             <!-- Submit Button -->
@@ -72,7 +75,7 @@
 </template>
 
 <script>
-import { doc, setDoc } from "firebase/firestore";
+    import { doc, setDoc } from "firebase/firestore";
     import { auth, db } from "@/firebase"; // Προσαρμόστε τη διαδρομή ανάλογα με το πρότζεκτ σας
     import { createUserWithEmailAndPassword } from "firebase/auth";
 
@@ -86,13 +89,21 @@ import { doc, setDoc } from "firebase/firestore";
                     password: "",
                     confirmPassword: "",
                     address: "",
-                    phone: "",
+                    phone: "",  // Το phone το έβαλα μέσα στο user object
                 },
                 errors: {},
                 error: "",
+                showPassword: false,  // Προσθέτεις αυτή τη γραμμή
+                showConfirmPassword: false,  // Και αυτή τη γραμμή
             };
         },
         methods: {
+            togglePasswordVisibility() {
+                this.showPassword = !this.showPassword;
+            },
+            toggleConfirmPasswordVisibility() {
+                this.showConfirmPassword = !this.showConfirmPassword;
+            },
             async signUp() {
                 this.errors = {};
 

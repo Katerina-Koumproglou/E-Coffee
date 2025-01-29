@@ -13,6 +13,10 @@
             <div v-if="error" class="error-message">{{ error }}</div>
             <button type="submit">Login</button>
         </form>
+        <!-- Login Link -->
+        <p class="login-link">
+            Don't have an account? <router-link to="/Signup">Signup</router-link>
+        </p>
     </div>
 </template>
 
@@ -34,13 +38,18 @@
                     const userCredential = await signInWithEmailAndPassword(auth, this.email, this.password);
                     const user = userCredential.user;
 
-                    // Ανακατεύθυνση στο UserProfile με το userId
+                    // Αποθήκευση του userId και άλλων στοιχείων στο localStorage
+                    localStorage.setItem("userId", user.uid);
+                    localStorage.setItem("userEmail", user.email);
+
+                    // Ανακατεύθυνση στο UserProfile
                     this.$router.push(`/user-profile/${user.uid}`);
                 } catch (error) {
                     this.error = "Login failed: " + error.message;
                 }
-            }
-        }
+            },
+        },
+
     };
 </script>
 
