@@ -3,7 +3,7 @@
         <div class="category-header">
             <h3>Μηχανές Καφέ</h3>
         </div>
-        <ProductsDisplay :variety="machines" />
+        <ProductsDisplay :products="machines" />
     </div>
 </template>
 

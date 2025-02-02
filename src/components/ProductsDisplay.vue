@@ -1,10 +1,12 @@
 <template>
     <div>
         <div class="container">
-            <div class="products">
-                <div v-for="product in variety" :key="product.id" class="single-product">
+            <div v-if="products && products.length > 0" class="products">
+                <div v-for="product in products" :key="product.id" class="single-product">
                     <div class="img-container">
-                        <img :src="product.image" :alt="product.name">
+                        <router-link :to="`/product/${product.slug}`">
+                            <img :src="product.image" :alt="product.name">
+                        </router-link>
                     </div>
                     <div class="product-container">
                         <h6 class="name">{{ product.name }}</h6>
@@ -24,17 +26,17 @@ export default defineComponent({
 </script>
 
 <script setup>
-import { onMounted } from 'vue';
-onMounted(() => {
-    console.log('MMOUNTED>>>>>>')
-})
+import { defineProps, watchEffect } from 'vue';
 
-import { defineProps } from 'vue';
-defineProps({
-    variety: {
+const props = defineProps({
+    products: {
         type: Array,
         required: true,
     },
+});
+
+watchEffect(() => {
+    console.log("Displaying products:", props.products);
 });
 </script>
 

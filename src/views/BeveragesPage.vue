@@ -3,7 +3,7 @@
         <div class="category-header">
             <h3>Ροφήματα</h3>
         </div>
-        <ProductsDisplay :variety="beverages" />
+        <ProductsDisplay :products="beverages" />
     </div>
 </template>
 

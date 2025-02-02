@@ -10,31 +10,38 @@ import Accessories from "@/views/AccessoriesPage.vue";
 import Machines from "@/views/MachinesPage.vue";
 import Beverages from "@/views/BeveragesPage.vue";
 import EditProfile from "@/views/EditProfile.vue";
+import ShowDetails from "@/views/ShowDetails.vue";
 
 const routes = [
-    { path: "/", name: "Home", component: HomePage },
-    { path: "/mycart", name: "MyCart", component: MyCart },
-    { path: "/signup", name: "SignUp", component: SignUp },
-    { path: "/login", name: "Login", component: Login },
-    { path: "/varieties", name: "Varieties", component: Varieties },
-    { path: "/capsules", name: "Capsules", component: Capsules },
-    { path: "/accessories", name: "Accessories", component: Accessories },
-    { path: "/machines", name: "Machines", component: Machines },
-    { path: "/beverages", name: "Beverages", component: Beverages },
-    { path: "/edit-profile", name: "EditProfile", component: EditProfile },
+  { path: "/", name: "Home", component: HomePage },
+  { path: "/mycart", name: "MyCart", component: MyCart },
+  { path: "/signup", name: "SignUp", component: SignUp },
+  { path: "/login", name: "Login", component: Login },
+  { path: "/varieties", name: "Varieties", component: Varieties },
+  { path: "/capsules", name: "Capsules", component: Capsules },
+  { path: "/accessories", name: "Accessories", component: Accessories },
+  { path: "/machines", name: "Machines", component: Machines },
+  { path: "/beverages", name: "Beverages", component: Beverages },
+  { path: "/edit-profile", name: "EditProfile", component: EditProfile },
+  {
+    path: "/product/:slug",
+    name: "ShowDetails",
+    component: ShowDetails,
+    props: true,
+  },
 
-    // ÐñïóèÞêç äõíáìéêÞò äéáäñïìÞò ãéá ôï UserProfile
-    {
-        path: "/user-profile/:userId",
-        name: "UserProfile",
-        component: () => import("@/views/UserProfile.vue"), // ÄõíáìéêÞ öüñôùóç
-        props: true // Íá ðåñÜóïõìå ôï userId ùò prop
-    }
+  // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ UserProfile
+  {
+    path: "/user-profile/:userId",
+    name: "UserProfile",
+    component: () => import("@/views/UserProfile.vue"), // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    props: true, // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ userId ï¿½ï¿½ prop
+  },
 ];
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 export default router;

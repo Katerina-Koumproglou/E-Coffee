@@ -15,13 +15,9 @@ import { ref, onMounted, provide } from 'vue';
 import { collection, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase';
 
-
 export default {
   name: "App",
-  components: {
-    AppHeader,
-    AppFooter,
-  },
+  components: { AppHeader, AppFooter },
 
   setup() {
     const variety = ref([]);
@@ -30,105 +26,32 @@ export default {
     const machines = ref([]);
     const beverages = ref([]);
 
+    const fetchData = (collectionName, targetRef) => {
+      onSnapshot(collection(db, collectionName), (querySnapshot) => {
+        const items = [];
+        querySnapshot.forEach((doc) => {
+          items.push({ id: doc.id, ...doc.data() });
+        });
+        targetRef.value = items;
+        console.log(`Loaded ${collectionName}:`, items);
+      });
+    };
+
     onMounted(() => {
-      //Fetch variety products from database
-      onSnapshot(collection(db, "variety"), (querySnapshot) => {
-        const fbVariety = [];
-        querySnapshot.forEach((doc) => {
-          const item = {
-            id: doc.id,
-            name: doc.data().name,
-            brand: doc.data().brand,
-            category: doc.data().category,
-            price: doc.data().price,
-            image: doc.data().image
-          }
-          fbVariety.push(item);
-        });
-        variety.value = fbVariety;
-      });
-
-      //Fetch capsule products from database
-      onSnapshot(collection(db, "capsules"), (querySnapshot) => {
-        const fbCapsules = [];
-        querySnapshot.forEach((doc) => {
-          const item = {
-            id: doc.id,
-            name: doc.data().name,
-            brand: doc.data().brand,
-            category: doc.data().category,
-            price: doc.data().price,
-            image: doc.data().image
-          }
-          fbCapsules.push(item);
-        });
-        capsules.value = fbCapsules;
-      });
-
-      //Fetch accessories products from database
-      onSnapshot(collection(db, "accessories"), (querySnapshot) => {
-        const fbAccessories = [];
-        querySnapshot.forEach((doc) => {
-          const item = {
-            id: doc.id,
-            name: doc.data().name,
-            brand: doc.data().brand,
-            category: doc.data().category,
-            price: doc.data().price,
-            image: doc.data().image
-          }
-          fbAccessories.push(item);
-        });
-        accessories.value = fbAccessories;
-      });
-
-      //Fetch machine products from database
-      onSnapshot(collection(db, "machines"), (querySnapshot) => {
-        const fbMachines = [];
-        querySnapshot.forEach((doc) => {
-          const item = {
-            id: doc.id,
-            name: doc.data().name,
-            brand: doc.data().brand,
-            category: doc.data().category,
-            price: doc.data().price,
-            image: doc.data().image
-          }
-          fbMachines.push(item);
-        });
-        machines.value = fbMachines;
-      });
-
-      //Fetch beverage products from database
-      onSnapshot(collection(db, "beverages"), (querySnapshot) => {
-        const fbBeverages = [];
-        querySnapshot.forEach((doc) => {
-          const item = {
-            id: doc.id,
-            name: doc.data().name,
-            brand: doc.data().brand,
-            category: doc.data().category,
-            price: doc.data().price,
-            image: doc.data().image
-          }
-          fbBeverages.push(item);
-        });
-        beverages.value = fbBeverages;
-      });
+      fetchData("variety", variety);
+      fetchData("capsules", capsules);
+      fetchData("accessories", accessories);
+      fetchData("machines", machines);
+      fetchData("beverages", beverages);
     });
+
     provide('variety', variety);
     provide('capsules', capsules);
     provide('accessories', accessories);
     provide('machines', machines);
     provide('beverages', beverages);
 
-    return {
-      variety,
-      capsules,
-      accessories,
-      machines,
-      beverages
-    };
+    return { variety, capsules, accessories, machines, beverages };
   },
 };
 </script>

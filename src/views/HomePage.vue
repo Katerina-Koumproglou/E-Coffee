@@ -6,7 +6,7 @@
     <div class="category-header">
       <h3>Ποικιλίες Καφέ</h3>
     </div>
-    <ProductsDisplay :variety="variety.slice(0, 3)" />
+    <ProductsDisplay :products="variety.slice(0, 3)" />
     <router-link to="/varieties">
       <button class="btn">View More</button>
     </router-link>
@@ -16,7 +16,7 @@
     <div class="category-header">
       <h3>Κάψουλες Καφέ</h3>
     </div>
-    <ProductsDisplay :variety="capsules.slice(0, 3)" />
+    <ProductsDisplay :products="capsules.slice(0, 3)" />
     <router-link to="/capsules">
       <button class="btn">View More</button>
     </router-link>
@@ -25,7 +25,7 @@
     <div class="category-header">
       <h3>Αξεσουάρ</h3>
     </div>
-    <ProductsDisplay :variety="accessories.slice(0, 3)" />
+    <ProductsDisplay :products="accessories.slice(0, 3)" />
     <router-link to="/accessories">
       <button class="btn">View More</button>
     </router-link>
@@ -34,7 +34,7 @@
     <div class="category-header">
       <h3>Μηχανές Καφέ</h3>
     </div>
-    <ProductsDisplay :variety="machines.slice(0, 3)" />
+    <ProductsDisplay :products="machines.slice(0, 3)" />
     <router-link to="/machines">
       <button class="btn">View More</button>
     </router-link>
@@ -43,7 +43,7 @@
     <div class="category-header">
       <h3>Ροφήματα</h3>
     </div>
-    <ProductsDisplay :variety="beverages.slice(0, 3)" />
+    <ProductsDisplay :products="beverages.slice(0, 3)" />
     <router-link to="/beverages">
       <button class="btn">View More</button>
     </router-link>
