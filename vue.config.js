@@ -4,5 +4,5 @@ module.exports = defineConfig({
   devServer: {
     historyApiFallback: true,
     },
-    publicPath: process.env.NODE_ENV === 'production' ? '/E-Coffee/' : '/',
+    publicPath: process.env.NODE_ENV === 'production' ? '/E-Coffee/' : '/homepage',
 })
