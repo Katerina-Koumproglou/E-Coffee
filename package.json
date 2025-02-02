@@ -7,8 +7,7 @@
     "build": "vue-cli-service build",
     "predeploy": "npm run build",
     "lint": "vue-cli-service lint",
-    "deploy": "npm run build && gh-pages -d dist",
-    "homepage": "https://maria-papadopoulou.github.io/"
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "core-js": "^3.8.3",
