@@ -3,5 +3,6 @@ module.exports = defineConfig({
   transpileDependencies: true,
   devServer: {
     historyApiFallback: true,
-  },
+    },
+    publicPath: process.env.NODE_ENV === 'production' ? '/E-Coffee/' : '/',
 })
