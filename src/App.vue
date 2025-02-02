@@ -13,7 +13,7 @@ import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { ref, onMounted, provide } from 'vue';
 import { collection, onSnapshot } from 'firebase/firestore';
-import { db } from '@/firebase';
+    import { db } from '@/firebase';
 
 export default {
   name: "App",
