@@ -5,5 +5,5 @@ module.exports = defineConfig({
     devServer: {
         historyApiFallback: true,
     },
-    publicPath: '/',
+    publicPath: './',
 });
