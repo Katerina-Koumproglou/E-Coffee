@@ -57,10 +57,17 @@ export default {
 </script>
 
 <style>
-.container {
+#app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-container {
   flex: 1;
   max-width: calc(1400px - 120px);
   width: 100%;
   margin: auto;
+  padding-top: 100px;
 }
 </style>
