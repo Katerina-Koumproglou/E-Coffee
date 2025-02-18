@@ -38,7 +38,7 @@
 
     <!--Copyright-->
     <div class="copyright">
-      <p>© 2024 Coffee Shop. All rights reserved.</p>
+      <p>© 2024 E-Coffee. All rights reserved.</p>
     </div>
   </footer>
 </template>
