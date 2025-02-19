@@ -1,4 +1,5 @@
 using BackEnd.Data;
+using BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +32,18 @@ app.MapGet("/machines", async (ApplicationDbContext dbContext) =>
 {
     var machines = await dbContext.Machines.ToListAsync();
     return Results.Ok(machines);
+});
+
+app.MapGet("/accessories", async (ApplicationDbContext dbContext) =>
+{
+    var accessories = await dbContext.Accessories.ToListAsync();
+    return Results.Ok(accessories);
+});
+
+app.MapGet("/beverages", async (ApplicationDbContext dbContext) =>
+{
+    var beverages = await dbContext.Beverages.ToListAsync();
+    return Results.Ok(beverages);
 });
 
 app.Run();

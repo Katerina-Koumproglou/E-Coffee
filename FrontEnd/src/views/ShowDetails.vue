@@ -26,8 +26,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { db } from '@/firebase'
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { getAccessoryBySlug } from '@/database';
 
 export default {
     name: 'ShowDetails',
@@ -40,25 +39,9 @@ export default {
             try {
                 const productSlug = route.params.slug;
                 console.log("Fetching product with slug: ", productSlug);
-
-                const collections = ["variety", "capsules", "accessories", "machines", "beverages"];
-
-                for (let col of collections) {
-                    const q = query(collection(db, col), where("slug", "==", productSlug));
-                    const querySnapshot = await getDocs(q);
-
-                    if (!querySnapshot.empty) {
-                        querySnapshot.forEach((doc) => {
-                            product.value = { id: doc.id, ...doc.data() };
-                        });
-                        console.log(`Found in ${col}:`, product.value);
-                        loading.value = false;
-                        return;
-                    }
-                }
-
-                console.log("Product not found i any collection.");
+                product.value = await getAccessoryBySlug(productSlug);
                 loading.value = false;
+
             } catch (error) {
                 console.error("Error fetching product: ", error);
                 loading.value = false;
