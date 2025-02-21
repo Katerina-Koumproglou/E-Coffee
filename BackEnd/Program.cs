@@ -1,3 +1,4 @@
+using BackEnd.BusinessLogic;
 using BackEnd.Data;
 using BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddControllers();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -21,29 +24,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.MapGet("/capsules", async (ApplicationDbContext dbContext) =>
-{
-    var capsules = await dbContext.Capsules.ToListAsync();
-    return Results.Ok(capsules);
-});
-
-app.MapGet("/machines", async (ApplicationDbContext dbContext) =>
-{
-    var machines = await dbContext.Machines.ToListAsync();
-    return Results.Ok(machines);
-});
-
-app.MapGet("/accessories", async (ApplicationDbContext dbContext) =>
-{
-    var accessories = await dbContext.Accessories.ToListAsync();
-    return Results.Ok(accessories);
-});
-
-app.MapGet("/beverages", async (ApplicationDbContext dbContext) =>
-{
-    var beverages = await dbContext.Beverages.ToListAsync();
-    return Results.Ok(beverages);
-});
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();

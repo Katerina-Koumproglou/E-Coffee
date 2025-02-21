@@ -7,7 +7,7 @@ const api = axios.create({
 
 export const getAccessories = async () => {
   try {
-    const response = await api.get("/accessories");
+    const response = await api.get("/products");
     return response.data;
   } catch (error) {
     console.error("Error fetching capsules: ", error);
@@ -15,9 +15,9 @@ export const getAccessories = async () => {
   }
 };
 
-export const getAccessoryBySlug = async (slug) => {
+export const GetProductBySlug = async (slug) => {
   try {
-    const response = await api.get(`/accessories/${slug}`);
+    const response = await api.get(`/products/${slug}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching capsule by slug: ", error);
