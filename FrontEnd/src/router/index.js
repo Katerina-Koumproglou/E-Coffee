@@ -16,7 +16,7 @@ const routes = [
   { path: "/", name: "Home", component: HomePage },
   { path: "/mycart", name: "MyCart", component: MyCart },
   { path: "/signup", name: "SignUp", component: SignUp },
-  { path: "/login", name: "Login", component: Login },
+  { path: "/auth/login", name: "Login", component: Login },
   { path: "/varieties", name: "Varieties", component: Varieties },
   { path: "/capsules", name: "Capsules", component: Capsules },
   { path: "/accessories", name: "Accessories", component: Accessories },
@@ -24,18 +24,17 @@ const routes = [
   { path: "/beverages", name: "Beverages", component: Beverages },
   { path: "/edit-profile", name: "EditProfile", component: EditProfile },
   {
-    path: "/product/:slug",
+    path: "/products/:category/:slug",
     name: "ShowDetails",
     component: ShowDetails,
     props: true,
   },
 
-  // �������� ��������� ��������� ��� �� UserProfile
   {
-    path: "/user-profile/:userId",
+    path: "/user/:userId",
     name: "UserProfile",
-    component: () => import("@/views/UserProfile.vue"), // �������� �������
-    props: true, // �� ��������� �� userId �� prop
+    component: () => import("@/views/UserProfile.vue"),
+    props: true,
   },
 ];
 

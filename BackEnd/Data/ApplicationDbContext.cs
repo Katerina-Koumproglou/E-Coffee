@@ -10,5 +10,11 @@ namespace BackEnd.Data
         }
 
         public DbSet<BackEnd.Models.Product> Products { get; set; } = null!;
+
+        public DbSet<BackEnd.Models.User> Users { get; set; } = null!;
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasIndex(u => u.email).IsUnique();
+        }
     }
 }
