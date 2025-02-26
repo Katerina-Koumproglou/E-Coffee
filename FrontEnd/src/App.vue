@@ -12,8 +12,7 @@
 import AppHeader from '@/components/AppHeader.vue';
 import AppFooter from '@/components/AppFooter.vue';
 import { ref, onMounted, provide } from 'vue';
-import { collection, onSnapshot } from 'firebase/firestore';
-    import { db } from '@/firebase';
+import { getProductsByCategory } from '@/database';
 
 export default {
   name: "App",
@@ -26,15 +25,14 @@ export default {
     const machines = ref([]);
     const beverages = ref([]);
 
-    const fetchData = (collectionName, targetRef) => {
-      onSnapshot(collection(db, collectionName), (querySnapshot) => {
-        const items = [];
-        querySnapshot.forEach((doc) => {
-          items.push({ id: doc.id, ...doc.data() });
-        });
-        targetRef.value = items;
-        console.log(`Loaded ${collectionName}:`, items);
-      });
+    const fetchData = async (category, targetRef) => {
+      try {
+        const products = await getProductsByCategory(category);
+        targetRef.values = products;
+        console.log(`Loaded ${category}: `, products);
+      } catch (error) {
+        console.error(`Error loading ${category}: `, error);
+      }
     };
 
     onMounted(() => {

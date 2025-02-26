@@ -26,7 +26,7 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getAccessoryBySlug } from '@/database';
+import { getProductBySlug } from '@/database';
 
 export default {
     name: 'ShowDetails',
@@ -39,7 +39,7 @@ export default {
             try {
                 const productSlug = route.params.slug;
                 console.log("Fetching product with slug: ", productSlug);
-                product.value = await getAccessoryBySlug(productSlug);
+                product.value = await getProductBySlug("accessories", productSlug);
                 loading.value = false;
 
             } catch (error) {

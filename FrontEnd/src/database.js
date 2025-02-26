@@ -5,19 +5,19 @@ const api = axios.create({
   timeout: 5000,
 });
 
-export const getAccessories = async () => {
+export const getProductsByCategory = async (category) => {
   try {
-    const response = await api.get("/products");
+    const response = await api.get(`/products/${category}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching capsules: ", error);
+    console.error(`Error fetching ${category}: `, error);
     throw error;
   }
 };
 
-export const GetProductBySlug = async (slug) => {
+export const getProductBySlug = async (category, slug) => {
   try {
-    const response = await api.get(`/products/${slug}`);
+    const response = await api.get(`/products/${category}/${slug}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching capsule by slug: ", error);
