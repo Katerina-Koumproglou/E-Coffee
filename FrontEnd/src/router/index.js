@@ -11,6 +11,7 @@ import Machines from "@/views/MachinesPage.vue";
 import Beverages from "@/views/BeveragesPage.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import ShowDetails from "@/views/ShowDetails.vue";
+import UserProfile from "@/views/UserProfile.vue";
 
 const routes = [
   { path: "/", name: "Home", component: HomePage },
@@ -22,7 +23,12 @@ const routes = [
   { path: "/accessories", name: "Accessories", component: Accessories },
   { path: "/machines", name: "Machines", component: Machines },
   { path: "/beverages", name: "Beverages", component: Beverages },
-  { path: "/edit-profile", name: "EditProfile", component: EditProfile },
+  {
+    path: "/editprofile/:userId",
+    name: "EditProfile",
+    component: EditProfile,
+    props: true,
+  },
   {
     path: "/products/:category/:slug",
     name: "ShowDetails",
@@ -33,7 +39,7 @@ const routes = [
   {
     path: "/user/:userId",
     name: "UserProfile",
-    component: () => import("@/views/UserProfile.vue"),
+    component: UserProfile,
     props: true,
   },
 ];
