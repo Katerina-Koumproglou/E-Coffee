@@ -3,11 +3,13 @@ using BackEnd.Data;
 using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("users")]
+    [Authorize]
 
     public class UsersController : ControllerBase
     {

@@ -346,3 +346,5 @@ C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\obj\Debug\net8.0\refint\Back
 C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\obj\Debug\net8.0\BackEnd.pdb
 C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\obj\Debug\net8.0\BackEnd.genruntimeconfig.cache
 C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\obj\Debug\net8.0\ref\BackEnd.dll
+C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Kat\Desktop\pull from git\E-Coffee\BackEnd\bin\Debug\net8.0\Microsoft.Bcl.Memory.dll

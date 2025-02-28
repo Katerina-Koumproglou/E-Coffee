@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { login } from "@/database";
+import axios from "axios";
 
 export default {
   data() {
@@ -31,35 +31,38 @@ export default {
       error: null,
     };
   },
+  created() {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("userId");
+
+    if (token && userId) {
+      this.$router.push({ name: "UserProfile", params: { userId } });
+    }
+  },
   methods: {
     async handleLogin() {
       try {
-        const response = await login(this.email, this.password);
-        console.log("Login Response: ", response);
-        const userId = response.userId;
-        localStorage.setItem("authUserId", userId);
-        this.$router.push({ name: "UserProfile", params: { userId } });
+        const response = await axios.post("http://localhost:5214/auth/login", {
+          email: this.email,
+          password: this.password,
+        });
+
+        const { token, user } = response.data;
+        localStorage.setItem("token", token);
+        localStorage.setItem("userId", user.userId);
+
+        console.log("Login successful: ", response.data);
+
+        this.$router.push({
+          name: "UserProfile",
+          params: { userId: user.userId },
+        });
+        
       } catch (error) {
         console.error("Login failed: ", error);
         this.error = "Login failed, please check your login info.";
       }
     },
-
-    // async login() {
-    //     try {
-    //         const response = await axios.post("https://localhost:5214/api/auth/login", {
-    //             email: this.email,
-    //             password: this.password
-    //         });
-
-    //         localStorage.setItem("token", response.data.token);
-    //         localStorage.setItem("userId", response.data.user.userId);
-
-    //         this.$router.push(`/user-profile/${user.userId}`);
-    //     } catch (error) {
-    //         this.error = "Login failed: " + error.message;
-    //     }
-    // },
   },
 };
 </script>

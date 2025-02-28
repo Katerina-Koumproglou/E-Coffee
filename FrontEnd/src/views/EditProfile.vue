@@ -37,10 +37,16 @@ export default {
       email: "",
       phone: "",
       address: "",
-      userId: null,
+      token: localStorage.getItem("token"),
+      userId: localStorage.getItem("userId"),
     };
   },
-  async created() {
+  async mounted() {
+    if (!this.token || !this.userId) {
+      console.error("User is not authenticated.");
+      this.$router.push("/auth/login");
+      return;
+    }
     await this.loadUserData();
   },
   methods: {
@@ -55,7 +61,12 @@ export default {
 
         this.userId = storedUserId;
         const response = await axios.get(
-          `http://localhost:5214/users/${this.userId}`
+          `http://localhost:5214/users/${this.userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          }
         );
         const data = response.data;
 
@@ -70,12 +81,20 @@ export default {
     },
     async updateUserInfo() {
       try {
-        await axios.put(`http://localhost:5214/auth/${this.userId}`, {
-          name: this.name,
-          surname: this.surname,
-          phone: this.phone,
-          address: this.address,
-        });
+        await axios.patch(
+          `http://localhost:5214/users/${this.userId}`,
+          {
+            name: this.name,
+            surname: this.surname,
+            phone: this.phone,
+            address: this.address,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
+            },
+          }
+        );
 
         alert("Your information has been updated!");
         this.$router.push({

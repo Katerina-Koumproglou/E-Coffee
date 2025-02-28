@@ -1,10 +1,14 @@
 using System.Data.SqlTypes;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using BackEnd.BusinessLogic;
 using BackEnd.Data;
 using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BackEnd.Controllers
 {
@@ -52,7 +56,40 @@ namespace BackEnd.Controllers
                 return Unauthorized(new { message = "Invalid credentials" });
             }
 
-            return Ok(new { userId = user.ID, name = user.name, surname = user.surname, address = user.address, email = user.email, phone = user.phone });
+            var token = GenerateJwtToken(user);
+
+            return Ok(new 
+            {
+                token,
+                user = new
+                {
+                    userId = user.ID, name = user.name, surname = user.surname, address = user.address, email = user.email, phone = user.phone
+                }
+            });
+        }
+
+        private string GenerateJwtToken(User user){
+            var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "default_secret_key");
+            var claims = new List<Claim>{
+                new Claim(JwtRegisteredClaimNames.Sub, user.email),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim("userId", user.ID.ToString()),
+                new Claim("name", user.name),
+                new Claim("email", user.email)
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: _config["Jwt:Issuer"],
+                audience: _config["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddHours(1),
+                signingCredentials: new SigningCredentials(
+                    new SymmetricSecurityKey(key),
+                    SecurityAlgorithms.HmacSha256
+                )
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public class RegisterModel

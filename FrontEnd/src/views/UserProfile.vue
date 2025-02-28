@@ -37,16 +37,21 @@ export default {
     };
   },
   async mounted() {
-    const userId = this.userId || this.$route.params.userId;
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       this.errorMessage = "No user ID found.";
-      this.loading = false;
+      this.$router.push("/auth/login");
       return;
     }
 
     console.log("Recieved data for userId: ", userId);
     try {
-      const response = await axios.get(`http://localhost:5214/users/${userId}`);
+      const response = await axios.get(
+        `http://localhost:5214/users/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+        }
+      );
 
       this.userData = response.data;
     } catch (error) {
@@ -57,14 +62,14 @@ export default {
   },
   methods: {
     logout() {
-        localStorage.removeItem("token");
-        this.userData = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("userId");
 
-        this.$router.push("/auth/login");
+      this.$router.push("/auth/login");
     },
 
     goToEditProfile() {
-        this.$router.push({ name: "EditProfile" });
+      this.$router.push({ name: "EditProfile" });
     },
   },
 };

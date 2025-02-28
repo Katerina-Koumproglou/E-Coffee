@@ -1,9 +1,9 @@
 using BackEnd.Data;
 using BackEnd.Models;
 using Microsoft.EntityFrameworkCore;
-// using System.Security.Cryptography;
-// using System.Threading.Tasks;
-// using System.Text;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using System.Text;
 
 namespace BackEnd.BusinessLogic
 {
@@ -30,7 +30,7 @@ namespace BackEnd.BusinessLogic
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.email == email);
 
-            if (user == null || user.password != password)
+            if (user == null || !VerifyPassword(password, user.password))
             {
                 return null;
             }
@@ -40,22 +40,23 @@ namespace BackEnd.BusinessLogic
 
         public async Task<User> SignUp(User user, string password)
         {
-            user.password = password;
+            user.password = HashPassword(password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
         }
 
-        // private string HashPassword(string password)
-        // {
-        //     using var sha256 = SHA256.Create();
-        //     var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-        //     return Convert.ToBase64String(bytes);
-        // }
-        // private bool VerifyPassword(string password, string storedHash)
-        // {
-        //     return HashPassword(password) == storedHash;
-        // }
+        private string HashPassword(string password)
+        {
+            using var sha256 = SHA256.Create();
+            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+            return Convert.ToBase64String(bytes);
+        }
+        
+        private bool VerifyPassword(string password, string storedHash)
+        {
+            return HashPassword(password) == storedHash;
+        }
 
     }
 }

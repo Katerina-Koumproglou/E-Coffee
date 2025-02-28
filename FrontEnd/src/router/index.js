@@ -37,10 +37,10 @@ const routes = [
   },
 
   {
-    path: "/user/:userId",
+    path: "/userprofile/:userId",
     name: "UserProfile",
     component: UserProfile,
-    props: true,
+    meta: { requiredAuth: true },
   },
 ];
 
@@ -53,6 +53,15 @@ const router = createRouter({
     }
     return { top: 0 };
   },
+});
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem("token") !== null;
+  if (to.meta.requiredAuth && !isAuthenticated) {
+    next("/auth/login");
+  } else {
+    next();
+  }
 });
 
 export default router;
