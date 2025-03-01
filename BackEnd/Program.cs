@@ -15,9 +15,10 @@ builder.Services.AddControllers();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddPolicy("AllowAllOrigins", policy =>
     {
-        policy.WithOrigins("http://localhost:8080").AllowAnyHeader().AllowAnyMethod();
+        policy.WithOrigins("http://192.168.1.7:8081/").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        // policy.WithOrigins("http://localhost:8081").AllowAnyHeader().AllowAnyMethod();
     });
 });
 
@@ -53,7 +54,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 
 var app = builder.Build();
 
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

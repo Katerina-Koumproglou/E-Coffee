@@ -13,7 +13,7 @@
       </thead>
       <tbody>
         <tr v-for="item in cartItems" :key="item.id">
-          <td><img :src="require(`@/assets/images/illy-classico-250.png`)" :alt="'Illy Coffee'" /></td>
+          <td><img :src="item.image" :alt="item.name" class="product-image" /></td>
           <td>{{ item.name }}</td>
           <td>{{ item.quantity }}</td>
           <td>\${{ item.price.toFixed(2) }}</td>
@@ -30,20 +30,16 @@
     <br><br>
     <button class="continue-button" @click="GoToPayment">Proceed to Payment</button>
   </div>
-
 </template>
 
 <script>
+import { getProductById } from '@/database';
 
 export default {
   name: "MyCart",
   data() {
     return {
-      cartItems: [
-        { id: 1, name: "Product A", quantity: 2, price: 25.5, image: {src:"@/assets/images/illy-classico-250.png", alt:"Illy Coffee"}},
-        { id: 2, name: "Product B", quantity: 1, price: 15.0, image: "https://x2e5r7b9.rocketcdn.me/wp-content/uploads/2018/11/logo-pada.png" },
-        { id: 3, name: "Product C", quantity: 3, price: 10.0, image: "https://x2e5r7b9.rocketcdn.me/wp-content/uploads/2018/11/logo-pada.png" }
-      ]
+      cartItems: []
     };
   },
   computed: {
@@ -51,25 +47,48 @@ export default {
       return this.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
     }
   },
-
   methods: {
+    async fetchProductById(id) {
+      try {
+        console.log("Fetching product by ID: ", id);
+        const product = await getProductById(id);
+        if(!product) {
+          console.error("Product didn't return from API");
+          return;
+        }
+        console.log('Product fetched: ', product);
+        this.cartItems.push({
+          id: product.id,
+          name: product.name,
+          quantity: 1, 
+          price: product.price,
+          image: product.image 
+        });
+      } catch (error) {
+        console.error("Error fetching product by ID: ", error);
+      }
+    },
     GoToPayment() {
       alert("Proceeding to Payment...");
     }
+  },
+  mounted() {
+    console.log("MyCart component mounted");
+    this.fetchProductById(17); // Fetch product with ID 17
   }
 };
-
 </script>
 
 <style>
 .my-cart {
   margin: 20px;
   font-family: Arial, sans-serif;
+  color: white;
 }
 
 .product-image {
-  width: 30px;
-  height: 30px;
+  width: 100px;
+  height: auto;
   object-fit: cover;
 }
 
@@ -90,26 +109,20 @@ export default {
 table {
   width: 100%;
   border-collapse: collapse;
+  color:white;
 }
 
 th,
 td {
   padding: 10px;
   text-align: left;
-  border: 1px solid #ddd;
-  background-color: #5D2D05;
-}
-
-td img{
-  max-width: 100px;
-  height: auto;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+  border: 1px solid #5D2D05;
+  color:white;
 }
 
 thead {
-  background-color: #f4f4f4;
+  background-color: #5D2D05;
+  color: white;
 }
 
 tfoot {

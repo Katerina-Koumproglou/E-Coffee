@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Katty\\Desktop\\pull-from-github\\E-Coffee\\BackEnd\\BackEnd.csproj": {}
+    "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Katty\\Desktop\\pull-from-github\\E-Coffee\\BackEnd\\BackEnd.csproj": {
+    "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Katty\\Desktop\\pull-from-github\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "C:\\Users\\Katty\\Desktop\\pull-from-github\\E-Coffee\\BackEnd\\BackEnd.csproj",
-        "packagesPath": "C:\\Users\\Katty\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Katty\\Desktop\\pull-from-github\\E-Coffee\\BackEnd\\obj\\",
+        "projectPath": "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj",
+        "packagesPath": "C:\\Users\\spiro\\.nuget\\packages\\",
+        "outputPath": "E:\\maria-papadopoulou.github.io\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Katty\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\spiro\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -96,7 +96,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

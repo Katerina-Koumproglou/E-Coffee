@@ -59,13 +59,32 @@ export default {
 <script setup>
 import ImageSlider from '@/components/ImageSlider.vue';
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
-import { inject } from 'vue';
-
+import { ref, onMounted } from 'vue';
+import { getProductsByCategory } from '@/database';
+/*
 const variety = inject('variety');
 const capsules = inject('capsules');
 const accessories = inject('accessories');
 const machines = inject('machines');
 const beverages = inject('beverages');
+*/
+const variety = ref([]);
+const capsules = ref([]);
+const accessories = ref([]);
+const machines = ref([]);
+const beverages = ref([]);
+
+onMounted(async () => {
+  try{
+    variety.value = await getProductsByCategory('variety');
+    capsules.value = await getProductsByCategory('capsules');
+    accessories.value = await getProductsByCategory('accessories');
+    machines.value = await getProductsByCategory('machines');
+    beverages.value = await getProductsByCategory('beverages');
+  } catch (error) {
+    console.error("Error fetching products by category: ", error);
+  }
+});
 </script>
 
 <style>

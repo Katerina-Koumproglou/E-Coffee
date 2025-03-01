@@ -15,9 +15,19 @@ namespace BackEnd.BusinessLogic
             _context = context;
         }
 
+        public async Task<Product?> GetProductById(int id)
+        {
+            return await _context.Products.FindAsync(id);
+        }
+
         public async Task<List<Product>> GetProductsByCategory(string category)
         {
             return await _context.Products.Where(p => p.category == category).ToListAsync();
+        }
+
+        public async Task<List<Product>> GetAllProducts()
+        {
+            return await _context.Products.ToListAsync();
         }
 
         public async Task<Product?> GetProductBySlug(string category, string slug)

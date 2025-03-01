@@ -1,25 +1,50 @@
 import axios from "axios";
 
-// const api = axios.create({
-//   baseURL: "http://localhost:5214",
-//   timeout: 5000,
-// });
+const api = axios.create({
+   baseURL: "http://localhost:5214",
+   timeout: 5000,
+ });
 
-const api = "http://localhost:5214";
+//const api = "http://localhost:5214";
 
-export const getProductsByCategory = async (category) => {
+export const getProductById = async (id) => {
   try {
-    const response = await api.get(`/products/${category}`);
+    console.log(`(database.js) Fetching product with ID: ${id}`);
+    const response = await api.get(`/products/product/${id}`);
+    console.log("(database.js) Product by ID: ", response.data);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching ${category}: `, error);
+    console.error("Error fetching product by ID: ", error);
     throw error;
   }
 };
 
+export const getProductsByCategory = async (category) => {
+  try {
+    console.log(`Fetching products for category: ${category}`);
+    const response = await api.get(`/products/${category}`);
+    console.log("Products fetched for category: ", response.data);
+    return response.data;
+  } catch (error) {
+      console.error(`Error fetching ${category}: `, error);
+      throw error;
+  }
+};
+
+export const getAllProducts = async () => {
+  try {
+    const response = await api.get(`/products`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching: ", error);
+    throw error;
+  }
+};
+
+
 export const getProductBySlug = async (category, slug) => {
   try {
-    const response = await axios.get(`${api}/products/${category}/${slug}`);
+    const response = await api.get(`/products/${category}/${slug}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching capsule by slug: ", error);
@@ -36,7 +61,7 @@ export const signUp = async (
   password
 ) => {
   try {
-    const response = await axios.post(`${api}/auth/signup`, {
+    const response = await axios.post(`/auth/signup`, {
       name,
       surname,
       address,
@@ -54,7 +79,7 @@ export const signUp = async (
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post(`${api}/auth/login`, {
+    const response = await axios.post(`/auth/login`, {
       email,
       password,
     });

@@ -43,5 +43,30 @@ namespace BackEnd.Controllers
 
             return Ok(product);
         }
+                [HttpGet("product/{id}")]
+        public async Task<IActionResult> GetProductById(int id)
+        {
+            var product = await _productService.GetProductById(id);
+
+            if (product == null)
+            {
+                return NotFound($"No product found with ID: {id}");
+            }
+
+            return Ok(product);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllProducts()
+        {
+            var products = await _productService.GetAllProducts();
+
+            if (products == null || !products.Any())
+            {
+                return NotFound("No products found");
+            }
+
+            return Ok(products);
+        }
     }
 }
