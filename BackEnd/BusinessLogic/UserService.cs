@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Text;
+using BCrypt.Net;
 
 namespace BackEnd.BusinessLogic
 {
@@ -46,16 +47,25 @@ namespace BackEnd.BusinessLogic
             return user;
         }
 
+        public async Task UpdateUser(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<User?> GetUserByEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.email == email);
+        }
+
         private string HashPassword(string password)
         {
-            using var sha256 = SHA256.Create();
-            var bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
+            return BCrypt.Net.BCrypt.HashPassword(password);
         }
-        
+
         private bool VerifyPassword(string password, string storedHash)
         {
-            return HashPassword(password) == storedHash;
+            return BCrypt.Net.BCrypt.Verify(password, storedHash);
         }
 
     }

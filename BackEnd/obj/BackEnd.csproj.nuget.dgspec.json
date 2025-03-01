@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj": {}
+    "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj": {
+    "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "E:\\maria-papadopoulou.github.io\\BackEnd\\BackEnd.csproj",
-        "packagesPath": "C:\\Users\\spiro\\.nuget\\packages\\",
-        "outputPath": "E:\\maria-papadopoulou.github.io\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "packagesPath": "C:\\Users\\Katty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\spiro\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Katty\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,6 +46,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.2, )"
+            },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
               "version": "[8.0.3, )"
@@ -96,7 +100,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -3,20 +3,28 @@
     <h1>Edit Profile</h1>
     <form @submit.prevent="updateUserInfo">
       <div>
-        <label for="name">Name:</label>
+        <label for="name">Name: </label>
         <input type="text" id="name" v-model="name" required />
       </div>
       <div>
-        <label for="surname">Surname:</label>
+        <label for="surname">Surname: </label>
         <input type="text" id="surname" v-model="surname" required />
       </div>
       <div>
-        <label for="phone">Phone:</label>
+        <label for="email">Email: </label>
+        <input type="text" id="email" v-model="email" required />
+      </div>
+      <div>
+        <label for="phone">Phone: </label>
         <input type="text" id="phone" v-model="phone" required />
       </div>
       <div>
-        <label for="address">Address:</label>
+        <label for="address">Address: </label>
         <input type="text" id="address" v-model="address" required />
+      </div>
+      <div>
+        <label for="password">Password: </label>
+        <input type="text" id="password" v-model="password" required />
       </div>
       <button type="submit">Save Changes</button>
     </form>
@@ -37,6 +45,7 @@ export default {
       email: "",
       phone: "",
       address: "",
+      password: "",
       token: localStorage.getItem("token"),
       userId: localStorage.getItem("userId"),
     };
@@ -86,8 +95,10 @@ export default {
           {
             name: this.name,
             surname: this.surname,
+            email: this.email,
             phone: this.phone,
             address: this.address,
+            password: this.password ? this.password : undefined,
           },
           {
             headers: {
@@ -103,6 +114,7 @@ export default {
         });
       } catch (error) {
         console.error("Error updating user data: ", error);
+        alert("User information update failed. Please try again!");
       }
     },
 

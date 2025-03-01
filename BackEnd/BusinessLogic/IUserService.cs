@@ -8,5 +8,7 @@ namespace BackEnd.BusinessLogic
         Task<User?> GetUserById(int id);
         Task<User?> Authenticate(string email, string password);
         Task<User> SignUp(User user, string password);
+        Task UpdateUser(User user);
+        Task<User?> GetUserByEmail(string email);
     }
 }

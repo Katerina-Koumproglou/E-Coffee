@@ -4,6 +4,7 @@ using BackEnd.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using BCrypt.Net;
 
 namespace BackEnd.Controllers
 {
@@ -34,10 +35,43 @@ namespace BackEnd.Controllers
 
             if (user == null)
             {
-                return NotFound();
+                return NotFound(new { message = "User not found." });
             }
 
             return user;
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
+        {
+            var existingUser = await _userService.GetUserById(id);
+
+            if (existingUser == null)
+            {
+                return NotFound(new { message = "User not found." });
+            }
+
+            existingUser.name = updatedUser.name ?? existingUser.name;
+            existingUser.surname = updatedUser.surname ?? existingUser.surname;
+            existingUser.phone = updatedUser.phone ?? existingUser.phone;
+            existingUser.address = updatedUser.address ?? existingUser.address;
+
+            //Email verification
+            var emailExists = await _userService.GetUserByEmail(updatedUser.email);
+            if (emailExists != null && emailExists.ID != id)
+            {
+                return BadRequest(new { message = "Email exists already." });
+            }
+            existingUser.email = updatedUser.email;
+
+            //Password hashed safely
+            if (!string.IsNullOrEmpty(updatedUser.password))
+            {
+                existingUser.password = BCrypt.Net.BCrypt.HashPassword(updatedUser.password);
+
+            }
+            await _userService.UpdateUser(existingUser);
+            return Ok(new { message = "User updated Successfully." });
         }
     }
 }
