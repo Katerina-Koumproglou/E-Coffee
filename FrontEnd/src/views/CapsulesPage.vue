@@ -15,7 +15,18 @@ export default {
 
 <script setup>
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
-import { inject } from 'vue';
+import { ref, onMounted } from 'vue';
+import { getProductsByCategory } from '@/database';
 
-const capsules = inject('capsules');
+const capsules = ref([]);
+
+onMounted(async () => {
+   try{
+    capsules.value = await getProductsByCategory('capsules');
+    console.log("capsules:", capsules.value);
+   } catch (error) {
+       console.error("Error fetching capsules:", error);
+   }
+    
+});
 </script>

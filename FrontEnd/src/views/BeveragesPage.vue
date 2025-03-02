@@ -15,7 +15,18 @@ export default {
 
 <script setup>
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
-import { inject } from 'vue';
+import { ref, onMounted } from 'vue';
+import { getProductsByCategory } from '@/database';
 
-const beverages = inject('beverages');
+const beverages = ref([]);
+
+onMounted(async () => {
+   try{
+    beverages.value = await getProductsByCategory('beverages');
+    console.log("beverages:", beverages.value);
+   } catch (error) {
+       console.error("Error fetching varieties:", error);
+   }
+    
+});
 </script>

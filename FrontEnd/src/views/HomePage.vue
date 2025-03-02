@@ -81,6 +81,7 @@ onMounted(async () => {
     accessories.value = await getProductsByCategory('accessories');
     machines.value = await getProductsByCategory('machines');
     beverages.value = await getProductsByCategory('beverages');
+    console.log("Accessories data: ", accessories.value);
   } catch (error) {
     console.error("Error fetching products by category: ", error);
   }
