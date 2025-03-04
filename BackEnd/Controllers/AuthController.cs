@@ -53,22 +53,28 @@ namespace BackEnd.Controllers
             var user = await _userService.Authenticate(model.email, model.password);
             if (user == null)
             {
-                return Unauthorized(new { message = "Invalid credentials" });
+                return Unauthorized(new { message = "Invalid credentials." });
             }
 
             var token = GenerateJwtToken(user);
 
-            return Ok(new 
+            return Ok(new
             {
                 token,
                 user = new
                 {
-                    userId = user.ID, name = user.name, surname = user.surname, address = user.address, email = user.email, phone = user.phone
+                    userId = user.ID,
+                    name = user.name,
+                    surname = user.surname,
+                    address = user.address,
+                    email = user.email,
+                    phone = user.phone
                 }
             });
         }
 
-        private string GenerateJwtToken(User user){
+        private string GenerateJwtToken(User user)
+        {
             var key = Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "default_secret_key");
             var claims = new List<Claim>{
                 new Claim(JwtRegisteredClaimNames.Sub, user.email),
