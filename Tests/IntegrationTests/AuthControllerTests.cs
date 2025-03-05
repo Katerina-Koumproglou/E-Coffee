@@ -4,10 +4,7 @@ using BackEnd.Models;
 using FluentAssertions;
 using System.Net;
 using System.Net.Http.Json;
-using System.Dynamic;
 using System.Text.Json;
-using System.Threading.Tasks;
-using System;
 
 public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 {
@@ -33,6 +30,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 
         var response = await _client.PostAsJsonAsync("/auth/signup", signupUser);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
         var content = await response.Content.ReadFromJsonAsync<Dictionary<string, object>>();
         content["message"].ToString().Should().Be("User created successfully.");
     }
@@ -52,6 +50,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 
         var response = await _client.PostAsJsonAsync("/auth/signup", existingUser);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
         var content = await response.Content.ReadFromJsonAsync<JsonElement>();
         content.GetProperty("message").GetString().Should().Be("Email is already in use.");
     }
@@ -67,8 +66,8 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 
         var response = await _client.PostAsJsonAsync("/auth/login", loginUser);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+
         var content = await response.Content.ReadFromJsonAsync<JsonElement>();
-        // content.token.ToString().Should().NotBeNullOrEmpty();
         var token = content.GetProperty("token").GetString();
         token.Should().NotBeNullOrEmpty();
     }
@@ -84,6 +83,7 @@ public class AuthControllerTests : IClassFixture<WebApplicationFactory<Program>>
 
         var response = await _client.PostAsJsonAsync("/auth/login", loginUser);
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
         var content = await response.Content.ReadFromJsonAsync<JsonElement>();
         content.GetProperty("message").GetString().Should().Be("Invalid credentials.");
     }

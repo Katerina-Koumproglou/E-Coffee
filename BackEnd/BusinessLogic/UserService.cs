@@ -41,6 +41,12 @@ namespace BackEnd.BusinessLogic
 
         public async Task<User> SignUp(User user, string password)
         {
+            var existingUser = await _context.Users.AnyAsync(u => u.email == user.email);
+            if (existingUser)
+            {
+                throw new InvalidOperationException("Email is already in use.");
+            }
+
             user.password = HashPassword(password);
             _context.Users.Add(user);
             await _context.SaveChangesAsync();

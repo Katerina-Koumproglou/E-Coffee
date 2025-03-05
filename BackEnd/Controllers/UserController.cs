@@ -10,7 +10,7 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("users")]
-    [Authorize]
+    // [Authorize]
 
     public class UsersController : ControllerBase
     {
@@ -71,7 +71,7 @@ namespace BackEnd.Controllers
 
             }
             await _userService.UpdateUser(existingUser);
-            return Ok(new { message = "User updated Successfully." });
+            return Ok(new { message = "User updated successfully." });
         }
     }
 }

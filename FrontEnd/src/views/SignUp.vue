@@ -29,16 +29,8 @@
 
       <div class="form-item">
         <label for="password">Password:</label>
-        <input
-          :type="showPassword ? 'text' : 'password'"
-          id="password"
-          v-model="user.password"
-        />
-        <button
-          type="button"
-          class="show-hide-button"
-          @click="togglePasswordVisibility"
-        >
+        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" />
+        <button type="button" class="show-hide-button" @click="togglePasswordVisibility">
           {{ showPassword ? "Hide" : "Show" }}
         </button>
         <span v-if="errors.password" class="error-message">{{
@@ -49,16 +41,8 @@
       <!-- Confirm Password Field -->
       <div class="form-item">
         <label for="confirmPassword">Confirm Password:</label>
-        <input
-          :type="showConfirmPassword ? 'text' : 'password'"
-          id="confirmPassword"
-          v-model="user.confirmPassword"
-        />
-        <button
-          type="button"
-          class="show-hide-button"
-          @click="toggleConfirmPasswordVisibility"
-        >
+        <input :type="showConfirmPassword ? 'text' : 'password'" id="confirmPassword" v-model="user.confirmPassword" />
+        <button type="button" class="show-hide-button" @click="toggleConfirmPasswordVisibility">
           {{ showConfirmPassword ? "Hide" : "Show" }}
         </button>
         <span v-if="errors.confirmPassword" class="error-message">{{
@@ -78,14 +62,7 @@
       <!-- Phone Field -->
       <div class="form-item">
         <label for="phone">Phone</label>
-        <input
-          type="text"
-          v-model="user.phone"
-          id="phone"
-          maxlength="10"
-          pattern="^[0-9]{10}$"
-          required
-        />
+        <input type="text" v-model="user.phone" id="phone" maxlength="10" pattern="^[0-9]{10}$" required />
       </div>
 
       <!-- Submit Button -->
@@ -161,7 +138,12 @@ export default {
         this.$router.push("/auth/login");
       } catch (error) {
         console.error("Signup failed: ", error.message);
-        this.error = error.message;
+        if (error.response && error.response.status === 400) {
+          this.error = "Email is already in use. Please try a different one.";
+        } else {
+          this.error = "An unexpected error occured. Please try again.";
+        }
+
       }
     },
   },

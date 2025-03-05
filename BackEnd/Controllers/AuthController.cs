@@ -28,23 +28,26 @@ namespace BackEnd.Controllers
         [HttpPost("signup")]
         public async Task<IActionResult> SignUp([FromBody] RegisterModel model)
         {
-            var existingUser = await _userService.Authenticate(model.email, model.password);
-            if (existingUser != null)
+            try
             {
-                return BadRequest(new { message = "Email is already in use." });
+                var newUser = new User
+                {
+                    name = model.name,
+                    surname = model.surname,
+                    address = model.address,
+                    phone = model.phone,
+                    email = model.email
+                };
+
+                await _userService.SignUp(newUser, model.password);
+                return Ok(new { message = "User created successfully." });
+            }
+            catch (InvalidOperationException ex)
+            {
+                return BadRequest(new { message = ex.Message });
+
             }
 
-            var newUser = new User
-            {
-                name = model.name,
-                surname = model.surname,
-                address = model.address,
-                phone = model.phone,
-                email = model.email
-            };
-
-            await _userService.SignUp(newUser, model.password);
-            return Ok(new { message = "User created successfully." });
         }
 
         [HttpPost("login")]
