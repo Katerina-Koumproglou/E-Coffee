@@ -5,6 +5,8 @@ obj/
 *.exe
 *.pdb
 *.cache
+apphost.exe
+.vs/
 
 #Ignore environment files
 .env
