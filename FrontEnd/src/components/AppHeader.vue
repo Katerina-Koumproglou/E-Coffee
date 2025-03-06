@@ -204,9 +204,14 @@
             width: 100%;
         }
         .search-bar button {
+            color: #5d2d05;
+            font-size: 18px;
             background: none;
             border: none;
+            padding: 0px 8px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
         }
 
     .search-results {
@@ -247,4 +252,22 @@
             font-size: 16px;
             color: #5d2d05;
         }
+    .icons {
+        display: flex;
+        align-items: center;
+        margin-right: 50px;
+    }
+
+        .icons span {
+            margin: 0px 20px;
+            border-bottom: 2px solid transparent;
+            transition: 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+            .icons span:hover {
+                border-color: #5d2d05;
+            }
 </style>
