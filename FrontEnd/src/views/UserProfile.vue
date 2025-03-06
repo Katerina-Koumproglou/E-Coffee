@@ -19,6 +19,8 @@
       <button @click="goToEditProfile" :disabled="!userData">
         Edit Profile
       </button>
+      <!--Button only the Admin can see-->
+      <button v-if="userData && userData.role === 'Admin'" @click="goToShowUsers">Show Users</button>
     </div>
   </div>
 </template>
@@ -71,13 +73,17 @@ export default {
     goToEditProfile() {
       this.$router.push({ name: "EditProfile" });
     },
+
+    goToShowUsers() {
+      this.$router.push({ name: "ShowUsersForAdmin" });
+    }
   },
 };
 </script>
 
 <style scoped>
 .user-profile {
-  max-width: 400px;
+  max-width: 600px;
   margin: auto;
   padding: 20px;
   border-radius: 8px;
@@ -114,7 +120,7 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  width: 45%;
+  width: 30%;
   font-size: 16px;
 }
 

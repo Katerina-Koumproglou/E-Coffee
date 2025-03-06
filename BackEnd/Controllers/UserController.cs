@@ -10,7 +10,7 @@ namespace BackEnd.Controllers
 {
     [ApiController]
     [Route("users")]
-    // [Authorize]
+    [Authorize]
 
     public class UsersController : ControllerBase
     {
@@ -22,6 +22,8 @@ namespace BackEnd.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
+
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             var users = await _userService.GetUsers();
@@ -29,6 +31,7 @@ namespace BackEnd.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<User>> GetUserById(int id)
         {
             var user = await _userService.GetUserById(id);
@@ -42,6 +45,7 @@ namespace BackEnd.Controllers
         }
 
         [HttpPatch("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateUser(int id, [FromBody] User updatedUser)
         {
             var existingUser = await _userService.GetUserById(id);

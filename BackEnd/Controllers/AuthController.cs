@@ -36,7 +36,8 @@ namespace BackEnd.Controllers
                     surname = model.surname,
                     address = model.address,
                     phone = model.phone,
-                    email = model.email
+                    email = model.email,
+                    role = model.role ?? "User"
                 };
 
                 await _userService.SignUp(newUser, model.password);
@@ -84,7 +85,8 @@ namespace BackEnd.Controllers
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim("userId", user.ID.ToString()),
                 new Claim("name", user.name),
-                new Claim("email", user.email)
+                new Claim("email", user.email),
+                new Claim("role", user.role ?? "User")
             };
 
             var token = new JwtSecurityToken(
@@ -109,6 +111,7 @@ namespace BackEnd.Controllers
             public string phone { get; set; } = "";
             public string email { get; set; } = "";
             public string password { get; set; } = "";
+            public string role { get; set; } = "User";
         }
 
         public class LoginModel

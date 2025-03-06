@@ -69,8 +69,9 @@ namespace BackEnd.BusinessLogic
             return BCrypt.Net.BCrypt.HashPassword(password);
         }
 
-        private bool VerifyPassword(string password, string storedHash)
+        private bool VerifyPassword(string password, string? storedHash)
         {
+            if (string.IsNullOrEmpty(storedHash)) return false;
             return BCrypt.Net.BCrypt.Verify(password, storedHash);
         }
 

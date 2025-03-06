@@ -18,5 +18,7 @@ namespace BackEnd.Models
         public string? email { get; set; }
         [Required]
         public string? password { get; set; }
+        [Required]
+        public string? role { get; set; } = "User";
     }
 }
