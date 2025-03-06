@@ -1,0 +1,12 @@
+#Ignore build files
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+#Ignore environment files
+.env
+appsettings.json
+appsettings.Development.json
