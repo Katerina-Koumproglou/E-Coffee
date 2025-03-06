@@ -28,7 +28,8 @@
                            @blur="hideSearchResults" />
                     <button type="submit">
                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="20" viewBox="0 0 512 512">
-                            <path fill="#5d2d05" d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3" />
+                            <path fill="#5d2d05"
+                                  d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
                         </svg>
                     </button>
                 </div>
@@ -63,14 +64,14 @@
                         </svg>
                     </router-link>
                 </span>
-                
+
             </div>
         </div>
     </nav>
 </template>
-
 <script>
     import { ref, computed, inject } from "vue";
+    import { useRouter } from "vue-router";
 
     export default {
         name: "AppHeader",
@@ -78,9 +79,10 @@
             const searchQuery = ref("");
             const isSearching = ref(false);
             const allProducts = inject("allProducts", ref([]));
+            const router = useRouter();
 
             const filteredProducts = computed(() => {
-                if (!searchQuery.value.trim() || !allProducts.value) return [];
+                if (!searchQuery.value.trim()) return [];
                 return allProducts.value.filter((product) =>
                     product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
                 );
@@ -92,10 +94,20 @@
                 }, 200);
             };
 
-            return { searchQuery, isSearching, filteredProducts, hideSearchResults };
+            const selectProduct = (product) => {
+                searchQuery.value = ""; // Καθαρίζουμε το input
+                isSearching.value = false; // Κλείνουμε το dropdown
+                router.push(`/products/${product.category}/${product.slug}`); // Μεταφερόμαστε στη σελίδα του προϊόντος
+                searchQuery.value = "";
+
+            };
+
+            return { searchQuery, isSearching, filteredProducts, hideSearchResults, selectProduct };
         },
     };
 </script>
+
+
 
 <style scoped>
     nav {
@@ -123,6 +135,7 @@
         .logo-container img {
             height: 110px;
         }
+
     .site-name {
         font-size: 25px;
         font-weight: 700;
@@ -149,12 +162,14 @@
             border-bottom: 2px solid transparent;
             transition: 0.3s;
         }
+
+
             .links a:hover {
                 border-color: #5d2d05;
             }
 
     .search-bar-container {
-        position: relative; /* Βάση για τα απόλυτα τοποθετημένα στοιχεία */
+        position: relative;
         width: 300px;
         display: flex;
         justify-content: center;
@@ -188,76 +203,33 @@
         .search-bar:hover input {
             width: 100%;
         }
+        .search-bar button {
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
     .search-results {
-        position: absolute; /* Για να εμφανίζονται κάτω από τη μπάρα */
-        top: 100%; /* Ακριβώς κάτω από τη μπάρα */
+        position: absolute;
+        top: 40px;
         left: 0;
-        width: 100%; /* Να ταιριάζει με το πλάτος της μπάρας */
+        width: 100%;
         background: white;
         border: 1px solid #5d2d05;
-        border-top: none; /* Για να φαίνεται κολλημένο στη μπάρα */
+        border-radius: 5px;
+        max-height: 200px;
+        overflow-y: auto;
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        z-index: 1000; /* Να είναι πάνω από άλλα στοιχεία */
-        max-height: 300px; /* Περιορισμός ύψους για να μην καλύπτει όλη τη σελίδα */
-        overflow-y: auto; /* Scroll αν υπάρχουν πολλά αποτελέσματα */
     }
-        .search-bar button {
-            color: #5d2d05;
-            font-size: 18px;
-            background: none;
-            border: none;
-            padding: 0px 8px;
-            cursor: pointer;
+
+        .search-results li {
+            list-style: none;
+            padding: 10px;
             display: flex;
             align-items: center;
-        }
-
-    .search-bar {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        width: 100%;
-        padding: 8px 10px;
-        background: #fff;
-        border: 1px solid #5d2d05;
-        border-radius: 30px;
-        overflow: hidden;
-        margin: 0 20px;
-        transition: width 1s;
-    }
-        .search-bar input {
-            width: 0;
-            border: none;
-            outline: none;
-            padding: 8px 10px;
-            font-weight: 500;
-            font-size: 16px;
-            font-family: "EB Garamond", serif;
-            transition: width 1s;
-            background: transparent;
-        }
-        .search-bar:hover input {
-            width: 100%;
-        }
-        .search-bar button {
-            color: #5d2d05;
-            font-size: 18px;
-            background: none;
-            border: none;
-            padding: 0px 8px;
             cursor: pointer;
-            display: flex;
-            align-items: center;
+            transition: background 0.3s;
         }
-
-    .search-results li {
-        list-style: none;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        transition: background 0.3s;
-    }
 
             .search-results li:hover {
                 background: #f5f5f5;
@@ -274,26 +246,5 @@
             margin: 0;
             font-size: 16px;
             color: #5d2d05;
-
-
         }
-
-    .icons {
-        display: flex;
-        align-items: center;
-        margin-right: 50px;
-    }
-
-        .icons span {
-            margin: 0px 20px;
-            border-bottom: 2px solid transparent;
-            transition: 0.3s;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-            .icons span:hover {
-                border-color: #5d2d05;
-            }
 </style>
