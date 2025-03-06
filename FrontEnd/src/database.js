@@ -1,11 +1,9 @@
 import axios from "axios";
 
 const api = axios.create({
-   baseURL: "http://localhost:5214",
-   timeout: 5000,
- });
-
-//const api = "http://localhost:5214";
+  baseURL: "http://localhost:5214",
+  timeout: 5000,
+});
 
 export const getProductById = async (id) => {
   try {
@@ -26,8 +24,8 @@ export const getProductsByCategory = async (category) => {
     console.log("Products fetched for category: ", response.data);
     return response.data;
   } catch (error) {
-      console.error(`Error fetching ${category}: `, error);
-      throw error;
+    console.error(`Error fetching ${category}: `, error);
+    throw error;
   }
 };
 
@@ -40,7 +38,6 @@ export const getAllProducts = async () => {
     throw error;
   }
 };
-
 
 export const getProductBySlug = async (category, slug) => {
   try {

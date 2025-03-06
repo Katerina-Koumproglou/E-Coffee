@@ -48,13 +48,38 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     };
 });
 
-// builder.Services.AddAuthorization(options =>
-// {
-//     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
-// });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
+});
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    context.Database.EnsureCreated();
+
+    var admin = await context.Users.FirstOrDefaultAsync(u => u.email == "admin@email.com");
+    if (admin == null)
+    {
+        //Creating Admin user
+        var adminPassword = BCrypt.Net.BCrypt.HashPassword("AdminPassword");
+        var user = new User
+        {
+            ID = 1,
+            name = "Admin",
+            surname = "-",
+            email = "admin@email.com",
+            password = adminPassword,
+            role = "Admin"
+        };
+
+        context.Users.Add(user);
+        await context.SaveChangesAsync();
+    }
+}
 app.UseCors("AllowAllOrigins");
 
 // Configure the HTTP request pipeline.

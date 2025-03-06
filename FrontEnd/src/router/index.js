@@ -12,6 +12,7 @@ import Beverages from "@/views/BeveragesPage.vue";
 import EditProfile from "@/views/EditProfile.vue";
 import ShowDetails from "@/views/ShowDetails.vue";
 import UserProfile from "@/views/UserProfile.vue";
+import ShowUsersForAdmin from "@/views/ShowUsersForAdmin.vue";
 
 const routes = [
   { path: "/", name: "Home", component: HomePage },
@@ -35,12 +36,16 @@ const routes = [
     component: ShowDetails,
     props: true,
   },
-
   {
     path: "/userprofile/:userId",
     name: "UserProfile",
     component: UserProfile,
     meta: { requiredAuth: true },
+  },
+  {
+    path: "/showusers",
+    name: "ShowUsersForAdmin",
+    component: ShowUsersForAdmin,
   },
 ];
 
