@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import { getProductById } from '@/database';
+import { getCartItems } from '@/database';
 
 export default {
   name: "MyCart",
@@ -48,24 +48,19 @@ export default {
     }
   },
   methods: {
-    async fetchProductById(id) {
+    async fetchCartItems() {
       try {
-        console.log("Fetching product by ID: ", id);
-        const product = await getProductById(id);
-        if(!product) {
-          console.error("Product didn't return from API");
-          return;
-        }
-        console.log('Product fetched: ', product);
-        this.cartItems.push({
-          id: product.id,
-          name: product.name,
-          quantity: 1, 
-          price: product.price,
-          image: product.image 
-        });
+        const userId = localStorage.getItem("userId");
+        const cartItems = await getCartItems(userId);
+        this.cartItems = cartItems.map(item => ({
+          id: item.id,
+          name: item.name,
+          quantity: 1, // Assuming quantity is 1 for simplicity
+          price: item.price,
+          image: item.image
+        }));
       } catch (error) {
-        console.error("Error fetching product by ID: ", error);
+        console.error("Error fetching cart items:", error);
       }
     },
     GoToPayment() {
@@ -73,8 +68,7 @@ export default {
     }
   },
   mounted() {
-    console.log("MyCart component mounted");
-    this.fetchProductById(17); // Fetch product with ID 17
+    this.fetchCartItems();
   }
 };
 </script>

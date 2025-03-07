@@ -23,7 +23,8 @@
 <script>
 import { ref, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import { getProductBySlug } from '@/database';
+import { getProductBySlug, addToCartApi } from '@/database';
+import axios from 'axios';
 
 export default {
     name: 'ShowDetails',
@@ -31,6 +32,7 @@ export default {
         const route = useRoute();
         const product = ref(null);
         const loading = ref(true);
+        const userId = localStorage.getItem("userId");
 
         const fetchProductBySlug = async () => {
             try {
@@ -43,8 +45,20 @@ export default {
             }
         };
 
-        const addToCart = () => {
+        const addToCart = async () => {
             console.log("Προστέθηκε στο καλάθι:", product.value);
+            console.log("ID of user: ", userId);
+            try {
+                const response = await axios.post("http://localhost:5214/api/cart", {
+                    userId: userId,
+                    productId: product.value.id,
+                });
+                await addToCartApi(userId, product.value.id);
+                console.log("Το προϊόν προστέθηκε στο καλάθι: ", product.value);
+                console.log("Απάντηση από τον server: ", response.data);
+            } catch (error) {
+                console.error("Σφάλμα κατά την προσθήκη στο καλάθι:", error);
+            }
         };
 
         onMounted(fetchProductBySlug);

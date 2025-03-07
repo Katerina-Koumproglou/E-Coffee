@@ -9,12 +9,24 @@ namespace BackEnd.Data
         {
         }
 
-        public DbSet<BackEnd.Models.Product> Products { get; set; } = null!;
+        public DbSet<Product> Products { get; set; } = null!;
+        public DbSet<Cart> Cart { get; set; } = null!;
+       
 
-        public DbSet<BackEnd.Models.User> Users { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasIndex(u => u.email).IsUnique();
+
+            modelBuilder.Entity<Cart>()
+                .HasOne(c => c.Product)
+                .WithMany()
+                .HasForeignKey(c => c.pid);
+
+            modelBuilder.Entity<Cart>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(c => c.uid);
         }
     }
 }
