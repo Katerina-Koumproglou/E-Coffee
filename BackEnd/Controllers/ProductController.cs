@@ -43,7 +43,8 @@ namespace BackEnd.Controllers
 
             return Ok(product);
         }
-                [HttpGet("product/{id}")]
+
+        [HttpGet("product/{id}")]
         public async Task<IActionResult> GetProductById(int id)
         {
             var product = await _productService.GetProductById(id);
