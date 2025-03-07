@@ -70,44 +70,69 @@
     </nav>
 </template>
 <script>
-    import { ref, computed, inject } from "vue";
-    import { useRouter } from "vue-router";
+    import { ref, computed, inject, onMounted, onUnmounted, watch } from "vue";
+    import { useRouter, useRoute } from "vue-router";
 
     export default {
         name: "AppHeader",
         setup() {
             const searchQuery = ref("");
-            const isSearching = ref(false);
             const allProducts = inject("allProducts", ref([]));
+            const isSearching = ref(false);
             const router = useRouter();
+            const route = useRoute();
 
+            // Υπολογισμός των φιλτραρισμένων προϊόντων
             const filteredProducts = computed(() => {
                 if (!searchQuery.value.trim()) return [];
+                const query = searchQuery.value.toLowerCase();
                 return allProducts.value.filter((product) =>
-                    product.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+                    product.name.toLowerCase().includes(query)
                 );
             });
 
-            const hideSearchResults = () => {
-                setTimeout(() => {
-                    isSearching.value = false;
-                }, 200);
-            };
-
+            // Επιλογή προϊόντος και μετάβαση στη σελίδα του
             const selectProduct = (product) => {
-                searchQuery.value = ""; // Καθαρίζουμε το input
-                isSearching.value = false; // Κλείνουμε το dropdown
-                router.push(`/products/${product.category}/${product.slug}`); // Μεταφερόμαστε στη σελίδα του προϊόντος
+                router.push(`/products/${product.category}/${product.slug}`);
                 searchQuery.value = "";
-
+                isSearching.value = false;
             };
 
-            return { searchQuery, isSearching, filteredProducts, hideSearchResults, selectProduct };
-        },
+            let searchTimeout = null;
+
+            watch(() => route.params.id, (newId) => {
+                clearTimeout(searchTimeout);
+
+                searchTimeout = setTimeout(() => {
+                    if (filteredProducts.value.length > 0) {
+                        const firstProduct = filteredProducts.value[0];
+
+                        if (newId !== firstProduct.id.toString()) {
+                            router.replace(`/product/${firstProduct.id}`);
+                        }
+                    }
+                }, 100);
+            });
+
+            // Απόκρυψη αποτελεσμάτων όταν γίνεται κλικ εκτός
+            const hideSearchResults = (event) => {
+                if (!event.target.closest(".search-bar-container")) {
+                    isSearching.value = false;
+                }
+            };
+
+            onMounted(() => document.addEventListener("click", hideSearchResults));
+            onUnmounted(() => document.removeEventListener("click", hideSearchResults));
+
+            return {
+                searchQuery,
+                isSearching,
+                filteredProducts,
+                selectProduct,
+            };
+        }
     };
 </script>
-
-
 
 <style scoped>
     nav {
@@ -200,9 +225,11 @@
             transition: width 1s;
             background: transparent;
         }
+
         .search-bar:hover input {
             width: 100%;
         }
+
         .search-bar button {
             color: #5d2d05;
             font-size: 18px;
@@ -252,6 +279,7 @@
             font-size: 16px;
             color: #5d2d05;
         }
+
     .icons {
         display: flex;
         align-items: center;
