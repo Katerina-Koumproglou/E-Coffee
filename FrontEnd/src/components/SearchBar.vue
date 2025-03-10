@@ -26,9 +26,9 @@
                 isSearching.value = false;
             };
 
-            let searchTimeout = null;
-
             watch(() => route.params.id, (newId) => {
+                if (!newId) return; // Αν δεν υπάρχει νέο ID, μην κάνεις τίποτα
+
                 clearTimeout(searchTimeout);
 
                 searchTimeout = setTimeout(() => {
@@ -36,10 +36,11 @@
                         const firstProduct = filteredProducts.value[0];
 
                         if (newId !== firstProduct.id.toString()) {
-                            router.replace(`/product/${firstProduct.id}`);
+                            router.replace(`/products/${firstProduct.category}/${firstProduct.slug}`);
                         }
                     }
                 }, 100);
+
             });
 
             // Απόκρυψη αποτελεσμάτων όταν γίνεται κλικ εκτός

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GITHUB\\E-Coffee\\BackEnd\\BackEnd.csproj": {}
+    "C:\\GITHUB\\E-Coffee\\Backend\\BackEnd.csproj": {}
   },
   "projects": {
-    "C:\\GITHUB\\E-Coffee\\BackEnd\\BackEnd.csproj": {
+    "C:\\GITHUB\\E-Coffee\\Backend\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GITHUB\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "C:\\GITHUB\\E-Coffee\\Backend\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "C:\\GITHUB\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "projectPath": "C:\\GITHUB\\E-Coffee\\Backend\\BackEnd.csproj",
         "packagesPath": "C:\\Users\\maria\\.nuget\\packages\\",
-        "outputPath": "C:\\GITHUB\\E-Coffee\\BackEnd\\obj\\",
+        "outputPath": "C:\\GITHUB\\E-Coffee\\Backend\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

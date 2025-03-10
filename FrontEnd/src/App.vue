@@ -2,7 +2,8 @@
     <div id="app">
         <AppHeader />
         <main class="main-container">
-            <router-view />
+            <router-view :key="$route.fullPath" />
+
         </main>
         <AppFooter />
     </div>
