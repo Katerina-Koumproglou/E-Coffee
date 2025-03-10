@@ -72,7 +72,8 @@
 <script>
     import { ref, computed, inject, onMounted, onUnmounted, watch } from "vue";
     import { useRouter, useRoute } from "vue-router";
-
+    //import { nextTick } from "vue";
+    
     export default {
         name: "AppHeader",
         setup() {
@@ -91,12 +92,18 @@
                 );
             });
 
-            // Επιλογή προϊόντος και μετάβαση στη σελίδα του
             const selectProduct = (product) => {
-                router.push(`/products/${product.category}/${product.slug}`);
-                searchQuery.value = "";
-                isSearching.value = false;
+                // Αλλαγή της διαδρομής πρώτα
+                router.push(`/products/${product.category}/${product.slug}`)
+                    .then(() => {
+                        // Εκκαθάριση της αναζήτησης και κλείσιμο των αποτελεσμάτων
+                        searchQuery.value = ""; // Διαγράφει το κείμενο αναζήτησης
+                        isSearching.value = false; // Κλείνει τα αποτελέσματα αναζήτησης
+                    });
+      
             };
+
+
 
             let searchTimeout = null;
 
