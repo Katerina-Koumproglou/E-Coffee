@@ -108,6 +108,6 @@
         background-color: #5d2d05;
         color: #d5b28b;
         margin-top: 20px;
-        width: 100%;
+        width: 10%;
     }
 </style>
