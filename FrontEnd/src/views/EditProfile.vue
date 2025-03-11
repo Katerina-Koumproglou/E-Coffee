@@ -88,7 +88,8 @@ export default {
         console.error("Error fetching user data: ", error);
       }
     },
-    async updateUserInfo() {
+      async updateUserInfo()
+      {
       try {
         await axios.patch(
           `http://localhost:5214/users/${this.userId}`,
