@@ -19,7 +19,6 @@
                         <router-link :to="`/products/${item.category}/${item.slug}`" class="product-link">
                             {{ item.name }}
                         </router-link>
-
                     </td>
                     <td>
                         <div class="quantity-container">
@@ -30,7 +29,11 @@
                     </td>
                     <td>{{ item.price }} €</td>
                     <td>{{ (item.price * item.quantity).toFixed(2) }} €</td>
-                    <td><button class="remove-btn" @click="removeFromCart(item)">Διαγραφή</button></td>
+                    <td>
+                        <button class="remove-btn" @click="confirmRemoveFromCart(item)">
+                            &#128465;
+                        </button>
+                    </td>
                 </tr>
             </tbody>
             <tfoot>
@@ -42,17 +45,28 @@
         </table>
         <br><br>
         <button class="continue-button" @click="GoToPayment">Πληρωμή</button>
+
+        <!-- Popup Modal -->
+        <div v-if="showConfirmModal" class="modal-overlay">
+            <div class="modal-content">
+                <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το προϊόν;</p>
+                <button @click="removeFromCart(selectedItem)">Ναι</button>
+                <button @click="cancelRemove">Όχι</button>
+            </div>
+        </div>
     </div>
 </template>
 
+
 <script>
     import axios from 'axios';
-
     export default {
         name: "MyCart",
         data() {
             return {
                 cartItems: [],
+                showConfirmModal: false,
+                selectedItem: null, // Το προϊόν που θα διαγραφεί
             };
         },
         computed: {
@@ -60,7 +74,7 @@
                 return this.cartItems.reduce((total, item) => {
                     return total + (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
                 }, 0);
-            }
+            },
         },
         methods: {
             increaseQuantity(item) {
@@ -97,27 +111,40 @@
                     console.error("Error updating cart item:", error);
                 }
             },
+            // Εμφανίζει το modal επιβεβαίωσης
+            confirmRemoveFromCart(item) {
+                this.selectedItem = item;
+                this.showConfirmModal = true;
+            },
+            // Ακυρώνει τη διαγραφή και κλείνει το modal
+            cancelRemove() {
+                this.showConfirmModal = false;
+                this.selectedItem = null;
+            },
+            // Διαγράφει το προϊόν από το καλάθι
             async removeFromCart(item) {
                 try {
                     const userId = localStorage.getItem("userId");
                     await axios.delete(`http://localhost:5214/api/cart/remove`, {
-                    data: { userId: parseInt(userId), productId: item.id }
+                        data: { userId: parseInt(userId), productId: item.id }
                     });
                     this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
                     alert("Το προϊόν αφαιρέθηκε από το καλάθι.");
+                    this.cancelRemove(); // Κλείνει το modal μετά τη διαγραφή
                 } catch (error) {
                     console.error("Error removing item from cart:", error);
                 }
-                },
+            },
             GoToPayment() {
                 alert("Συνολικό Ποσό παραγγελίας: " + this.totalPrice.toFixed(2) + " €");
-            }
+            },
         },
         mounted() {
             this.fetchCartItems();
-        }
+        },
     };
 </script>
+
 
 <style>
     .my-cart {
@@ -147,18 +174,110 @@
 
     .continue-button {
         display: block;
-        margin-top: 20px;
-        margin-left: auto;
-        padding: 10px 20px;
+        margin-top: 10px; /* Κοντά στον πίνακα */
+        margin-left: auto; /* Κάνει το κουμπί να πηγαίνει στα δεξιά */
+        margin-right: 0; /* Αφαιρεί οποιοδήποτε περιθώριο από τη δεξιά πλευρά */
+        padding: 15px 30px; /* Μεγαλύτερη εσωτερική απόσταση για μεγαλύτερο κουμπί */
         background-color: #6d3f3f;
+        color: #faebd7;
+        font-size: 24px; /* Μεγαλύτερα γράμματα */
         font-family: "EB Garamond", serif;
         border: none;
-        border-radius: 5px;
-        font-size: 20px;
+        border-radius: 30px; /* Στρογγυλό κουμπί */
         cursor: pointer;
         text-align: center;
-        color: #faebd7;
+        transition: all 0.3s ease;
     }
+
+        .continue-button:hover {
+            background-color: #faebd7;
+            color: #6d3f3f;
+            transform: translateY(-4px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .continue-button:active {
+            background-color: #4a2b02;
+            color: #faebd7;
+            transform: translateY(2px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+    .remove-btn {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: #d68000;
+        font-size: 35px; /* Μεγαλύτερο μέγεθος */
+        transition: transform 0.3s, color 0.3s, box-shadow 0.3s;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 50%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ελαφριά σκιά για βάθος */
+    }
+
+        .remove-btn:hover {
+            color: #b35900;
+            transform: scale(1.1); /* Ελαφρύ zoom */
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3); /* Ενίσχυση της σκιάς */
+        }
+
+        .remove-btn:active {
+            transform: scale(1); /* Επιστροφή στο κανονικό μέγεθος όταν πατάμε */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ελαφριά σκιά κατά την ενεργοποίηση */
+        }
+
+        .remove-btn i {
+            font-size: 35px; /* Αύξηση μεγέθους εικονιδίου */
+            transition: color 0.3s;
+        }
+
+        .remove-btn:hover i {
+            color: #ff6347; /* Αλλαγή χρώματος στο hover */
+        }
+
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+
+    .modal-content {
+        background-color: #faebd7;
+        color:black;
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        width: 300px;
+    }
+
+        .modal-content button {
+            padding: 10px 20px;
+            margin: 10px;
+            background-color: #6d3f3f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+    .continue-button {
+        background-color: #6d3f3f;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
 
     table {
         width: 100%;
@@ -187,42 +306,64 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        border: 2px solid #ccc;
-        border-radius: 5px;
-        background-color: #f5f5f5;
-        width: 140px;
-        padding: 5px;
+        border: 2px solid #6d3f3f; /* Σταθερό χρώμα του περιγράμματος */
+        border-radius: 10px; /* Γωνίες πιο στρογγυλές */
+        background-color: #fff;
+        width: 160px; /* Μικρή αύξηση του πλάτους */
+        padding: 10px;
         margin: 0 auto;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Προσθήκη σκιάς για βάθος */
+        transition: box-shadow 0.3s, transform 0.3s; /* Εφέ κατά το hover */
     }
 
+        .quantity-container:hover {
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Ενίσχυση σκιάς στο hover */
+            transform: scale(1.03); /* Ελαφρύ zoom όταν ο χρήστης το hover */
+        }
+
     .quantity-btn {
-        background-color: #4CAF50;
-        color: white;
+        background-color: #6d3f3f;
+        color: #faebd7;
         border: none;
-        padding: 5px 10px;
-        font-size: 18px;
+        padding: 10px 15px;
+        font-size: 20px;
         cursor: pointer;
-        border-radius: 3px;
-        transition: background-color 0.3s;
+        border-radius: 5px;
+        transition: background-color 0.3s, transform 0.3s; /* Προσθήκη animation στο hover */
+        margin: 0 5px;
     }
 
         .quantity-btn:hover {
-            background-color: #45a049;
+            background-color: #5d2d05; /* Αλλαγή χρώματος στο hover */
+            transform: scale(1.1); /* Ελαφρύ zoom στο hover */
         }
 
         .quantity-btn:active {
-            background-color: #388e3c;
+            background-color: #4a2b02; /* Σκοτεινότερο χρώμα όταν είναι πατημένο */
+            transform: scale(1); /* Επιστροφή στο κανονικό μέγεθος όταν πατάμε */
         }
 
     .quantity-input {
         width: 50px;
         text-align: center;
-        font-size: 16px;
-        border: none;
-        background-color: transparent;
+        font-size: 18px;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
         color: #333;
-        padding: 5px;
+        padding: 8px;
+        border-radius: 5px;
         outline: none;
-        pointer-events: none;
+        transition: background-color 0.3s, border-color 0.3s;
     }
+
+        .quantity-input:focus {
+            background-color: #fff;
+            border-color: #6d3f3f; /* Έντονη αλλαγή χρώματος στα borders */
+        }
+
+        .quantity-input[readonly] {
+            background-color: #f8f8f8;
+            color: #333;
+            pointer-events: none;
+        }
 </style>
