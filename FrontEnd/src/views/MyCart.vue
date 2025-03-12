@@ -9,6 +9,7 @@
                     <th>Ποσότητα</th>
                     <th>Τιμή</th>
                     <th>Σύνολο</th>
+                    <th>Διαγραφή</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,6 +30,7 @@
                     </td>
                     <td>{{ item.price }} €</td>
                     <td>{{ (item.price * item.quantity).toFixed(2) }} €</td>
+                    <td><button class="remove-btn" @click="removeFromCart(item)">Διαγραφή</button></td>
                 </tr>
             </tbody>
             <tfoot>
@@ -95,6 +97,18 @@
                     console.error("Error updating cart item:", error);
                 }
             },
+            async removeFromCart(item) {
+                try {
+                    const userId = localStorage.getItem("userId");
+                    await axios.delete(`http://localhost:5214/api/cart/remove`, {
+                    data: { userId: parseInt(userId), productId: item.id }
+                    });
+                    this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
+                    alert("Το προϊόν αφαιρέθηκε από το καλάθι.");
+                } catch (error) {
+                    console.error("Error removing item from cart:", error);
+                }
+                },
             GoToPayment() {
                 alert("Συνολικό Ποσό παραγγελίας: " + this.totalPrice.toFixed(2) + " €");
             }

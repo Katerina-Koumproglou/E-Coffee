@@ -57,7 +57,7 @@
                         productId: product.value.id
                     });
 
-                    alert(response.data.message);
+                    alert("Προστέθηκε στο καλάθι",response.data.message);
                 } catch (error) {
                     alert(error.response?.data?.message || "Προέκυψε σφάλμα.");
                 }
