@@ -9,7 +9,6 @@
                     <th>Ποσότητα</th>
                     <th>Τιμή</th>
                     <th>Σύνολο</th>
-                    <!--<th>Διαγραφή Προϊόντος</th>-->
                 </tr>
             </thead>
             <tbody>
@@ -18,25 +17,13 @@
                     <td>{{ item.name }}</td>
                     <td>
                         <div class="quantity-container">
-                            <!-- Μείωση της ποσότητας -->
                             <button class="quantity-btn" @click="decreaseQuantity(item)">&#8722;</button>
-                            <!-- Εμφάνιση της ποσότητας -->
                             <input v-model="item.quantity" class="quantity-input" readonly />
-                            <!-- Αύξηση της ποσότητας -->
                             <button class="quantity-btn" @click="increaseQuantity(item)">&#43;</button>
                         </div>
                     </td>
-
-
-
                     <td>{{ item.price }} €</td>
                     <td>{{ (item.price * item.quantity).toFixed(2) }} €</td>
-
-
-                    <!--<td>
-        <button @click="removeCartItem(item)">🗑️</button>
-    </td>-->
-
                 </tr>
             </tbody>
             <tfoot>
@@ -63,30 +50,22 @@
         },
         computed: {
             totalPrice() {
-                if (!Array.isArray(this.cartItems)) {
-                    return 0;
-                }
                 return this.cartItems.reduce((total, item) => {
-                    const itemPrice = parseFloat(item.price) || 0;
-                    const itemQuantity = parseInt(item.quantity) || 1;
-                    return total + (itemPrice * itemQuantity);
+                    return total + (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
                 }, 0);
             }
         },
         methods: {
-           methods: {
-    increaseQuantity(item) {
-        item.quantity++;  // Αύξηση της ποσότητας
-        this.updateCartItem(item); // Ενημέρωση του καλαθιού με την νέα ποσότητα
-    },
-    decreaseQuantity(item) {
-        if (item.quantity > 1) {
-            item.quantity--;  // Μείωση της ποσότητας
-            this.updateCartItem(item); // Ενημέρωση του καλαθιού με την νέα ποσότητα
-        }
-    }
-}
-,
+            increaseQuantity(item) {
+                item.quantity++;
+                this.updateCartItem(item);
+            },
+            decreaseQuantity(item) {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                    this.updateCartItem(item);
+                }
+            },
             async fetchCartItems() {
                 try {
                     const userId = localStorage.getItem("userId");
@@ -94,14 +73,12 @@
                         console.error("No userId found in localStorage");
                         return;
                     }
-
                     const response = await axios.get(`http://localhost:5214/api/cart/${userId}`);
-                    this.cartItems = response.data;
+                    this.cartItems = response.data.map(item => ({ ...item, quantity: item.quantity || 1 }));
                 } catch (error) {
                     console.error("Error fetching cart items:", error);
                 }
             },
-
             async updateCartItem(item) {
                 try {
                     const userId = localStorage.getItem("userId");
@@ -113,65 +90,15 @@
                     console.error("Error updating cart item:", error);
                 }
             },
-
-            // Μέθοδος για τη διαγραφή προϊόντος από το καλάθι
-            async removeCartItem(item) {
-                try {
-                    const userId = localStorage.getItem("userId");
-                    if (!userId) {
-                        console.error("No userId found in localStorage");
-                        return;
-                    }
-
-                    // Αποστολή αίτηματος διαγραφής στο backend
-                    const response = await axios.delete(`http://localhost:5214/api/cart/${userId}/${item.id}`);
-                    console.log("Response from delete API:", response);
-
-                    if (response.status === 200) {
-                        // Αν η διαγραφή είναι επιτυχής, αφαιρούμε το προϊόν από το cartItems
-                        this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
-                        console.log("Item removed successfully");
-                    } else {
-                        console.error("Error deleting cart item", response);
-                    }
-                } catch (error) {
-                    console.error("Error removing cart item:", error);
-                }
-            },
-
             GoToPayment() {
                 alert("Συνολικό Ποσό παραγγελίας: " + this.totalPrice.toFixed(2) + " €");
             }
         },
         mounted() {
             this.fetchCartItems();
-        },
-
-        async fetchCartItems() {
-            try {
-                const userId = localStorage.getItem("userId");
-                if (!userId) {
-                    console.error("No userId found in localStorage");
-                    return;
-                }
-
-                const response = await axios.get(`http://localhost:5214/api/cart/${userId}`);
-                this.cartItems = response.data;
-
-                // Αν η ποσότητα είναι 0 ή δεν υπάρχει, ορίζουμε την ποσότητα σε 1
-                this.cartItems.forEach(item => {
-                    if (item.quantity || item.quantity < 1) {
-                        item.quantity = 1;
-                    }
-                });
-            } catch (error) {
-                console.error("Σφάλμα κατά την αναζήτηση των προϊόντων του καλαθιού:", error);
-            }
         }
-
     };
 </script>
-
 
 
 <style>
@@ -234,6 +161,7 @@
     tfoot {
         font-weight: bold;
     }
+
     .quantity-container {
         display: flex;
         align-items: center;
@@ -241,8 +169,10 @@
         border: 2px solid #ccc;
         border-radius: 5px;
         background-color: #f5f5f5;
-        width: 120px;
+        width: 120px; /* Μπορείς να το αυξήσεις ή να το μειώσεις ανάλογα με το μέγεθος που θες */
         padding: 5px;
+        padding: 5px;
+        margin: 0 auto;
     }
 
     .quantity-btn {
@@ -275,6 +205,4 @@
         outline: none;
         pointer-events: none; /* Αποκλείουμε την αλλαγή της τιμής μέσω του πληκτρολογίου */
     }
-
-
 </style>
