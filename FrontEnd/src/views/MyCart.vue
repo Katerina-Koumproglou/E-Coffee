@@ -14,7 +14,12 @@
             <tbody>
                 <tr v-for="item in cartItems" :key="item.id">
                     <td><img :src="item.image" :alt="item.name" class="product-image" /></td>
-                    <td>{{ item.name }}</td>
+                    <td>
+                        <router-link :to="`/products/${item.category}/${item.slug}`" class="product-link">
+                            {{ item.name }}
+                        </router-link>
+
+                    </td>
                     <td>
                         <div class="quantity-container">
                             <button class="quantity-btn" @click="decreaseQuantity(item)">&#8722;</button>
@@ -100,7 +105,6 @@
     };
 </script>
 
-
 <style>
     .my-cart {
         margin: 10px;
@@ -116,6 +120,17 @@
         object-fit: cover;
     }
 
+    .product-link {
+        text-decoration: none;
+        color: #d68000;
+        font-weight: bold;
+    }
+
+        .product-link:hover {
+            text-decoration: underline;
+            color: #b35900;
+        }
+
     .continue-button {
         display: block;
         margin-top: 20px;
@@ -129,14 +144,6 @@
         cursor: pointer;
         text-align: center;
         color: #faebd7;
-    }
-
-    .delete-button {
-        background-color: transparent;
-        border: none;
-        color: red;
-        font-size: 30px;
-        cursor: pointer;
     }
 
     table {
@@ -169,8 +176,7 @@
         border: 2px solid #ccc;
         border-radius: 5px;
         background-color: #f5f5f5;
-        width: 120px; /* Μπορείς να το αυξήσεις ή να το μειώσεις ανάλογα με το μέγεθος που θες */
-        padding: 5px;
+        width: 140px;
         padding: 5px;
         margin: 0 auto;
     }
@@ -195,7 +201,7 @@
         }
 
     .quantity-input {
-        width: 40px;
+        width: 50px;
         text-align: center;
         font-size: 16px;
         border: none;
@@ -203,6 +209,6 @@
         color: #333;
         padding: 5px;
         outline: none;
-        pointer-events: none; /* Αποκλείουμε την αλλαγή της τιμής μέσω του πληκτρολογίου */
+        pointer-events: none;
     }
 </style>

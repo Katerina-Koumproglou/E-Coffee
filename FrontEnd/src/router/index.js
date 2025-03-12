@@ -46,7 +46,8 @@ const routes = [
     path: "/showusers",
     name: "ShowUsersForAdmin",
     component: ShowUsersForAdmin,
-  },
+    },
+
 ];
 
 const router = createRouter({

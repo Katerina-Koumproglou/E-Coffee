@@ -1,25 +1,3 @@
-<!--<template>
-    <div v-if="product" class="details">
-        <div class="product">
-            <div class="img-container">
-                <img :src="product.image" :alt="product.name">
-            </div>
-            <div class="details-container">
-                <h1 class="name">{{ product.name }}</h1>
-                <p><strong>Τιμή:</strong> {{ product.price }} €</p>
-                <p><strong>Μάρκα:</strong> {{ product.brand }}</p>
-                <button class="add-to-cart" @click="addToCart">Προσθήκη στο Καλάθι</button>
-            </div>
-        </div>
-    </div>
-    <div v-else-if="loading" class="loading">
-        <p>Φόρτωση λεπτομερειών προϊόντος...</p>
-    </div>
-    <div v-else class="error">
-        <p>Το προϊόν δεν βρέθηκε!</p>
-    </div>
-</template>-->
-
 <template>
     <div v-if="product" class="details">
         <div class="product">
