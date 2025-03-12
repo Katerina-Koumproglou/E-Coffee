@@ -21,9 +21,9 @@ namespace BackEnd.Controllers
             var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
             if (result)
             {
-                return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
+                return Ok(new { message = "Product added to cart successfully." });
             }
-            return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
+            return BadRequest(new { message = "Product was not added to cart." });
         }
 
         [HttpDelete("remove")]
@@ -32,9 +32,9 @@ namespace BackEnd.Controllers
             var result = await _cartService.RemoveFromCartAsync(request.UserId, request.ProductId);
             if (result)
             {
-                return Ok(new { message = "Το προϊόν αφαιρέθηκε από το καλάθι!" });
+                return Ok(new { message = "Product removed from cart successfully." });
             }
-            return NotFound(new { message = "Το προϊόν δεν βρέθηκε στο καλάθι." });
+            return NotFound(new { message = "Product was not removed from cart." });
         }
 
         [HttpGet("{userId}")]
@@ -58,15 +58,15 @@ namespace BackEnd.Controllers
 
 //    if (request.UserId == 0 || request.ProductId == 0)
 //    {
-//        return BadRequest(new { message = "Μη έγκυρα δεδομένα." });
+//        return BadRequest(new { message = "οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½." });
 //    }
 
 //    var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
 //    if (result)
 //    {
-//        return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
+//        return Ok(new { message = "οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½!" });
 //    }
-//    return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
+//    return BadRequest(new { message = "οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½ οΏ½οΏ½οΏ½οΏ½οΏ½οΏ½." });
 //}
 
 //[HttpGet("{userId}")]
