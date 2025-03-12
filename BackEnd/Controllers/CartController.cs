@@ -51,29 +51,29 @@ namespace BackEnd.Controllers
         public int ProductId { get; set; }
     }
 }
-[HttpPost("add")]
-public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
-{
-    Console.WriteLine($"Received request: UserId={request.UserId}, ProductId={request.ProductId}");
+//[HttpPost("add")]
+//public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
+//{
+//    Console.WriteLine($"Received request: UserId={request.UserId}, ProductId={request.ProductId}");
 
-    if (request.UserId == 0 || request.ProductId == 0)
-    {
-        return BadRequest(new { message = "Μη έγκυρα δεδομένα." });
-    }
+//    if (request.UserId == 0 || request.ProductId == 0)
+//    {
+//        return BadRequest(new { message = "Μη έγκυρα δεδομένα." });
+//    }
 
-    var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
-    if (result)
-    {
-        return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
-    }
-    return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
-}
+//    var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
+//    if (result)
+//    {
+//        return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
+//    }
+//    return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
+//}
 
-[HttpGet("{userId}")]
-public async Task<IActionResult> GetCartProducts(int userId)
-{
-    var products = await _cartService.GetCartProductsAsync(userId);
-    return Ok(products);
-}
+//[HttpGet("{userId}")]
+//public async Task<IActionResult> GetCartProducts(int userId)
+//{
+//    var products = await _cartService.GetCartProductsAsync(userId);
+//    return Ok(products);
+//}
 
 
