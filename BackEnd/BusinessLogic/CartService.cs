@@ -36,16 +36,28 @@ public class CartService : ICartService
 
     public async Task<bool> RemoveFromCartAsync(int userId, int productId)
     {
-        var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
-        if (cartItem == null)
+        try
         {
+            var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
+            if (cartItem == null)
+            {
+                // Επιστρέφει false αν το προϊόν δεν βρέθηκε στο καλάθι
+                return false;
+            }
+
+            _context.Cart.Remove(cartItem);
+            await _context.SaveChangesAsync(); // Αποθηκεύει τις αλλαγές στη βάση
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            // Καταγραφή λάθους σε περίπτωση αποτυχίας
+            Console.WriteLine($"Σφάλμα κατά την προσπάθεια διαγραφής: {ex.Message}");
             return false;
         }
-
-        _context.Cart.Remove(cartItem);
-        await _context.SaveChangesAsync();
-        return true;
     }
+
 
     public async Task<IEnumerable<Product>> GetCartProductsAsync(int userId)
     {
