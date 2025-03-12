@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using BackEnd.Models;
-using System.IO.Pipes;
 
 namespace BackEnd.Controllers
 {
@@ -16,26 +15,26 @@ namespace BackEnd.Controllers
             _cartService = cartService;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddToCart(int uid,int pid)//[FromBody] CartItemDto cartItem
+        [HttpPost("add")]
+        public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
         {
-            var result = await _cartService.AddToCartAsync(uid,pid); //cartItem.UserId, cartItem.ProductId
+            var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
             if (result)
             {
-                return Ok();
+                return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
             }
-            return BadRequest("Failed to add item to cart");
+            return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> RemoveFromCart(int uid,int pid) //[FromBody] CartItemDto cartItem
+        [HttpDelete("remove")]
+        public async Task<IActionResult> RemoveFromCart([FromBody] CartRequest request)
         {
-            var result = await _cartService.RemoveFromCartAsync(uid,pid); //cartItem.UserId, cartItem.ProductId
+            var result = await _cartService.RemoveFromCartAsync(request.UserId, request.ProductId);
             if (result)
             {
-                return Ok();
+                return Ok(new { message = "Το προϊόν αφαιρέθηκε από το καλάθι!" });
             }
-            return BadRequest("Failed to remove item from cart");
+            return NotFound(new { message = "Το προϊόν δεν βρέθηκε στο καλάθι." });
         }
 
         [HttpGet("{userId}")]
@@ -45,4 +44,36 @@ namespace BackEnd.Controllers
             return Ok(products);
         }
     }
+
+    public class CartRequest
+    {
+        public int UserId { get; set; }
+        public int ProductId { get; set; }
+    }
 }
+[HttpPost("add")]
+public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
+{
+    Console.WriteLine($"Received request: UserId={request.UserId}, ProductId={request.ProductId}");
+
+    if (request.UserId == 0 || request.ProductId == 0)
+    {
+        return BadRequest(new { message = "Μη έγκυρα δεδομένα." });
+    }
+
+    var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
+    if (result)
+    {
+        return Ok(new { message = "Το προϊόν προστέθηκε στο καλάθι!" });
+    }
+    return BadRequest(new { message = "Το προϊόν υπάρχει ήδη στο καλάθι." });
+}
+
+[HttpGet("{userId}")]
+public async Task<IActionResult> GetCartProducts(int userId)
+{
+    var products = await _cartService.GetCartProductsAsync(userId);
+    return Ok(products);
+}
+
+
