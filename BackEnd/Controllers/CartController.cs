@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Models;
+using BackEnd.Data;
 
 namespace BackEnd.Controllers
 {
@@ -9,10 +11,12 @@ namespace BackEnd.Controllers
     public class CartController : ControllerBase
     {
         private readonly ICartService _cartService;
+        private readonly ApplicationDbContext _context;
 
-        public CartController(ICartService cartService)
+        public CartController(ICartService cartService, ApplicationDbContext context)
         {
             _cartService = cartService;
+            _context = context;
         }
 
         [HttpPost("add")]
@@ -43,6 +47,18 @@ namespace BackEnd.Controllers
             var products = await _cartService.GetCartProductsAsync(userId);
             return Ok(products);
         }
+
+        [HttpPut("{userId}")]
+        public IActionResult UpdateCartItem(int userId, [FromBody] CartItemDto cartUpdateDto)
+        {
+            var cartItem = _context.Cart.FirstOrDefault(c => c.uid == userId && c.pid == cartUpdateDto.ProductId);
+            if (cartItem == null) return NotFound("Το προϊόν δεν βρέθηκε στο καλάθι.");
+
+            cartItem.quantity = cartUpdateDto.Quantity;
+            _context.SaveChanges();
+
+            return Ok(new { message = "Το καλάθι ενημερώθηκε επιτυχώς." });
+        }
     }
 
     public class CartRequest
@@ -51,29 +67,3 @@ namespace BackEnd.Controllers
         public int ProductId { get; set; }
     }
 }
-//[HttpPost("add")]
-//public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
-//{
-//    Console.WriteLine($"Received request: UserId={request.UserId}, ProductId={request.ProductId}");
-
-//    if (request.UserId == 0 || request.ProductId == 0)
-//    {
-//        return BadRequest(new { message = "�� ������ ��������." });
-//    }
-
-//    var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
-//    if (result)
-//    {
-//        return Ok(new { message = "�� ������ ���������� ��� ������!" });
-//    }
-//    return BadRequest(new { message = "�� ������ ������� ��� ��� ������." });
-//}
-
-//[HttpGet("{userId}")]
-//public async Task<IActionResult> GetCartProducts(int userId)
-//{
-//    var products = await _cartService.GetCartProductsAsync(userId);
-//    return Ok(products);
-//}
-
-

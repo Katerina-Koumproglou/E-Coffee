@@ -27,6 +27,7 @@ namespace BackEnd.Data
                 .HasOne<User>()
                 .WithMany()
                 .HasForeignKey(c => c.uid);
+                
         }
     }
 }

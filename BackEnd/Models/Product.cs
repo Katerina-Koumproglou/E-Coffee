@@ -13,5 +13,6 @@ namespace BackEnd.Models
         public decimal? price { get; set; }
         public string? slug { get; set; }
         public string? category { get; set; }
+        public int stock { get; set; }
     }
 }

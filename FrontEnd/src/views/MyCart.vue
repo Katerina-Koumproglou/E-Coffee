@@ -78,8 +78,11 @@
         },
         methods: {
             increaseQuantity(item) {
-                item.quantity++;
-                this.updateCartItem(item);
+                console.log("item stock: ", item.stock);
+                if(item.quantity+1 <= item.stock){
+                    item.quantity++;
+                    this.updateCartItem(item);
+                }
             },
             decreaseQuantity(item) {
                 if (item.quantity > 1) {
