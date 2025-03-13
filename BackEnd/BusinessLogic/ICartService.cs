@@ -4,7 +4,8 @@ using BackEnd.Models;
 
 public interface ICartService
 {
-    Task<bool> AddToCartAsync(int userId, int productId);
+    Task<bool> AddToCartAsync(int userId, int productId, int quantity = 1);
     Task<bool> RemoveFromCartAsync(int userId, int productId);
     Task<IEnumerable<Product>> GetCartProductsAsync(int userId);
+    Task<bool> UpdateCartItemAsync(int userId, int productId, int quantity);
 }

@@ -1,25 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\Tests\\Tests.csproj": {}
+    "C:\\Users\\Katty\\Desktop\\E-Coffee\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\BackEnd.csproj": {
+    "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\BackEnd.csproj",
-        "packagesPath": "C:\\Users\\Kat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj",
+        "packagesPath": "C:\\Users\\Katty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Kat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Katty\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -117,34 +120,37 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\Tests\\Tests.csproj": {
+    "C:\\Users\\Katty\\Desktop\\E-Coffee\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\Tests\\Tests.csproj",
+        "projectUniqueName": "C:\\Users\\Katty\\Desktop\\E-Coffee\\Tests\\Tests.csproj",
         "projectName": "Tests",
-        "projectPath": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\Tests\\Tests.csproj",
-        "packagesPath": "C:\\Users\\Kat\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\Tests\\obj\\",
+        "projectPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\Tests\\Tests.csproj",
+        "packagesPath": "C:\\Users\\Katty\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Kat\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Katty\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\BackEnd.csproj": {
-                "projectPath": "C:\\Users\\Kat\\Desktop\\pull from git\\E-Coffee\\BackEnd\\BackEnd.csproj"
+              "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj": {
+                "projectPath": "C:\\Users\\Katty\\Desktop\\E-Coffee\\BackEnd\\BackEnd.csproj"
               }
             }
           }
@@ -207,7 +213,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.407/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.406/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

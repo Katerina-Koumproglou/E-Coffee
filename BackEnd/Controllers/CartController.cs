@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BackEnd.Models;
 using BackEnd.Data;
+using Azure.Core;
 
 namespace BackEnd.Controllers
 {
@@ -22,7 +23,7 @@ namespace BackEnd.Controllers
         [HttpPost("add")]
         public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
         {
-            var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId);
+            var result = await _cartService.AddToCartAsync(request.UserId, request.ProductId, request.Quantity);
             if (result)
             {
                 return Ok(new { message = "Product added to cart successfully." });
@@ -49,15 +50,15 @@ namespace BackEnd.Controllers
         }
 
         [HttpPut("{userId}")]
-        public IActionResult UpdateCartItem(int userId, [FromBody] CartItemDto cartUpdateDto)
+        public async Task<IActionResult> UpdateCartItem(int userId, [FromBody] CartRequest request)
         {
-            var cartItem = _context.Cart.FirstOrDefault(c => c.uid == userId && c.pid == cartUpdateDto.ProductId);
-            if (cartItem == null) return NotFound("Το προϊόν δεν βρέθηκε στο καλάθι.");
+            var result = await _cartService.UpdateCartItemAsync(userId, request.ProductId, request.Quantity);
+            if (!result)
+            {
+                return NotFound(new { message = "Product not found in cart." });
+            }
 
-            cartItem.quantity = cartUpdateDto.Quantity;
-            _context.SaveChanges();
-
-            return Ok(new { message = "Το καλάθι ενημερώθηκε επιτυχώς." });
+            return Ok(new { message = "Cart updated successfully." });
         }
     }
 
@@ -65,5 +66,6 @@ namespace BackEnd.Controllers
     {
         public int UserId { get; set; }
         public int ProductId { get; set; }
+        public int Quantity { get; set; } = 1;
     }
 }

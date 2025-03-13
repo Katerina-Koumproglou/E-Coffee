@@ -14,21 +14,24 @@ public class CartService : ICartService
         _context = context;
     }
 
-    public async Task<bool> AddToCartAsync(int userId, int productId)
+    public async Task<bool> AddToCartAsync(int userId, int productId, int quantity = 1)
     {
-        var cartItemExists = await _context.Cart.AnyAsync(c => c.uid == userId && c.pid == productId);
-        if (cartItemExists)
+        var cartItemExists = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
+        if (cartItemExists != null)
         {
-            return false; // Product is already in the cart
+            cartItemExists.quantity += quantity;
+        }
+        else
+        {
+            var newCartItem = new Cart
+            {
+                uid = userId,
+                pid = productId,
+                quantity = quantity
+            };
+            _context.Cart.Add(newCartItem);
         }
 
-        var newCartItem = new Cart
-        {
-            uid = userId,
-            pid = productId
-        };
-
-        _context.Cart.Add(newCartItem);
         await _context.SaveChangesAsync();
 
         return true;
@@ -41,19 +44,19 @@ public class CartService : ICartService
             var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
             if (cartItem == null)
             {
-                // ÅðéóôñÝöåé false áí ôï ðñïúüí äåí âñÝèçêå óôï êáëÜèé
+                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ false ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
                 return false;
             }
 
             _context.Cart.Remove(cartItem);
-            await _context.SaveChangesAsync(); // Áðïèçêåýåé ôéò áëëáãÝò óôç âÜóç
+            await _context.SaveChangesAsync(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 
             return true;
         }
         catch (Exception ex)
         {
-            // ÊáôáãñáöÞ ëÜèïõò óå ðåñßðôùóç áðïôõ÷ßáò
-            Console.WriteLine($"ÓöÜëìá êáôÜ ôçí ðñïóðÜèåéá äéáãñáöÞò: {ex.Message}");
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+            Console.WriteLine($"ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½: {ex.Message}");
             return false;
         }
     }
@@ -65,5 +68,19 @@ public class CartService : ICartService
             .Where(c => c.uid == userId)
             .Select(c => c.Product)
             .ToListAsync();
+    }
+
+    public async Task<bool> UpdateCartItemAsync(int userId, int productId, int quantity)
+    {
+        var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
+
+        if (cartItem == null)
+        {
+            return false;
+        }
+
+        cartItem.quantity = quantity;
+        await _context.SaveChangesAsync();
+        return true;
     }
 }
