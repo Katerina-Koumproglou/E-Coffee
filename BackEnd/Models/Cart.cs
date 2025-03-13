@@ -8,7 +8,7 @@ namespace BackEnd.Models
         public int? id { get; set; }
         public int? uid { get; set; }
         public int? pid { get; set; }
-        public int quantity { get; set; }
+        public int? quantity { get; set; }
         public Product Product { get; set; }
     }
 
