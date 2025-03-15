@@ -37,11 +37,11 @@ public class CartService : ICartService
         return true;
     }
 
-    public async Task<bool> RemoveFromCartAsync(int userId, int productId)
+    public async Task<bool> RemoveFromCartAsync(int userId, int productId, int quantity)
     {
         try
         {
-            var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);
+            var cartItem = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId && c.quantity == quantity);
             if (cartItem == null)
             {
                 // ���������� false �� �� ������ ��� ������� ��� ������

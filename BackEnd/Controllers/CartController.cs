@@ -34,7 +34,7 @@ namespace BackEnd.Controllers
         [HttpDelete("remove")]
         public async Task<IActionResult> RemoveFromCart([FromBody] CartRequest request)
         {
-            var result = await _cartService.RemoveFromCartAsync(request.UserId, request.ProductId);
+            var result = await _cartService.RemoveFromCartAsync(request.UserId, request.ProductId, request.Quantity);
             if (result)
             {
                 return Ok(new { message = "Product removed from cart successfully." });
