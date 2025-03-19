@@ -1,6 +1,6 @@
 <template>
     <div class="registered-users">
-        <h1>Εγγραγραμμένοι Χρήστες</h1>
+        <h1>Εγγεγραμμένοι Χρήστες</h1>
         <div v-if="getOnlyUsers.length > 0">
             <div v-for="user in getOnlyUsers" :key="user.id" class="user-profile">
                 <h2>Χρήστης (ID: {{ user.id }})</h2>
