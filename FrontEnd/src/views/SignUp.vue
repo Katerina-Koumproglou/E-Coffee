@@ -1,17 +1,17 @@
 ﻿<template>
     <div class="signup">
-        <h1>Sign Up</h1>
+        <h1>Δημιουργία Λογαριασμού</h1>
         <form @submit.prevent="signUp" class="form-grid">
             <!-- Name Field -->
             <div class="form-item">
-                <label for="name">Name:</label>
+                <label for="name">Όνομα:</label>
                 <input type="text" id="name" v-model="user.name" />
                 <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
             </div>
 
             <!-- Surname Field -->
             <div class="form-item">
-                <label for="surname">Surname:</label>
+                <label for="surname">Επίθετο:</label>
                 <input type="text" id="surname" v-model="user.surname" />
                 <span v-if="errors.surname" class="error-message">{{ errors.surname }}</span>
             </div>
@@ -25,7 +25,7 @@
 
             <!-- Password Field -->
             <div class="form-item">
-                <label for="password">Password:</label>
+                <label for="password">Κωδικός:</label>
                 <div class="input-container">
                     <input v-model="user.password"
                            :type="showPassword ? 'text' : 'password'"
@@ -38,7 +38,7 @@
 
             <!-- Confirm Password Field -->
             <div class="form-item">
-                <label for="confirmPassword">Confirm Password:</label>
+                <label for="confirmPassword">Επιβεβαίωση κωδικού:</label>
                 <div class="input-container">
                     <input v-model="user.confirmPassword"
                            :type="showConfirmPassword ? 'text' : 'password'"
@@ -51,19 +51,19 @@
 
             <!-- Address Field -->
             <div class="form-item">
-                <label for="address">Address:</label>
+                <label for="address">Διεύθυνση κατοικίας:</label>
                 <input type="text" id="address" v-model="user.address" />
                 <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
             </div>
 
             <!-- Phone Field -->
             <div class="form-item">
-                <label for="phone">Phone</label>
+                <label for="phone">Τηλέφωνο:</label>
                 <input type="text" v-model="user.phone" id="phone" maxlength="10" pattern="^[0-9]{10}$" required />
             </div>
 
             <!-- Submit Button -->
-            <button type="submit">Sign Up</button>
+            <button type="submit">Δημιουργία Λογαριασμού</button>
 
             <!-- Error Message -->
             <div v-if="error" class="error-message">{{ error }}</div>
@@ -71,7 +71,7 @@
 
         <!-- Login Link -->
         <p class="login-link">
-            Already have an account? <router-link to="/auth/login" class="login-link-text">Login</router-link>
+           Έχετε ήδη λογαριαμό; <router-link to="/auth/login" class="login-link-text">Συνδεθείτε</router-link>
         </p>
     </div>
 </template>
@@ -109,16 +109,15 @@
                 this.errors = {};
 
                 // Validation logic
-                if (!this.user.name) this.errors.name = "Name is required";
-                if (!this.user.surname) this.errors.surname = "Surname is required";
-                if (!this.user.email) this.errors.email = "Email is required";
-                if (!this.user.password) this.errors.password = "Password is required";
+                if (!this.user.name) this.errors.name = "Υποχρεωτικό πεδίο";
+                if (!this.user.surname) this.errors.surname = "Υποχρεωτικό πεδίο";
+                if (!this.user.email) this.errors.email = "Υποχρεωτικό πεδίο";
+                if (!this.user.password) this.errors.password = "Υποχρεωτικό πεδίο";
                 if (this.user.password !== this.user.confirmPassword) {
-                    this.errors.confirmPassword = "Passwords do not match";
+                    this.errors.confirmPassword = "Υποχρεωτικό πεδίο";
                 }
-                if (!this.user.address) this.errors.address = "Address is required";
-                if (!this.user.phone) this.errors.phone = "Phone is required";
-
+                if (!this.user.address) this.errors.address = "Υποχρεωτικό πεδίο";
+                if (!this.user.phone) this.errors.phone = "Υποχρεωτικό πεδίο";
                 if (Object.keys(this.errors).length) return;
 
                 try {
@@ -137,9 +136,9 @@
                 } catch (error) {
                     console.error("Signup failed: ", error.message);
                     if (error.response && error.response.status === 400) {
-                        this.error = "Email is already in use. Please try a different one.";
+                        this.error = "Το email αυτό χρησιμοποιείτα ήδη. Παρακαλώ εισάγετε ένα διαφορετικό";
                     } else {
-                        this.error = "An unexpected error occured. Please try again.";
+                        this.error = "Ένα αναπάντεχο σφάλμα συνέβη. Παρακαλώ δοκιμάστε ξανά.";
                     }
                 }
             },
@@ -223,6 +222,7 @@
         color: #5d2d05;
         padding: 12px; /* Increased padding */
         border: none;
+        font-family: "EB Garamond", serif;
         border-radius: 6px;
         cursor: pointer;
         font-size: 18px; /* Increased font size */

@@ -130,11 +130,13 @@
         margin-top: 20px;
         border-color: #5D2D05;
         transition: background-color 0.3s ease;
+        font-family: "EB Garamond", serif;
     }
 
         .add-to-cart:hover {
             background-color: #5D2D05;
             color: #FAEBD7;
+            font-family: "EB Garamond", serif;
             transition: background-color 0.3s ease, color 0.3s ease;
             border-color: #FAEBD7;
         }

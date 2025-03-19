@@ -25,13 +25,13 @@
             const accessories = ref([]);
             const machines = ref([]);
             const beverages = ref([]);
-            const allProducts = ref([]);  // Δημιουργούμε ένα ref που θα περιέχει όλα τα προϊόντα
+            const allProducts = ref([]);  
 
             const fetchData = async (category, targetRef) => {
                 try {
                     const products = await getProductsByCategory(category);
                     targetRef.value = products;
-                    allProducts.value = [...allProducts.value, ...products]; // Συνένωση όλων των προϊόντων
+                    allProducts.value = [...allProducts.value, ...products]; 
                 } catch (error) {
                     console.error(`Error loading ${category}: `, error);
                 }
@@ -45,7 +45,7 @@
                 await fetchData("beverages", beverages);
             });
 
-            provide('allProducts', allProducts);  // Παρέχουμε όλα τα προϊόντα
+            provide('allProducts', allProducts);  
 
             return { variety, capsules, accessories, machines, beverages, allProducts };
         },

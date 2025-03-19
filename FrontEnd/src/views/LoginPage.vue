@@ -127,6 +127,7 @@
         color: #5d2d05;
         padding: 14px; /* Increased padding */
         border: none;
+        font-family: "EB Garamond", serif;
         border-radius: 6px;
         cursor: pointer;
         width: 100%;

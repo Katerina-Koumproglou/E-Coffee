@@ -1,27 +1,27 @@
 <template>
     <div class="registered-users">
-        <h1>Registered Users</h1>
+        <h1>Εγγραγραμμένοι Χρήστες</h1>
         <div v-if="getOnlyUsers.length > 0">
             <div v-for="user in getOnlyUsers" :key="user.id" class="user-profile">
-                <h2>User Profile (ID: {{ user.id }})</h2>
+                <h2>Χρήστης (ID: {{ user.id }})</h2>
                 <div class="user-details">
-                    <p><strong>Name:</strong> {{ user.name }}</p>
-                    <p><strong>Surname:</strong> {{ user.surname }}</p>
+                    <p><strong>Όνομα:</strong> {{ user.name }}</p>
+                    <p><strong>Επίθετο:</strong> {{ user.surname }}</p>
                     <p><strong>Email:</strong> <a :href="'mailto:' + user.email">{{ user.email }}</a></p>
-                    <p><strong>Phone:</strong> {{ user.phone }}</p>
-                    <p><strong>Address:</strong> {{ user.address }}</p>
+                    <p><strong>Τηλέφωνο:</strong> {{ user.phone }}</p>
+                    <p><strong>Διεύθυνση:</strong> {{ user.address }}</p>
                 </div>
             </div>
         </div>
         <div v-else-if="loading">
-            <p>Loading users...</p>
+            <p>Φόρτωση χρηστών...</p>
         </div>
         <div v-else-if="errorMessage">
             <p class="error">{{ errorMessage }}</p>
         </div>
         <div>
             <!-- Return Button -->
-            <button @click="goBack" class="return-btn">Go Back</button>
+            <button @click="goBack" class="return-btn">Πίσω</button>
         </div>
     </div>
 </template>

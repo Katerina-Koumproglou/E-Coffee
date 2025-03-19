@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "lM58wnb4xnE=",
+  "dgSpecHash": "NBhxFSwsRkQ=",
   "success": true,
-  "projectFilePath": "C:\\GITHUB\\E-Coffee\\Backend\\BackEnd.csproj",
+  "projectFilePath": "C:\\GITHUB\\E-Coffee\\BackEnd\\BackEnd.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\maria\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\maria\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",

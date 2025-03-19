@@ -102,6 +102,7 @@ onMounted(async () => {
   transition: .3s;
   cursor: pointer;
   display: flex;
+  font-family: "EB Garamond", serif;
   justify-content: center;
   align-items: center;
   margin-left: auto;

@@ -1,13 +1,13 @@
 ﻿<template>
     <div class="user-profile">
         <div v-if="userData && !errorMessage" class="profile-details">
-            <h1>User Profile</h1>
+            <h1>Προφίλ Χρήστη</h1>
             <div class="profile-item">
-                <strong>Name:</strong>
+                <strong>Όνομα:</strong>
                 <p class="profile-text">{{ userData.name }}</p>
             </div>
             <div class="profile-item">
-                <strong>Surname:</strong>
+                <strong>Επίθετο:</strong>
                 <p class="profile-text">{{ userData.surname }}</p>
             </div>
             <div class="profile-item">
@@ -15,17 +15,17 @@
                 <p class="profile-text">{{ userData.email }}</p>
             </div>
             <div class="profile-item">
-                <strong>Phone:</strong>
+                <strong>Τηλέφωνο:</strong>
                 <p class="profile-text">{{ userData.phone }}</p>
             </div>
             <div class="profile-item">
-                <strong>Address:</strong>
+                <strong>Διεύθυνση:</strong>
                 <p class="profile-text">{{ userData.address }}</p>
             </div>
         </div>
 
         <div v-else-if="loading" class="loading-message">
-            <p>Loading user data...</p>
+            <p>Παρακαλώ περιμένετε...</p>
         </div>
 
         <div v-else-if="errorMessage" class="error-message">
@@ -33,12 +33,12 @@
         </div>
 
         <div class="buttons" v-if="!loading">
-            <button @click="logout" class="logout-btn">Logout</button>
+            <button @click="logout" class="logout-btn">Αποσύνδεση</button>
             <button @click="goToEditProfile" :disabled="!userData" class="edit-btn">
-                Edit Profile
+                Επεξεργασία προφίλ
             </button>
             <button v-if="userData && userData.role === 'Admin'" @click="goToShowUsers" class="admin-btn">
-                Show Users
+                Δείτε τους χρήστες
             </button>
         </div>
     </div>
@@ -164,6 +164,7 @@
     button {
         background-color: #faebd7;
         color: #5d2d05;
+        font-family: "EB Garamond", serif;
         padding: 12px 20px;
         border: none;
         border-radius: 8px;

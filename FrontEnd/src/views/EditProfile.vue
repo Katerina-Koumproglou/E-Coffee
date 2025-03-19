@@ -1,14 +1,14 @@
 ﻿<template>
     <div class="edit-profile">
-        <h1>Edit Profile</h1>
+        <h1>Επεξεργασία Προφίλ</h1>
         <form @submit.prevent="updateUserInfo">
             <div class="form-row">
                 <div class="form-item">
-                    <label for="name">Name:</label>
+                    <label for="name">Όνομα:</label>
                     <input type="text" id="name" v-model="name" required />
                 </div>
                 <div class="form-item">
-                    <label for="surname">Surname:</label>
+                    <label for="surname">Επίθετο:</label>
                     <input type="text" id="surname" v-model="surname" required />
                 </div>
             </div>
@@ -18,120 +18,123 @@
                     <input type="email" id="email" v-model="email" required />
                 </div>
                 <div class="form-item">
-                    <label for="phone">Phone:</label>
+                    <label for="phone">Τηλέφωνο:</label>
                     <input type="tel" id="phone" v-model="phone" required />
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-item">
-                    <label for="address">Address:</label>
+                    <label for="address">Διεύθυνση:</label>
                     <input type="text" id="address" v-model="address" required />
                 </div>
                 <div class="form-item">
-                    <label for="password">Password:</label>
-                    <input type="password" id="password" v-model="password" required />
+                    <label for="password">Κωδικός πρόσβασης:</label>
+                    <input type="password" id="password" v-model="password" />
                 </div>
             </div>
+            <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
             <div class="form-buttons">
-                <button type="submit" class="save-btn">Save</button>
-                <button @click="goBack" class="return-btn">Return</button>
+                <button type="submit" class="save-btn">Αποθήκευση</button>
+                <button @click="goBack" class="return-btn">Πίσω</button>
             </div>
         </form>
     </div>
 </template>
 
 <script>
-    import axios from "axios";
+import axios from "axios";
 
-    export default {
-        data() {
-            return {
-                name: "",
-                surname: "",
-                email: "",
-                phone: "",
-                address: "",
-                password: "",
-                token: localStorage.getItem("token"),
-                userId: localStorage.getItem("userId"),
-            };
-        },
-        async mounted() {
-            if (!this.token || !this.userId) {
-                console.error("User is not authenticated.");
-                this.$router.push("/auth/login");
-                return;
-            }
-            await this.loadUserData();
-        },
-        methods: {
-            async loadUserData() {
-                try {
-                    const storedUserId = localStorage.getItem("userId");
-                    if (!storedUserId) {
-                        console.error("No user ID is found.");
-                        this.$router.push("/auth/login");
-                        return;
-                    }
-
-                    this.userId = storedUserId;
-                    const response = await axios.get(
-                        `http://localhost:5214/users/${this.userId}`,
-                        {
-                            headers: {
-                                Authorization: `Bearer ${this.token}`,
-                            },
-                        }
-                    );
-                    const data = response.data;
-
-                    this.name = data.name || "";
-                    this.surname = data.surname || "";
-                    this.email = data.email || "";
-                    this.phone = data.phone || "";
-                    this.address = data.address || "";
-                } catch (error) {
-                    console.error("Error fetching user data: ", error);
+export default {
+    data() {
+        return {
+            name: "",
+            surname: "",
+            email: "",
+            phone: "",
+            address: "",
+            password: "",
+            token: localStorage.getItem("token"),
+            userId: localStorage.getItem("userId"),
+            successMessage: "",
+        };
+    },
+    async mounted() {
+        if (!this.token || !this.userId) {
+            console.error("User is not authenticated.");
+            this.$router.push("/auth/login");
+            return;
+        }
+        await this.loadUserData();
+    },
+    methods: {
+        async loadUserData() {
+            try {
+                const storedUserId = localStorage.getItem("userId");
+                if (!storedUserId) {
+                    console.error("No user ID is found.");
+                    this.$router.push("/auth/login");
+                    return;
                 }
-            },
-            async updateUserInfo() {
-                try {
-                    await axios.patch(
-                        `http://localhost:5214/users/${this.userId}`,
-                        {
-                            name: this.name,
-                            surname: this.surname,
-                            email: this.email,
-                            phone: this.phone,
-                            address: this.address,
-                            password: this.password ? this.password : undefined,
+
+                this.userId = storedUserId;
+                const response = await axios.get(
+                    `http://localhost:5214/users/${this.userId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`,
                         },
-                        {
-                            headers: {
-                                Authorization: `Bearer ${this.token}`,
-                            },
-                        }
-                    );
+                    }
+                );
+                const data = response.data;
 
-                    alert("Your information has been updated!");
-                    this.$router.push({
-                        name: "UserProfile",
-                        params: { userId: this.userId },
-                    });
-                } catch (error) {
-                    console.error("Error updating user data: ", error);
-                    alert("User information update failed. Please try again!");
-                }
-            },
-
-            goBack() {
-                this.$router.go(-1);
-            },
+                this.name = data.name || "";
+                this.surname = data.surname || "";
+                this.email = data.email || "";
+                this.phone = data.phone || "";
+                this.address = data.address || "";
+            } catch (error) {
+                console.error("Error fetching user data: ", error);
+            }
         },
-    };
+        async updateUserInfo() {
+            try {
+                await axios.patch(
+                    `http://localhost:5214/users/${this.userId}`,
+                    {
+                        name: this.name,
+                        surname: this.surname,
+                        email: this.email,
+                        phone: this.phone,
+                        address: this.address,
+                        password: this.password ? this.password : undefined,
+                    },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${this.token}`,
+                        },
+                    }
+                );
+
+                this.successMessage = "Η ενημέρωση των στοιχείων έγινε με επιτυχία!";
+            } catch (error) {
+                console.error("Error updating user data: ", error);
+                alert("Προέκυψε σφάλμα κατά την ενημέρωση των δεδομένων. Παρακαλώ δοκιμάστε ξανά!");
+            }
+        },
+        goBack() {
+            this.successMessage = ""; // Καθαρίζουμε το μήνυμα πριν πάει πίσω
+            this.$router.go(-1);
+        },
+    },
+};
 </script>
 
 <style scoped>
+.success-message {
+    color: #28a745;
+    font-size: 1rem;
+    margin-top: 10px;
+}
     /* Container Styling */
     .edit-profile {
         max-width: 800px;
@@ -218,12 +221,13 @@
         font-size: 0.9rem; /* Μικρότερο μέγεθος γραμματοσειράς */
         width: 30%; /* Ίδια πλάτη για τα δύο κουμπιά */
         transition: background-color 0.2s ease, transform 0.2s ease;
+        font-family: "EB Garamond", serif;
         gap: 10px;
     }
 
         button:hover {
             background-color: #d5b28b;
-            transform: scale(1.05); /* Ελαφριά μεγέθυνση κατά το hover για πιο δυναμική αίσθηση */
+            transform: scale(1.05); 
         }
 
     .return-btn {
