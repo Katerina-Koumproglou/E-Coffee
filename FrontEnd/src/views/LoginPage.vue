@@ -1,21 +1,21 @@
-<template>
+﻿<template>
     <div class="login-container">
-        <h1>Login</h1>
+        <h1>Σύνδεση</h1>
         <form @submit.prevent="handleLogin" class="form-grid">
             <div class="form-item">
                 <label for="email">Email</label>
                 <input type="email" v-model="email" id="email" required />
             </div>
             <div class="form-item">
-                <label for="password">Password</label>
-                <input type="password" v-model="password" id="password"  required />
+                <label for="password"> Κωδικός Πρόσβασης</label>
+                <input type="password" v-model="password" id="password" required />
             </div>
             <div v-if="error" class="error-message">{{ error }}</div>
-            <button type="submit">Login</button>
+            <button type="submit">Σύνδεση</button>
         </form>
         <!-- Signup Link -->
         <p class="signup-link">
-            Don't have an account? <router-link to="/signup" class="signup-link-text">Signup</router-link>
+            Δεν έχετε λογαριασμό; Δημιουργήστε <router-link to="/signup" class="signup-link-text">εδώ</router-link>
         </p>
     </div>
 </template>

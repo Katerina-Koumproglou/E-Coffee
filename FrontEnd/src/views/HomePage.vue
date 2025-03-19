@@ -8,7 +8,7 @@
     </div>
     <ProductsDisplay :products="variety.slice(0, 3)" />
     <router-link to="/varieties">
-      <button class="btn">View More</button>
+      <button class="btn">Δείτε περισσότερα</button>
     </router-link>
 
 
@@ -18,7 +18,7 @@
     </div>
     <ProductsDisplay :products="capsules.slice(0, 3)" />
     <router-link to="/capsules">
-      <button class="btn">View More</button>
+      <button class="btn">Δείτε περισσότερα</button>
     </router-link>
 
     <!-- Accessory Section -->
@@ -27,7 +27,7 @@
     </div>
     <ProductsDisplay :products="accessories.slice(0, 3)" />
     <router-link to="/accessories">
-      <button class="btn">View More</button>
+      <button class="btn">Δείτε περισσότερα</button>
     </router-link>
 
     <!-- Coffee Machine Section -->
@@ -36,7 +36,7 @@
     </div>
     <ProductsDisplay :products="machines.slice(0, 3)" />
     <router-link to="/machines">
-      <button class="btn">View More</button>
+      <button class="btn">Δείτε περισσότερα</button>
     </router-link>
 
     <!-- Beverage Section -->
@@ -45,7 +45,7 @@
     </div>
     <ProductsDisplay :products="beverages.slice(0, 3)" />
     <router-link to="/beverages">
-      <button class="btn">View More</button>
+      <button class="btn">Δείτε περισσότερα</button>
     </router-link>
   </div>
 </template>
@@ -61,13 +61,7 @@ import ImageSlider from '@/components/ImageSlider.vue';
 import ProductsDisplay from '@/components/ProductsDisplay.vue';
 import { ref, onMounted } from 'vue';
 import { getProductsByCategory } from '@/database';
-/*
-const variety = inject('variety');
-const capsules = inject('capsules');
-const accessories = inject('accessories');
-const machines = inject('machines');
-const beverages = inject('beverages');
-*/
+
 const variety = ref([]);
 const capsules = ref([]);
 const accessories = ref([]);
