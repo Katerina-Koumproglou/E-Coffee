@@ -20,6 +20,18 @@ namespace BackEnd.Controllers
             _context = context;
         }
 
+        [HttpGet("quantities/{userId}")]
+        public async Task<IActionResult> GetCartWithQuantities(int userId)
+        {
+            var cartItems = await _cartService.GetCartWithQuantitiesAsync(userId);
+            if (!cartItems.Any())
+            {
+                return NotFound(new { message = "No items found in the cart." });
+            }
+
+            return Ok(cartItems);
+        }
+
         [HttpPost("add")]
         public async Task<IActionResult> AddToCart([FromBody] CartRequest request)
         {

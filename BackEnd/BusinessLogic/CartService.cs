@@ -14,6 +14,14 @@ public class CartService : ICartService
         _context = context;
     }
 
+    public async Task<IEnumerable<Cart>> GetCartWithQuantitiesAsync(int userId)
+    {
+        return await _context.Cart
+            .Where(c => c.uid == userId)
+            .Include(c => c.Product) // Include related product details if needed
+            .ToListAsync();
+    }
+
     public async Task<bool> AddToCartAsync(int userId, int productId, int quantity = 1)
     {
         var cartItemExists = await _context.Cart.FirstOrDefaultAsync(c => c.uid == userId && c.pid == productId);

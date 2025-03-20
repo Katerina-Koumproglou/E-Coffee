@@ -97,12 +97,31 @@
                         console.error("No userId found in localStorage");
                         return;
                     }
-                    const response = await axios.get(`http://localhost:5214/api/cart/${userId}`);
-                    this.cartItems = response.data.map(item => ({ ...item, quantity: item.quantity || 1 }));
+                    // const [cartResponse, quantitiesResponse] = await Promise.all([
+                    //     axios.get(`http://localhost:5214/api/cart/${userId}`),
+                    //     axios.get(`http://localhost:5214/api/cart/quantities/${userId}`),
+                    // ]);
+
+                    const response = await axios.get(`http://localhost:5214/api/cart/quantities/${userId}`);
+                    console.log("Cart Items Response: ",response.data);
+                    this.cartItems = response.data.map(item => ({
+                        id: item.id,
+                        name: item.product.name,
+                        price: item.product.price,
+                        image: item.product.image,
+                        category: item.product.category,
+                        slug: item.product.slug,
+                        stock: item.product.stock,
+                        quantity: item.quantity || 1
+                    }));
+
+                    //const response = await axios.get(`http://localhost:5214/api/cart/${userId}`);
+                    //this.cartItems = response.data.map(item => ({ ...item, quantity: item.quantity || 1 }));
                 } catch (error) {
                     console.error("Error fetching cart items:", error);
                 }
             },
+            
             async updateCartItem(item) {
                 try {
                     const userId = localStorage.getItem("userId");
