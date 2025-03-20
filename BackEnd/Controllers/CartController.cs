@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using BackEnd.Models;
 using BackEnd.Data;
 using Azure.Core;
+using System.Runtime.InteropServices;
 
 namespace BackEnd.Controllers
 {
@@ -30,6 +31,19 @@ namespace BackEnd.Controllers
             }
 
             return Ok(cartItems);
+        }
+
+        [HttpPost("quantities/modification")]
+        public async Task<IActionResult> ModifyCartQuantities([FromBody] CartRequest request)
+        {
+            Console.WriteLine("request.UserId: " + request.UserId + " request.ProductId: " + request.ProductId + " request.Quantity: " + request.Quantity);
+            var result = await _cartService.UpdateCartItemAsync(request.UserId, request.ProductId, request.Quantity);
+            if (!result)
+            {
+                return NotFound(new { message = "Product not found in cart." });
+            }
+
+            return Ok(new { message = "Cart updated successfully." });
         }
 
         [HttpPost("add")]

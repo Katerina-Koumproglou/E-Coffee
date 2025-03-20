@@ -78,10 +78,12 @@
         },
         methods: {
             increaseQuantity(item) {
-                console.log("item stock: ", item.stock);
+                console.log("item stock: ", item);
                 if(item.quantity+1 <= item.stock){
                     item.quantity++;
                     this.updateCartItem(item);
+                } else{
+                    alert("Δεν υπάρχει αρκετό απόθεμα για αυτό το προϊόν.");
                 }
             },
             decreaseQuantity(item) {
@@ -105,6 +107,7 @@
                     const response = await axios.get(`http://localhost:5214/api/cart/quantities/${userId}`);
                     console.log("Cart Items Response: ",response.data);
                     this.cartItems = response.data.map(item => ({
+                        pid: item.pid,
                         id: item.id,
                         name: item.product.name,
                         price: item.product.price,
@@ -125,12 +128,15 @@
             async updateCartItem(item) {
                 try {
                     const userId = localStorage.getItem("userId");
-                    await axios.put(`http://localhost:5214/api/cart/${userId}`, {
-                        pid: item.id,
+                    const response = await axios.post(`http://localhost:5214/api/cart/quantities/modification`, {
+                        userId: parseInt(userId),
+                        productId: item.pid,
                         quantity: item.quantity,
                     });
+                    alert("Το καλάθι ενημερώθηκε.", response.data.message);
                 } catch (error) {
                     console.error("Error updating cart item:", error);
+                    alert(error.response?.data?.message || "Προέκυψε σφάλμα.");
                 }
             },
             // Εμφανίζει το modal επιβεβαίωσης
@@ -143,6 +149,7 @@
                 this.showConfirmModal = false;
                 this.selectedItem = null;
             },
+            
             // Διαγράφει το προϊόν από το καλάθι
             async removeFromCart(item) {
                 try {
