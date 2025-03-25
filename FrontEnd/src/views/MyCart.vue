@@ -152,19 +152,21 @@
             
             // Διαγράφει το προϊόν από το καλάθι
             async removeFromCart(item) {
-                try {
-                    const userId = localStorage.getItem("userId");
-                    await axios.delete(`http://localhost:5214/api/cart/remove`, {
-                        data: { userId: parseInt(userId), productId: item.id }
-                    });
-                    this.cartItems = this.cartItems.filter(cartItem => cartItem.id !== item.id);
-                    alert("Το προϊόν αφαιρέθηκε από το καλάθι.");
-                    this.cancelRemove(); // Κλείνει το modal μετά τη διαγραφή
-                } catch (error) {
-                    console.error("Error removing item from cart:", error);
-                }
-            },
-            GoToPayment() {
+    try {
+        const userId = localStorage.getItem("userId");
+        await axios.delete(`http://localhost:5214/api/cart/remove`, {
+            data: { userId: parseInt(userId), productId: item.pid, quantity: item.quantity } //  προσθήκη quantity
+        });
+        this.cartItems = this.cartItems.filter(cartItem => cartItem.pid !== item.pid);
+        alert("Το προϊόν αφαιρέθηκε από το καλάθι.");
+        this.cancelRemove(); // Κλείνει το modal μετά τη διαγραφή
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+    }
+},
+
+            GoToPayment() 
+            {
                 alert("Συνολικό Ποσό παραγγελίας: " + this.totalPrice.toFixed(2) + " €");
             },
         },
