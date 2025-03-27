@@ -69,14 +69,12 @@ export default {
     methods: {
         async loadUserData() {
             try {
-                const storedUserId = localStorage.getItem("userId");
-                if (!storedUserId) {
-                    console.error("No user ID is found.");
+                if (!this.userId) {
+                    console.error("No user ID found in localStorage.");
                     this.$router.push("/auth/login");
                     return;
                 }
 
-                this.userId = storedUserId;
                 const response = await axios.get(
                     `http://localhost:5214/users/${this.userId}`,
                     {
@@ -98,16 +96,30 @@ export default {
         },
         async updateUserInfo() {
             try {
+                if (!this.userId) {
+                    alert("Σφάλμα: Δεν βρέθηκε το αναγνωριστικό χρήστη.");
+                    return;
+                }
+                if (!this.token) {
+                    alert("Σφάλμα: Δεν βρέθηκε έγκυρο token.");
+                    return;
+                }
+
+                const requestData = {
+                    name: this.name?.trim() || undefined,
+                    surname: this.surname?.trim() || undefined,
+                    email: this.email?.trim() || undefined,
+                    phone: this.phone?.trim() || undefined,
+                    address: this.address?.trim() || undefined,
+                };
+
+                if (this.password && this.password.trim() !== "") {
+                    requestData.password = this.password.trim();
+                }
+
                 await axios.patch(
                     `http://localhost:5214/users/${this.userId}`,
-                    {
-                        name: this.name,
-                        surname: this.surname,
-                        email: this.email,
-                        phone: this.phone,
-                        address: this.address,
-                        password: this.password ? this.password : undefined,
-                    },
+                    requestData,
                     {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
@@ -115,14 +127,25 @@ export default {
                     }
                 );
 
-                this.successMessage = "Η ενημέρωση των στοιχείων έγινε με επιτυχία!";
+                this.successMessage = "Τα στοιχεία ενημερώθηκαν με επιτυχία!";
+                setTimeout(() => {
+                    this.$router.go(-1);
+                }, 1500);
             } catch (error) {
-                console.error("Error updating user data: ", error);
-                alert("Προέκυψε σφάλμα κατά την ενημέρωση των δεδομένων. Παρακαλώ δοκιμάστε ξανά!");
+                if (error.response) {
+                    console.error("Σφάλμα από το server:", error.response.data);
+                    alert(error.response.data.message || "Παρουσιάστηκε σφάλμα κατά την ενημέρωση. Δοκιμάστε ξανά.");
+                } else if (error.request) {
+                    console.error("Δεν υπάρχει απάντηση από τον server:", error.request);
+                    alert("Ο διακομιστής δεν απάντησε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.");
+                } else {
+                    console.error("Σφάλμα κατά τη ρύθμιση του αιτήματος:", error.message);
+                    alert("Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά αργότερα.");
+                }
             }
         },
         goBack() {
-            this.successMessage = ""; // Καθαρίζουμε το μήνυμα πριν πάει πίσω
+            this.successMessage = "";
             this.$router.go(-1);
         },
     },
