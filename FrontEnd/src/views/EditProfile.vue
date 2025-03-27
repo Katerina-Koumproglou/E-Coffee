@@ -128,9 +128,7 @@ export default {
                 );
 
                 this.successMessage = "Τα στοιχεία ενημερώθηκαν με επιτυχία!";
-                setTimeout(() => {
-                    this.$router.go(-1);
-                }, 1500);
+                
             } catch (error) {
                 if (error.response) {
                     console.error("Σφάλμα από το server:", error.response.data);
