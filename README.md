@@ -8,6 +8,20 @@ Try it for yourselves here :) [E-Coffee](http://ecoffee.dns.army/)
 
 ## Features
 
+### Authentication & Authorization
+- JWT-based login and signup
+- Role-based access: `user` and `admin`
+- Login token persisted in localStorage
+- Auth-protected frontend routes
+- Backend route protection via `[Authorize]` attributes
+
+### E-commerce Functionality
+- Product listing (public)
+- Product detail pages
+- Add new users via signup
+- View all users (only accessible by admin)
+- Mobile responsive design for the majority of the project
+
 ### Frontend (Vue.js)
 - Product listing UI
 - User registration & login
