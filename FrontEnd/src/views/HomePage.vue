@@ -4,48 +4,48 @@
 
     <!-- Coffee Variety Section -->
     <div class="category-header">
-      <h3>Ποικιλίες Καφέ</h3>
+      <h3>Coffee Varieties</h3>
     </div>
     <ProductsDisplay :products="variety.slice(0, 3)" />
     <router-link to="/varieties">
-      <button class="btn">Δείτε περισσότερα</button>
+      <button class="btn">Show more</button>
     </router-link>
 
 
     <!-- Capsule Section -->
     <div class="category-header">
-      <h3>Κάψουλες Καφέ</h3>
+      <h3>Capsules</h3>
     </div>
     <ProductsDisplay :products="capsules.slice(0, 3)" />
     <router-link to="/capsules">
-      <button class="btn">Δείτε περισσότερα</button>
+      <button class="btn">Show more</button>
     </router-link>
 
     <!-- Accessory Section -->
     <div class="category-header">
-      <h3>Αξεσουάρ</h3>
+      <h3>Accessories</h3>
     </div>
     <ProductsDisplay :products="accessories.slice(0, 3)" />
     <router-link to="/accessories">
-      <button class="btn">Δείτε περισσότερα</button>
+      <button class="btn">Show more</button>
     </router-link>
 
     <!-- Coffee Machine Section -->
     <div class="category-header">
-      <h3>Μηχανές Καφέ</h3>
+      <h3>Machines</h3>
     </div>
     <ProductsDisplay :products="machines.slice(0, 3)" />
     <router-link to="/machines">
-      <button class="btn">Δείτε περισσότερα</button>
+      <button class="btn">Show more</button>
     </router-link>
 
     <!-- Beverage Section -->
     <div class="category-header">
-      <h3>Ροφήματα</h3>
+      <h3> Beverages</h3>
     </div>
     <ProductsDisplay :products="beverages.slice(0, 3)" />
     <router-link to="/beverages">
-      <button class="btn">Δείτε περισσότερα</button>
+      <button class="btn">Show more</button>
     </router-link>
   </div>
 </template>
@@ -94,7 +94,7 @@ onMounted(async () => {
 .btn {
   margin-top: 25px;
   padding: 15px 30px;
-  font-size: 16px;
+  font-size: 18px;
   background: #FAEBD7;
   color: #5D2D05;
   border: 1px solid transparent;

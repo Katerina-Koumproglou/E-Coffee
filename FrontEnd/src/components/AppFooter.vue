@@ -5,29 +5,29 @@
       <section class="footer-section about-us">
         <h2 class="footer-title">About us</h2>
         <p>
-          Καλώς ήρθατε στο E-Coffee, το μικρό σας διαδικτυακό καφεκοπτείο που
-          φέρνει τις καλύτερες γεύσεις καφέ στην πόρτα σας. Είμαστε περήφανοι
-          που προσφέρουμε εξαιρετικούς κόκκους καφέ και μια αποκλειστική συλλογή
-          από χαρμάνια, κάψουλες και αξεσουάρ. Είμαστε εδώ για να κάνουμε κάθε
-          γουλιά σας αξέχαστη!
-        </p>
+		Welcome to E-Coffee, your small online coffee roaster that
+		brings the best coffee flavors to your door. We are proud to
+		offer exceptional coffee beans and an exclusive collection of
+		blends, capsules and accessories. We are here to make every sip
+		of your coffee unforgettable!
+	</p>
       </section>
 
       <!--Links-->
       <section class="footer-section links">
-        <h2 class="footer-title">Κατηγορίες</h2>
+        <h2 class="footer-title">Categories</h2>
         <ul>
-          <li><router-link to="/varieties">Ποικιλίες</router-link></li>
-          <li><router-link to="/capsules">Κάψουλες</router-link></li>
-          <li><router-link to="/accessories">Αξεσουάρ</router-link></li>
-          <li><router-link to="/machines">Μηχανές</router-link></li>
-          <li><router-link to="/beverages">Ροφήματα</router-link></li>
+          <li><router-link to="/varieties">Varieties</router-link></li>
+          <li><router-link to="/capsules">Capsules</router-link></li>
+          <li><router-link to="/accessories">Accessories</router-link></li>
+          <li><router-link to="/machines">Machines</router-link></li>
+          <li><router-link to="/beverages">Beverages</router-link></li>
         </ul>
       </section>
 
       <!--Social Media-->
       <sections class="footer-section social-media">
-        <h2 class="footer-title">Ακολουθήστε μας</h2>
+        <h2 class="footer-title">Follow us</h2>
         <div class="social-icons">
           <a href="#" class="icon">Facebook</a>
           <a href="#" class="icon">Instagram</a>
@@ -38,7 +38,7 @@
 
     <!--Copyright-->
     <div class="copyright">
-      <p>© 2024 E-Coffee. All rights reserved.</p>
+      <p>© 2024-2025 E-Coffee. All rights reserved.</p>
     </div>
   </footer>
 </template>

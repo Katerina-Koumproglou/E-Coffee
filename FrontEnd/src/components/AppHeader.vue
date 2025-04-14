@@ -11,11 +11,11 @@
 
             <!-- Links -->
             <div class="links">
-                <router-link to="/varieties"> Ποικιλίες </router-link>
-                <router-link to="/capsules"> Κάψουλες </router-link>
-                <router-link to="/accessories"> Αξεσουάρ </router-link>
-                <router-link to="/machines"> Μηχανές </router-link>
-                <router-link to="/beverages"> Ροφήματα </router-link>
+                <router-link to="/varieties"> Varieties </router-link>
+                <router-link to="/capsules"> Capsules </router-link>
+                <router-link to="/accessories"> Accessories </router-link>
+                <router-link to="/machines"> Machines </router-link>
+                <router-link to="/beverages"> Beverages </router-link>
             </div>
 
             <!-- Search bar -->
@@ -23,7 +23,7 @@
                 <div class="search-bar">
                     <input v-model="searchQuery"
                            type="text"
-                           placeholder="Αναζήτηση..."
+                           placeholder="Search..."
                            @focus="isSearching = true"
                            @blur="hideSearchResults" />
                     <button type="submit">

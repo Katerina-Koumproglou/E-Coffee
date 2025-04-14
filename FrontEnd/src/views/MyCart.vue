@@ -1,15 +1,15 @@
 <template>
     <div class="my-cart">
-        <h2>Το καλάθι σου!</h2>
+        <h2>Your Cart!</h2>
         <table>
             <thead>
                 <tr>
-                    <th>Φωτογραφία</th>
-                    <th>Προϊόν</th>
-                    <th>Ποσότητα</th>
-                    <th>Τιμή</th>
-                    <th>Σύνολο</th>
-                    <th>Διαγραφή</th>
+                    <th>Picture</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                    <th>Delete</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,20 +38,20 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <td colspan="4">Συνολικό Κόστος</td>
+                    <td colspan="4">Total Cost</td>
                     <td>{{ totalPrice.toFixed(2) }} €</td>
                 </tr>
             </tfoot>
         </table>
         <br><br>
-        <button class="continue-button" @click="GoToPayment">Πληρωμή</button>
+        <button class="continue-button" @click="GoToPayment">Payment</button>
 
         <!-- Popup Modal -->
         <div v-if="showConfirmModal" class="modal-overlay">
             <div class="modal-content">
-                <p>Είστε σίγουροι ότι θέλετε να διαγράψετε το προϊόν;</p>
-                <button @click="removeFromCart(selectedItem)">Ναι</button>
-                <button @click="cancelRemove">Όχι</button>
+                <p>Are you sure you want to delete this product?</p>
+                <button @click="removeFromCart(selectedItem)">Yes</button>
+                <button @click="cancelRemove">No</button>
             </div>
         </div>
     </div>
@@ -66,7 +66,7 @@
             return {
                 cartItems: [],
                 showConfirmModal: false,
-                selectedItem: null, // Το προϊόν που θα διαγραφεί
+                selectedItem: null,
             };
         },
         computed: {
@@ -83,7 +83,7 @@
                     item.quantity++;
                     this.updateCartItem(item);
                 } else{
-                    alert("Δεν υπάρχει αρκετό απόθεμα για αυτό το προϊόν.");
+                    alert("There is not enough quantity for this product.");
                 }
             },
             decreaseQuantity(item) {
@@ -100,11 +100,11 @@
                         return;
                     }
                     // const [cartResponse, quantitiesResponse] = await Promise.all([
-                    //     axios.get(`http://localhost:5214/api/cart/${userId}`),
-                    //     axios.get(`http://localhost:5214/api/cart/quantities/${userId}`),
+                    //     axios.get(`http://83.212.99.172:5214/api/cart/${userId}`),
+                    //     axios.get(`http://83.212.99.172:5214/api/cart/quantities/${userId}`),
                     // ]);
 
-                    const response = await axios.get(`http://localhost:5214/api/cart/quantities/${userId}`);
+                    const response = await axios.get(`http://83.212.99.172:5214/api/cart/quantities/${userId}`);
                     console.log("Cart Items Response: ",response.data);
                     this.cartItems = response.data.map(item => ({
                         pid: item.pid,
@@ -118,7 +118,7 @@
                         quantity: item.quantity || 1
                     }));
 
-                    //const response = await axios.get(`http://localhost:5214/api/cart/${userId}`);
+                    //const response = await axios.get(`http://83.212.99.172:5214/api/cart/${userId}`);
                     //this.cartItems = response.data.map(item => ({ ...item, quantity: item.quantity || 1 }));
                 } catch (error) {
                     console.error("Error fetching cart items:", error);
@@ -128,38 +128,38 @@
             async updateCartItem(item) {
                 try {
                     const userId = localStorage.getItem("userId");
-                    const response = await axios.post(`http://localhost:5214/api/cart/quantities/modification`, {
+                    const response = await axios.post(`http://83.212.99.172:5214/api/cart/quantities/modification`, {
                         userId: parseInt(userId),
                         productId: item.pid,
                         quantity: item.quantity,
                     });
-                    alert("Το καλάθι ενημερώθηκε.", response.data.message);
+                    alert("The cart was updated.", response.data.message);
                 } catch (error) {
                     console.error("Error updating cart item:", error);
-                    alert(error.response?.data?.message || "Προέκυψε σφάλμα.");
+                    alert(error.response?.data?.message || "An error occurred.");
                 }
             },
-            // Εμφανίζει το modal επιβεβαίωσης
+            
             confirmRemoveFromCart(item) {
                 this.selectedItem = item;
                 this.showConfirmModal = true;
             },
-            // Ακυρώνει τη διαγραφή και κλείνει το modal
+            
             cancelRemove() {
                 this.showConfirmModal = false;
                 this.selectedItem = null;
             },
             
-            // Διαγράφει το προϊόν από το καλάθι
+            
             async removeFromCart(item) {
     try {
         const userId = localStorage.getItem("userId");
-        await axios.delete(`http://localhost:5214/api/cart/remove`, {
+        await axios.delete(`http://83.212.99.172:5214/api/cart/remove`, {
             data: { userId: parseInt(userId), productId: item.pid, quantity: item.quantity } //  προσθήκη quantity
         });
         this.cartItems = this.cartItems.filter(cartItem => cartItem.pid !== item.pid);
-        alert("Το προϊόν αφαιρέθηκε από το καλάθι.");
-        this.cancelRemove(); // Κλείνει το modal μετά τη διαγραφή
+        alert("The product was deleted from the cart");
+        this.cancelRemove();
     } catch (error) {
         console.error("Error removing item from cart:", error);
     }
@@ -167,7 +167,7 @@
 
             GoToPayment() 
             {
-                alert("Συνολικό Ποσό παραγγελίας: " + this.totalPrice.toFixed(2) + " €");
+                alert("Total order cost: " + this.totalPrice.toFixed(2) + " €");
             },
         },
         mounted() {

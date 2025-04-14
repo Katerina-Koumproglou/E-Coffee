@@ -1,17 +1,17 @@
 ﻿<template>
     <div class="signup">
-        <h1>Δημιουργία Λογαριασμού</h1>
+        <h1>Create an Account</h1>
         <form @submit.prevent="signUp" class="form-grid">
             <!-- Name Field -->
             <div class="form-item">
-                <label for="name">Όνομα:</label>
+                <label for="name">Name:</label>
                 <input type="text" id="name" v-model="user.name" />
                 <span v-if="errors.name" class="error-message">{{ errors.name }}</span>
             </div>
 
             <!-- Surname Field -->
             <div class="form-item">
-                <label for="surname">Επίθετο:</label>
+                <label for="surname">Surname:</label>
                 <input type="text" id="surname" v-model="user.surname" />
                 <span v-if="errors.surname" class="error-message">{{ errors.surname }}</span>
             </div>
@@ -25,7 +25,7 @@
 
             <!-- Password Field -->
             <div class="form-item">
-                <label for="password">Κωδικός:</label>
+                <label for="password">Password:</label>
                 <div class="input-container">
                     <input v-model="user.password"
                            :type="showPassword ? 'text' : 'password'"
@@ -38,7 +38,7 @@
 
             <!-- Confirm Password Field -->
             <div class="form-item">
-                <label for="confirmPassword">Επιβεβαίωση κωδικού:</label>
+                <label for="confirmPassword">Confirm password:</label>
                 <div class="input-container">
                     <input v-model="user.confirmPassword"
                            :type="showConfirmPassword ? 'text' : 'password'"
@@ -51,19 +51,19 @@
 
             <!-- Address Field -->
             <div class="form-item">
-                <label for="address">Διεύθυνση κατοικίας:</label>
+                <label for="address">Home address:</label>
                 <input type="text" id="address" v-model="user.address" />
                 <span v-if="errors.address" class="error-message">{{ errors.address }}</span>
             </div>
 
             <!-- Phone Field -->
             <div class="form-item">
-                <label for="phone">Τηλέφωνο:</label>
+                <label for="phone">Phone number:</label>
                 <input type="text" v-model="user.phone" id="phone" maxlength="10" pattern="^[0-9]{10}$" required />
             </div>
 
             <!-- Submit Button -->
-            <button type="submit">Δημιουργία Λογαριασμού</button>
+            <button type="submit">Submit</button>
 
             <!-- Error Message -->
             <div v-if="error" class="error-message">{{ error }}</div>
@@ -71,7 +71,7 @@
 
         <!-- Login Link -->
         <p class="login-link">
-           Έχετε ήδη λογαριαμό; <router-link to="/auth/login" class="login-link-text">Συνδεθείτε</router-link>
+           Already have an account; <router-link to="/auth/login" class="login-link-text">Log in</router-link>
         </p>
     </div>
 </template>
@@ -109,19 +109,19 @@
                 this.errors = {};
 
                 // Validation logic
-                if (!this.user.name) this.errors.name = "Υποχρεωτικό πεδίο";
-                if (!this.user.surname) this.errors.surname = "Υποχρεωτικό πεδίο";
-                if (!this.user.email) this.errors.email = "Υποχρεωτικό πεδίο";
-                if (!this.user.password) this.errors.password = "Υποχρεωτικό πεδίο";
+                if (!this.user.name) this.errors.name = "Required";
+                if (!this.user.surname) this.errors.surname = "Required";
+                if (!this.user.email) this.errors.email = "Rquired";
+                if (!this.user.password) this.errors.password = "Required";
                 if (this.user.password !== this.user.confirmPassword) {
-                    this.errors.confirmPassword = "Υποχρεωτικό πεδίο";
+                    this.errors.confirmPassword = "Required";
                 }
-                if (!this.user.address) this.errors.address = "Υποχρεωτικό πεδίο";
-                if (!this.user.phone) this.errors.phone = "Υποχρεωτικό πεδίο";
+                if (!this.user.address) this.errors.address = "Required";
+                if (!this.user.phone) this.errors.phone = "Required";
                 if (Object.keys(this.errors).length) return;
 
                 try {
-                    const response = await axios.post("http://localhost:5214/auth/signup", {
+                    const response = await axios.post("http://83.212.99.172:5214/auth/signup", {
                         name: this.user.name,
                         surname: this.user.surname,
                         email: this.user.email,
@@ -136,9 +136,9 @@
                 } catch (error) {
                     console.error("Signup failed: ", error.message);
                     if (error.response && error.response.status === 400) {
-                        this.error = "Το email αυτό χρησιμοποιείτα ήδη. Παρακαλώ εισάγετε ένα διαφορετικό";
+                        this.error = "This email is already in use. Please input a different one";
                     } else {
-                        this.error = "Ένα αναπάντεχο σφάλμα συνέβη. Παρακαλώ δοκιμάστε ξανά.";
+                        this.error = "An unexpected error occured. Please try again.";
                     }
                 }
             },
@@ -164,14 +164,14 @@
         text-align: center;
         color: #faebd7;
         margin-bottom: 20px;
-        font-size: 28px; /* Increased font size */
+        font-size: 28px;
         font-weight: bold;
     }
 
     .form-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px; /* Increased gap */
+        gap: 20px;
         width: 100%;
     }
 
@@ -182,18 +182,18 @@
     }
 
     label {
-        font-size: 1.2rem; /* Increased font size */
+        font-size: 1.2rem;
         margin-bottom: 5px;
         font-weight: bold;
     }
 
     input {
-        padding: 12px; /* Increased padding */
+        padding: 12px;
         border: 1px solid #d5b28b;
         border-radius: 6px;
         background-color: #faebd7;
         color: #5d2d05;
-        font-size: 1.1rem; /* Increased font size */
+        font-size: 1.1rem;
         width: 100%;
     }
 
@@ -213,19 +213,19 @@
         top: 50%;
         transform: translateY(-50%);
         cursor: pointer;
-        font-size: 20px; /* Increased font size */
+        font-size: 20px;
         color: #5d2d05;
     }
 
     button {
         background-color: #ffcc99;
         color: #5d2d05;
-        padding: 12px; /* Increased padding */
+        padding: 12px;
         border: none;
         font-family: "EB Garamond", serif;
         border-radius: 6px;
         cursor: pointer;
-        font-size: 18px; /* Increased font size */
+        font-size: 18px;
         font-weight: bold;
         width: 100%;
         margin-top: 15px;
@@ -239,13 +239,13 @@
     .error-message {
         color: #ff4d4d;
         margin-top: 4px;
-        font-size: 1rem; /* Increased font size */
+        font-size: 1rem;
     }
 
     .login-link {
         text-align: center;
-        margin-top: 20px; /* Increased margin */
-        font-size: 1.1rem; /* Increased font size */
+        margin-top: 20px;
+        font-size: 1.1rem;
         grid-column: span 2;
     }
 

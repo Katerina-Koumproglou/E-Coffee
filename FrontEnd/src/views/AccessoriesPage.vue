@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="category-header">
-            <h3>Αξεσουάρ</h3>
+            <h3>Accessories</h3>
         </div>
         <ProductsDisplay :products="accessories" />
     </div>

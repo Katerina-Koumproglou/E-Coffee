@@ -1,27 +1,27 @@
 <template>
     <div class="registered-users">
-        <h1>Εγγεγραμμένοι Χρήστες</h1>
+        <h1>Signed Up Users</h1>
         <div v-if="getOnlyUsers.length > 0">
             <div v-for="user in getOnlyUsers" :key="user.id" class="user-profile">
-                <h2>Χρήστης (ID: {{ user.id }})</h2>
+                <h2>User (ID: {{ user.id }})</h2>
                 <div class="user-details">
-                    <p><strong>Όνομα:</strong> {{ user.name }}</p>
-                    <p><strong>Επίθετο:</strong> {{ user.surname }}</p>
+                    <p><strong>Name:</strong> {{ user.name }}</p>
+                    <p><strong>Surname:</strong> {{ user.surname }}</p>
                     <p><strong>Email:</strong> <a :href="'mailto:' + user.email">{{ user.email }}</a></p>
-                    <p><strong>Τηλέφωνο:</strong> {{ user.phone }}</p>
-                    <p><strong>Διεύθυνση:</strong> {{ user.address }}</p>
+                    <p><strong>Phone number:</strong> {{ user.phone }}</p>
+                    <p><strong>Home address:</strong> {{ user.address }}</p>
                 </div>
             </div>
         </div>
         <div v-else-if="loading">
-            <p>Φόρτωση χρηστών...</p>
+            <p>Loading users...</p>
         </div>
         <div v-else-if="errorMessage">
             <p class="error">{{ errorMessage }}</p>
         </div>
         <div>
             <!-- Return Button -->
-            <button @click="goBack" class="return-btn">Πίσω</button>
+            <button @click="goBack" class="return-btn">Back</button>
         </div>
     </div>
 </template>
@@ -39,7 +39,7 @@
         },
         async mounted() {
             try {
-                const response = await axios.get("http://localhost:5214/users", {
+                const response = await axios.get("http://83.212.99.172:5214/users", {
                     headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                 });
 

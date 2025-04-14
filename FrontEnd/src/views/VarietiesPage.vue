@@ -1,7 +1,7 @@
 <template>
     <div class="home">
         <div class="category-header">
-            <h3>Ποικιλίες Καφέ</h3>
+            <h3>Coffee Varieties</h3>
         </div>
         <ProductsDisplay :products="variety" />
     </div>

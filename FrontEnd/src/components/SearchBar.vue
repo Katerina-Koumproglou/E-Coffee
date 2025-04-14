@@ -10,7 +10,6 @@
             const router = useRouter();
             const route = useRoute();
 
-            // Υπολογισμός των φιλτραρισμένων προϊόντων
             const filteredProducts = computed(() => {
                 if (!searchQuery.value.trim()) return [];
                 const query = searchQuery.value.toLowerCase();
@@ -19,7 +18,6 @@
                 );
             });
 
-            // Επιλογή προϊόντος και μετάβαση στη σελίδα του
             const selectProduct = (product) => {
                 router.push(`/products/${product.category}/${product.slug}`);
                 searchQuery.value = "";
@@ -27,7 +25,7 @@
             };
 
             watch(() => route.params.id, (newId) => {
-                if (!newId) return; // Αν δεν υπάρχει νέο ID, μην κάνεις τίποτα
+                if (!newId) return;
 
                 clearTimeout(searchTimeout);
 
@@ -43,7 +41,6 @@
 
             });
 
-            // Απόκρυψη αποτελεσμάτων όταν γίνεται κλικ εκτός
             const hideSearchResults = (event) => {
                 if (!event.target.closest(".search-bar-container")) {
                     isSearching.value = false;

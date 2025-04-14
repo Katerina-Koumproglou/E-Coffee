@@ -1,13 +1,13 @@
 ﻿<template>
     <div class="user-profile">
         <div v-if="userData && !errorMessage" class="profile-details">
-            <h1>Προφίλ Χρήστη</h1>
+            <h1>Your User Profile</h1>
             <div class="profile-item">
-                <strong>Όνομα:</strong>
+                <strong>Name:</strong>
                 <p class="profile-text">{{ userData.name }}</p>
             </div>
             <div class="profile-item">
-                <strong>Επίθετο:</strong>
+                <strong>Surname:</strong>
                 <p class="profile-text">{{ userData.surname }}</p>
             </div>
             <div class="profile-item">
@@ -15,17 +15,17 @@
                 <p class="profile-text">{{ userData.email }}</p>
             </div>
             <div class="profile-item">
-                <strong>Τηλέφωνο:</strong>
+                <strong>Phone number:</strong>
                 <p class="profile-text">{{ userData.phone }}</p>
             </div>
             <div class="profile-item">
-                <strong>Διεύθυνση:</strong>
+                <strong>Home address:</strong>
                 <p class="profile-text">{{ userData.address }}</p>
             </div>
         </div>
 
         <div v-else-if="loading" class="loading-message">
-            <p>Παρακαλώ περιμένετε...</p>
+            <p>Please wait...</p>
         </div>
 
         <div v-else-if="errorMessage" class="error-message">
@@ -33,12 +33,12 @@
         </div>
 
         <div class="buttons" v-if="!loading">
-            <button @click="logout" class="logout-btn">Αποσύνδεση</button>
+            <button @click="logout" class="logout-btn">Log out</button>
             <button @click="goToEditProfile" :disabled="!userData" class="edit-btn">
-                Επεξεργασία προφίλ
+                Edit Profile
             </button>
             <button v-if="userData && userData.role === 'Admin'" @click="goToShowUsers" class="admin-btn">
-                Δείτε τους χρήστες
+                Show Users
             </button>
         </div>
     </div>
@@ -68,7 +68,7 @@
             console.log("Recieved data for userId: ", userId);
             try {
                 const response = await axios.get(
-                    `http://localhost:5214/users/${userId}`,
+                    `http://83.212.99.172:5214/users/${userId}`,
                     {
                         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
                     }
@@ -170,6 +170,7 @@
         border-radius: 8px;
         cursor: pointer;
         font-size: 1.1rem;
+	font-weight: bold;
         width: 30%;
     }
 

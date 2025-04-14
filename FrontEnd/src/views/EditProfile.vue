@@ -1,14 +1,14 @@
 ﻿<template>
     <div class="edit-profile">
-        <h1>Επεξεργασία Προφίλ</h1>
+        <h1>Edit Profile</h1>
         <form @submit.prevent="updateUserInfo">
             <div class="form-row">
                 <div class="form-item">
-                    <label for="name">Όνομα:</label>
+                    <label for="name">Name:</label>
                     <input type="text" id="name" v-model="name" required />
                 </div>
                 <div class="form-item">
-                    <label for="surname">Επίθετο:</label>
+                    <label for="surname">Surname:</label>
                     <input type="text" id="surname" v-model="surname" required />
                 </div>
             </div>
@@ -18,24 +18,24 @@
                     <input type="email" id="email" v-model="email" required />
                 </div>
                 <div class="form-item">
-                    <label for="phone">Τηλέφωνο:</label>
+                    <label for="phone">Phone number:</label>
                     <input type="tel" id="phone" v-model="phone" required />
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-item">
-                    <label for="address">Διεύθυνση:</label>
+                    <label for="address">Home address:</label>
                     <input type="text" id="address" v-model="address" required />
                 </div>
                 <div class="form-item">
-                    <label for="password">Κωδικός πρόσβασης:</label>
+                    <label for="password">Password:</label>
                     <input type="password" id="password" v-model="password" />
                 </div>
             </div>
             <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
             <div class="form-buttons">
-                <button type="submit" class="save-btn">Αποθήκευση</button>
-                <button @click="goBack" class="return-btn">Πίσω</button>
+                <button type="submit" class="save-btn">Sumbit</button>
+                <button @click="goBack" class="return-btn">Back</button>
             </div>
         </form>
     </div>
@@ -69,14 +69,16 @@ export default {
     methods: {
         async loadUserData() {
             try {
-                if (!this.userId) {
-                    console.error("No user ID found in localStorage.");
+                const storedUserId = localStorage.getItem("userId");
+                if (!storedUserId) {
+                    console.error("No user ID is found.");
                     this.$router.push("/auth/login");
                     return;
                 }
 
+                this.userId = storedUserId;
                 const response = await axios.get(
-                    `http://localhost:5214/users/${this.userId}`,
+                    `http://83.212.99.172:5214/users/${this.userId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
@@ -96,30 +98,16 @@ export default {
         },
         async updateUserInfo() {
             try {
-                if (!this.userId) {
-                    alert("Σφάλμα: Δεν βρέθηκε το αναγνωριστικό χρήστη.");
-                    return;
-                }
-                if (!this.token) {
-                    alert("Σφάλμα: Δεν βρέθηκε έγκυρο token.");
-                    return;
-                }
-
-                const requestData = {
-                    name: this.name?.trim() || undefined,
-                    surname: this.surname?.trim() || undefined,
-                    email: this.email?.trim() || undefined,
-                    phone: this.phone?.trim() || undefined,
-                    address: this.address?.trim() || undefined,
-                };
-
-                if (this.password && this.password.trim() !== "") {
-                    requestData.password = this.password.trim();
-                }
-
                 await axios.patch(
-                    `http://localhost:5214/users/${this.userId}`,
-                    requestData,
+                    `http://83.212.99.172:5214/users/${this.userId}`,
+                    {
+                        name: this.name,
+                        surname: this.surname,
+                        email: this.email,
+                        phone: this.phone,
+                        address: this.address,
+                        password: this.password ? this.password : undefined,
+                    },
                     {
                         headers: {
                             Authorization: `Bearer ${this.token}`,
@@ -127,19 +115,10 @@ export default {
                     }
                 );
 
-                this.successMessage = "Τα στοιχεία ενημερώθηκαν με επιτυχία!";
-                
+                this.successMessage = "Your profile information has been updated successfully!";
             } catch (error) {
-                if (error.response) {
-                    console.error("Σφάλμα από το server:", error.response.data);
-                    alert(error.response.data.message || "Παρουσιάστηκε σφάλμα κατά την ενημέρωση. Δοκιμάστε ξανά.");
-                } else if (error.request) {
-                    console.error("Δεν υπάρχει απάντηση από τον server:", error.request);
-                    alert("Ο διακομιστής δεν απάντησε. Ελέγξτε τη σύνδεσή σας και δοκιμάστε ξανά.");
-                } else {
-                    console.error("Σφάλμα κατά τη ρύθμιση του αιτήματος:", error.message);
-                    alert("Παρουσιάστηκε σφάλμα. Δοκιμάστε ξανά αργότερα.");
-                }
+                console.error("Error updating user data: ", error);
+                alert("There has been an error while updating your information. Please try again!");
             }
         },
         goBack() {
@@ -156,7 +135,7 @@ export default {
     font-size: 1rem;
     margin-top: 10px;
 }
-    /* Container Styling */
+
     .edit-profile {
         max-width: 800px;
         margin: auto;
@@ -168,7 +147,6 @@ export default {
         text-align: center;
     }
 
-    /* Title Styling */
     h1 {
         font-size: 28px;
         margin-bottom: 20px;
@@ -176,21 +154,18 @@ export default {
         color: #faebd7;
     }
 
-    /* Form Styling */
     form {
         display: grid;
         grid-template-columns: 1fr;
         gap: 20px;
     }
 
-    /* Row Styling */
     .form-row {
         display: flex;
         justify-content: space-between;
         gap: 15px;
     }
 
-    /* Form Item Styling */
     .form-item {
         flex: 1;
         display: flex;
@@ -223,15 +198,13 @@ export default {
 
    
 
-    /* Button Styling */
     .form-buttons {
         display: flex;
-        justify-content: space-evenly; /* Αλλαγή για πιο ομοιόμορφη κατανομή */
+        justify-content: space-evenly;
         gap: 10px;
         margin-top: 20px;
     }
 
-    /* Make buttons smaller and square */
     button {
         background-color: #faebd7;
         color: #5d2d05;
@@ -239,11 +212,12 @@ export default {
         border: none;
         border-radius: 5px; /* Ελαφρώς στρογγυλεμένες γωνίες για πιο "ευχάριστο" στυλ */
         cursor: pointer;
-        font-size: 0.9rem; /* Μικρότερο μέγεθος γραμματοσειράς */
+        font-size: 16px; /* Μικρότερο μέγεθος γραμματοσειράς */
         width: 30%; /* Ίδια πλάτη για τα δύο κουμπιά */
         transition: background-color 0.2s ease, transform 0.2s ease;
         font-family: "EB Garamond", serif;
         gap: 10px;
+	font-weight: bold;
     }
 
         button:hover {

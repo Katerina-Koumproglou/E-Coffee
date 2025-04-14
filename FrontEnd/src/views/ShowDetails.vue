@@ -6,17 +6,17 @@
             </div>
             <div class="details-container">
                 <h1 class="name">{{ product.name }}</h1>
-                <p><strong>Τιμή:</strong> {{ product.price }} €</p>
-                <p><strong>Μάρκα:</strong> {{ product.brand }}</p>
-                <button class="add-to-cart" @click="addToCart">Προσθήκη στο Καλάθι</button>
+                <p><strong>Price:</strong> {{ product.price }} €</p>
+                <p><strong>Brand:</strong> {{ product.brand }}</p>
+                <button class="add-to-cart" @click="addToCart">Add to Cart</button>
             </div>
         </div>
     </div>
     <div v-else-if="loading" class="loading">
-        <p>Φόρτωση λεπτομερειών προϊόντος...</p>
+        <p>Loading product details...</p>
     </div>
     <div v-else class="error">
-        <p>Το προϊόν δεν βρέθηκε!</p>
+        <p>The product was not found!</p>
     </div>
 </template>
 
@@ -35,7 +35,7 @@
             const fetchProductBySlug = async () => {
                 try {
                     const { category, slug } = route.params;
-                    const response = await axios.get(`http://localhost:5214/products/${category}/${slug}`);
+                    const response = await axios.get(`http://83.212.99.172:5214/products/${category}/${slug}`);
                     product.value = response.data;
                 } catch (error) {
                     console.error("Σφάλμα κατά τη φόρτωση του προϊόντος:", error);
@@ -48,18 +48,18 @@
                 try {
                     const userId = localStorage.getItem("userId");
                     if (!userId) {
-                        alert("Πρέπει να συνδεθείτε πρώτα!");
+                        alert("You have to log in first!");
                         return;
                     }
 
-                    const response = await axios.post("http://localhost:5214/api/cart/add", {
+                    const response = await axios.post("http://83.212.99.172:5214/api/cart/add", {
                         userId: parseInt(userId),
                         productId: product.value.id
                     });
 
-                    alert("Προστέθηκε στο καλάθι",response.data.message);
+                    alert("The product was added to the cart",response.data.message);
                 } catch (error) {
-                    alert(error.response?.data?.message || "Προέκυψε σφάλμα.");
+                    alert(error.response?.data?.message || "An error occured.");
                 }
             };
 

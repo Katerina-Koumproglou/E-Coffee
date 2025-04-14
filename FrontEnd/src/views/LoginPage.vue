@@ -1,21 +1,21 @@
 ﻿<template>
     <div class="login-container">
-        <h1>Σύνδεση</h1>
+        <h1>Log in</h1>
         <form @submit.prevent="handleLogin" class="form-grid">
             <div class="form-item">
                 <label for="email">Email</label>
                 <input type="email" v-model="email" id="email" required />
             </div>
             <div class="form-item">
-                <label for="password"> Κωδικός Πρόσβασης</label>
+                <label for="password">Password</label>
                 <input type="password" v-model="password" id="password" required />
             </div>
             <div v-if="error" class="error-message">{{ error }}</div>
-            <button type="submit">Σύνδεση</button>
+            <button type="submit">Log in</button>
         </form>
         <!-- Signup Link -->
         <p class="signup-link">
-            Δεν έχετε λογαριασμό; Δημιουργήστε <router-link to="/signup" class="signup-link-text">εδώ</router-link>
+            Don't have an account? Sign up <router-link to="/signup" class="signup-link-text">here</router-link>
         </p>
     </div>
 </template>
@@ -42,7 +42,7 @@
         methods: {
             async handleLogin() {
                 try {
-                    const response = await axios.post("http://localhost:5214/auth/login", {
+                    const response = await axios.post("http://83.212.99.172:5214/auth/login", {
                         email: this.email,
                         password: this.password,
                     });
@@ -131,7 +131,8 @@
         border-radius: 6px;
         cursor: pointer;
         width: 100%;
-        font-size: 18px; /* Increased font size */
+        font-size: 18px;
+	font-weight: bold;
         margin-top: 20px;
     }
 
