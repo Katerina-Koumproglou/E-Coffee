@@ -2,9 +2,9 @@
 
 This is my first full-stack e-commerce website built with **Vue.js** on the frontend, **ASP .NET Core (C#)** on the backend and a **PostgreSQL** database for a group university project.
 It has a couple of different features such as it lets users browse the available products, register/login with their account as well as manage own their cart.
-Try it for yourselves here :) [Website Link](http://ecoffee.dns.army/)
+Try it for yourselves here :) [E-Coffee](http://ecoffee.dns.army/)
 
-----------------
+---
 
 ## Features
 
@@ -22,9 +22,9 @@ Try it for yourselves here :) [Website Link](http://ecoffee.dns.army/)
 - Swagger documentation
 - Organized service-based architecture (Dependency Injection)
 
-----------------
+---
 
-## 🧑‍💻 Technologies
+## Technologies Used
 
 | Frontend        | Backend             | Database             |
 |-----------------|---------------------|----------------------|
