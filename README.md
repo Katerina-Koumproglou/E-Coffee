@@ -20,7 +20,7 @@ Try it for yourselves here :) [E-Coffee](http://ecoffee.dns.army/)
 - Product detail pages
 - Add new users via signup
 - View all users (only accessible by admin)
-- Mobile responsive design for the majority of the project
+- Mobile responsive design for the majority of the project (best viewed on desktop)
 
 ### Frontend (Vue.js)
 - Product listing UI
